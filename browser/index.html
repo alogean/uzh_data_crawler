@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taxonomie askUZH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/askuzh-icon-48.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <a class="mark" href="#organisation" id="home-link">
+        <img class="mark-icon" src="assets/askuzh-icon-128.png" width="56" height="56" alt="askUZH">
+        <span class="mark-copy">
+          <span class="mark-name">askUZH</span>
+          <span class="mark-tag" id="brand-tag">Taxonomie du web UZH</span>
+        </span>
+      </a>
+      <p class="product" id="title">Taxonomie du web UZH</p>
+      <p class="under" id="under-ask">Développée dans le cadre d’askUZH</p>
+    </div>
+    <div class="tools">
+      <div id="langs" class="langs" role="group" aria-labelledby="lang-label"></div>
+      <span id="lang-label" class="sr">Langue</span>
+      <form id="search-form" role="search">
+        <label id="search-label" class="sr" for="q">Rechercher</label>
+        <input id="q" type="search" autocomplete="off" spellcheck="false">
+        <span class="search-icon" aria-hidden="true"></span>
+      </form>
+      <label class="file">
+        <span id="file-label">Charger un fichier</span>
+        <input id="file" type="file" accept="application/json,.json">
+      </label>
+    </div>
+  </header>
+
+  <p id="provenance" class="provenance"></p>
+  <p id="error" class="error" hidden></p>
+
+  <nav id="chapters" class="chapters" aria-label="Chapitres" hidden></nav>
+
+  <div id="app" class="workspace" hidden>
+    <aside class="rail">
+      <div class="rail-head">
+        <p id="rail-title" class="rail-title"></p>
+        <p id="rail-count" class="rail-count"></p>
+      </div>
+      <nav id="tree" aria-label="Arbre"></nav>
+    </aside>
+    <article id="fiche" class="fiche"></article>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

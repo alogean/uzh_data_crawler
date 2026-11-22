@@ -1,0 +1,1139 @@
+{
+  "schema_version": 1,
+  "kind": "taxonomy",
+  "title": {
+    "de": "Taxonomie des UZH-Webs",
+    "fr": "Taxonomie du web UZH",
+    "en": "UZH web taxonomy"
+  },
+  "provenance": {
+    "de": "Grundgerüst aus dem Protokoll uzh-metadata-explorer (method.md, waves.md). Für diese Datei wurde keine Seite geöffnet.",
+    "fr": "Squelette repris du protocole uzh-metadata-explorer (method.md, waves.md). Aucune page n'a été ouverte pour ce fichier.",
+    "en": "Skeleton taken from the uzh-metadata-explorer protocol (method.md, waves.md). No page was opened for this file."
+  },
+  "status_legend": {
+    "seed": {
+      "de": "Aus dem Protokoll übernommen, noch nicht durch Öffnen der Seite geprüft.",
+      "fr": "Repris du protocole, pas encore vérifié en ouvrant la page.",
+      "en": "Taken from the protocol, not yet checked by opening the page."
+    }
+  },
+  "axes": [
+    {
+      "id": "organisation",
+      "labels": {
+        "de": "Organisation",
+        "fr": "Organisation",
+        "en": "Organisation"
+      },
+      "definition": {
+        "de": "Wer eine Seite veröffentlicht oder pflegt. Der Baum folgt der Verwaltungsstruktur, die das Protokoll nennt: Leitung, zentrale Dienste, sieben Fakultäten, Einheitentypen und querschnittliche Strukturen. Konkrete Institute sind nicht eingetragen.",
+        "fr": "Qui publie ou entretient une page. L'arbre suit la structure administrative nommée par le protocole : direction, services centraux, sept facultés, types d'unités et structures transversales. Les instituts concrets ne sont pas inscrits.",
+        "en": "Who publishes or maintains a page. The tree follows the administrative structure named in the protocol: executive board, central services, seven faculties, kinds of unit, and cross-faculty structures. Named institutes are not listed."
+      },
+      "nodes": [
+        {
+          "id": "universitaet",
+          "parent": null,
+          "labels": {
+            "de": "Universität Zürich",
+            "fr": "Université de Zurich",
+            "en": "University of Zurich"
+          },
+          "definition": {
+            "de": "Trägerin von uzh.ch und der Subdomains. Die Seiten sind auf Deutsch und Englisch. Das Protokoll verlangt zusätzlich die Subdomain-Konvention, die Sitemap und robots.txt.",
+            "fr": "Établissement qui porte uzh.ch et ses sous-domaines. Les pages sont en allemand et en anglais. Le protocole demande aussi la convention de sous-domaines, le sitemap et robots.txt.",
+            "en": "Institution that publishes uzh.ch and its subdomains. The sites are in German and English. The protocol also asks for the subdomain convention, the sitemap, and robots.txt."
+          },
+          "status": "seed",
+          "sources": ["https://www.uzh.ch/de.html"]
+        },
+        {
+          "id": "universitaetsleitung",
+          "parent": "universitaet",
+          "labels": {
+            "de": "Universitätsleitung",
+            "fr": "Direction de l'université",
+            "en": "University Executive Board"
+          },
+          "definition": {
+            "de": "Leitungsorgane der Universität. Das Protokoll setzt sie an die Spitze der Hierarchie und nennt keine genaue URL.",
+            "fr": "Organes de direction de l'université. Le protocole les place au sommet de la hiérarchie et ne donne pas de chemin d'URL.",
+            "en": "Executive bodies of the university. The protocol places them at the top of the hierarchy and gives no exact URL."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "services_centraux",
+          "parent": "universitaet",
+          "labels": {
+            "de": "Zentrale Dienste",
+            "fr": "Services centraux",
+            "en": "Central services"
+          },
+          "definition": {
+            "de": "Einheiten, die an der Universität hängen und nicht an einer Fakultät. Das Protokoll verlangt ihre Zuordnung und ihren Host.",
+            "fr": "Unités rattachées à l'université, et non à une faculté. Le protocole demande leur rattachement et leur hôte.",
+            "en": "Units attached to the university rather than to a faculty. The protocol asks for their attachment and their host."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "zentrale_informatik",
+          "parent": "services_centraux",
+          "labels": {
+            "de": "Zentrale Informatik",
+            "fr": "Informatique centrale",
+            "en": "Central IT"
+          },
+          "definition": {
+            "de": "Zentraler Dienst. Das Protokoll nennt den Host zi.uzh.ch, nicht einen auf der Seite nachgelesenen Titel.",
+            "fr": "Service central. Le protocole nomme l'hôte zi.uzh.ch, pas un titre relu sur la page.",
+            "en": "Central service. The protocol names the host zi.uzh.ch, not a title read off the page."
+          },
+          "status": "seed",
+          "sources": ["https://www.zi.uzh.ch/"]
+        },
+        {
+          "id": "universitaetsbibliothek",
+          "parent": "services_centraux",
+          "labels": {
+            "de": "Universitätsbibliothek",
+            "fr": "Bibliothèque universitaire",
+            "en": "University Library"
+          },
+          "definition": {
+            "de": "Zentraler Dienst. Host ub.uzh.ch, genannt im Protokoll.",
+            "fr": "Service central. Hôte ub.uzh.ch, nommé par le protocole.",
+            "en": "Central service. Host ub.uzh.ch, named in the protocol."
+          },
+          "status": "seed",
+          "sources": ["https://www.ub.uzh.ch/"]
+        },
+        {
+          "id": "fakultaeten",
+          "parent": "universitaet",
+          "labels": {
+            "de": "Fakultäten",
+            "fr": "Facultés",
+            "en": "Faculties"
+          },
+          "definition": {
+            "de": "Die sieben Fakultäten. Jede trägt Programme und Einheiten. Das Protokoll verlangt danach eine Stichprobe von Einheiten, nicht die vollständige Liste.",
+            "fr": "Les sept facultés. Chacune porte des programmes et des unités. Le protocole demande ensuite un échantillon d'unités, pas la liste complète.",
+            "en": "The seven faculties. Each carries programs and units. The protocol then asks for a sample of units, not the full list."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "trf",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Theologische und Religionswissenschaftliche Fakultät",
+            "fr": "Faculté de théologie et de sciences des religions",
+            "en": "Faculty of Theology and the Study of Religion"
+          },
+          "definition": {
+            "de": "Kürzel TRF. Das Protokoll fragt, ob Theologie und Religionswissenschaft getrennte Einheiten haben. Ein Host ist nicht genannt.",
+            "fr": "Sigle TRF. Le protocole demande si la théologie et les sciences des religions ont des unités distinctes. Aucun hôte n'est donné.",
+            "en": "Abbreviation TRF. The protocol asks whether theology and the study of religion have distinct units. No host is given."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "rwf",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Rechtswissenschaftliche Fakultät",
+            "fr": "Faculté de droit",
+            "en": "Faculty of Law"
+          },
+          "definition": {
+            "de": "Kürzel RWF. Das Protokoll fragt, ob die Grundeinheit das Institut, der Lehrstuhl oder der Fachbereich ist.",
+            "fr": "Sigle RWF. Le protocole demande si l'unité de base est l'institut, la chaire ou le Fachbereich.",
+            "en": "Abbreviation RWF. The protocol asks whether the basic unit is the institute, the chair, or the Fachbereich."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "wwf",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Wirtschaftswissenschaftliche Fakultät",
+            "fr": "Faculté des sciences économiques",
+            "en": "Faculty of Business, Economics and Informatics"
+          },
+          "definition": {
+            "de": "Host oec.uzh.ch, deutscher Name aus dem Protokoll. Die englische Bezeichnung ergänzt die Informatik, die zu dieser Fakultät gehört; sie wurde für diesen Stand nicht auf der Seite nachgelesen.",
+            "fr": "Hôte oec.uzh.ch, nom allemand repris du protocole. L'anglais ajoute l'informatique, qui fait partie de cette faculté ; ce libellé n'a pas été relu sur la page.",
+            "en": "Host oec.uzh.ch, German name taken from the protocol. The English label adds informatics, which belongs to this faculty; that wording was not re-read on the page for this version."
+          },
+          "status": "seed",
+          "sources": ["https://www.oec.uzh.ch/"]
+        },
+        {
+          "id": "vetsuisse",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Vetsuisse-Fakultät",
+            "fr": "Faculté Vetsuisse",
+            "en": "Vetsuisse Faculty"
+          },
+          "definition": {
+            "de": "Host vet.uzh.ch. Das Protokoll verlangt, eine mit Bern geteilte Fakultät zu beschreiben, samt Departementen, Instituten, Kliniken und Tierspital. Die Berner Website ist ein Verweis, keine Quelle zum Ausbreiten.",
+            "fr": "Hôte vet.uzh.ch. Le protocole demande de décrire une faculté partagée avec Berne, ainsi que les départements, instituts, cliniques et le Tierspital. Le site bernois est un renvoi, pas une source à détailler.",
+            "en": "Host vet.uzh.ch. The protocol asks for a description of a faculty shared with Bern, including departments, institutes, clinics, and the Tierspital. The Bern site is a pointer, not a source to expand."
+          },
+          "status": "seed",
+          "sources": ["https://www.vet.uzh.ch/"]
+        },
+        {
+          "id": "medizin",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Medizinische Fakultät",
+            "fr": "Faculté de médecine",
+            "en": "Faculty of Medicine"
+          },
+          "definition": {
+            "de": "Host med.uzh.ch. Ein Teil der Einheiten liegt auf uzh.ch, andere verweisen auf eine Spitaldomain; diese Seiten werden vermerkt und nicht ausgebreitet. Das Protokoll nennt als zu unterscheidende Programme Humanmedizin, Zahnmedizin, Chiropraktik, Biomedizin, Doktorate und postgraduale Weiterbildung, und als Besonderheiten den Numerus clausus und die eidgenössische Prüfung.",
+            "fr": "Hôte med.uzh.ch. Certaines unités sont sur uzh.ch, d'autres renvoient vers un domaine hospitalier : ces sites se signalent, ils ne se détaillent pas. Le protocole cite comme programmes à distinguer la médecine humaine, la médecine dentaire, la chiropratique, la biomédecine, les doctorats et la formation postgraduée, et comme particularités le numerus clausus et l'examen fédéral.",
+            "en": "Host med.uzh.ch. Some units sit on uzh.ch, others point to a hospital domain: those sites are noted and not expanded. The protocol names human medicine, dentistry, chiropractic, biomedicine, doctorates, and postgraduate training as programs to distinguish, and numerus clausus and the federal examination as particularities."
+          },
+          "status": "seed",
+          "sources": ["https://www.med.uzh.ch/"]
+        },
+        {
+          "id": "philosophische",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Philosophische Fakultät",
+            "fr": "Faculté des lettres",
+            "en": "Faculty of Arts and Social Sciences"
+          },
+          "definition": {
+            "de": "Host phil.uzh.ch. Das Protokoll verlangt die Zahl der Institute und Seminare und fragt, ob es eine Ebene zwischen Fakultät und Institut gibt. Es fragt auch, wer Studienordnung und Wegleitung veröffentlicht. Die englische Bezeichnung ist der übliche Name dieser Fakultät und wurde für diesen Stand nicht auf der Seite nachgelesen.",
+            "fr": "Hôte phil.uzh.ch. Le protocole demande le nombre d'instituts et de séminaires, et s'il existe un niveau entre la faculté et l'institut. Il demande aussi qui publie la Studienordnung et la Wegleitung. L'anglais est le nom usuel de cette faculté et n'a pas été relu sur la page.",
+            "en": "Host phil.uzh.ch. The protocol asks for the number of institutes and seminars, and whether a level exists between the faculty and the institute. It also asks who publishes the Studienordnung and the Wegleitung. The English name is the usual name of this faculty and was not re-read on the page for this version."
+          },
+          "status": "seed",
+          "sources": ["https://www.phil.uzh.ch/"]
+        },
+        {
+          "id": "mnf",
+          "parent": "fakultaeten",
+          "labels": {
+            "de": "Mathematisch-naturwissenschaftliche Fakultät",
+            "fr": "Faculté des sciences",
+            "en": "Faculty of Science"
+          },
+          "definition": {
+            "de": "Host mnf.uzh.ch. Das Protokoll fragt, wer das Programm trägt und wer Studienordnung, Wegleitung und Studienplan veröffentlicht. Institutsseiten ausserhalb des zentralen CMS und Seiten von Forschungsgruppen werden vermerkt und nicht ausgebreitet.",
+            "fr": "Hôte mnf.uzh.ch. Le protocole demande qui porte le programme et qui publie la Studienordnung, la Wegleitung et le Studienplan. Les sites d'instituts hors du CMS central et les sites de groupes de recherche se signalent, ils ne se détaillent pas.",
+            "en": "Host mnf.uzh.ch. The protocol asks who carries the program and who publishes the Studienordnung, the Wegleitung, and the Studienplan. Institute sites outside the central CMS and research-group sites are noted and not expanded."
+          },
+          "status": "seed",
+          "sources": ["https://www.mnf.uzh.ch/"]
+        },
+        {
+          "id": "types_unites",
+          "parent": "universitaet",
+          "labels": {
+            "de": "Typen von Einheiten",
+            "fr": "Types d'unités",
+            "en": "Kinds of unit"
+          },
+          "definition": {
+            "de": "Klassen von Einheiten unter einer Fakultät. Das sind keine benannten Institute: das Protokoll gibt keine Liste und verlangt, pro Fakultät einige zu öffnen.",
+            "fr": "Classes d'unités sous une faculté. Ce ne sont pas des instituts nommés : le protocole n'en donne pas la liste et demande d'en ouvrir quelques-uns par faculté.",
+            "en": "Classes of unit under a faculty. These are not named institutes: the protocol gives no list and asks to open a few per faculty."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "institut",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Institut",
+            "fr": "Institut",
+            "en": "Institute"
+          },
+          "definition": {
+            "de": "Einheit unter einer Fakultät. Konkrete Institute sind noch nicht eingetragen. Eine Institutsseite ausserhalb des zentralen CMS ist eine Herkunft, kein eigener Dokumenttyp.",
+            "fr": "Unité sous une faculté. Les instituts concrets ne sont pas encore inscrits. Un site d'institut hors du CMS central est une provenance, pas un type de document.",
+            "en": "Unit under a faculty. Named institutes are not entered yet. An institute site outside the central CMS is a place of publication, not a document type of its own."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "seminar",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Seminar",
+            "fr": "Séminaire",
+            "en": "Seminar"
+          },
+          "definition": {
+            "de": "Einheit, die das Protokoll neben dem Institut besonders für die Philosophische Fakultät nennt.",
+            "fr": "Unité que le protocole place à côté de l'institut, en particulier à la faculté des lettres.",
+            "en": "Unit the protocol places alongside the institute, especially in the Faculty of Arts and Social Sciences."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "departement",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Departement",
+            "fr": "Département",
+            "en": "Department"
+          },
+          "definition": {
+            "de": "Einheitentyp, den das Protokoll insbesondere für die Vetsuisse-Fakultät nennt.",
+            "fr": "Type d'unité que le protocole nomme en particulier pour la faculté Vetsuisse.",
+            "en": "Kind of unit the protocol names in particular for the Vetsuisse Faculty."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "klinik",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Klinik",
+            "fr": "Clinique",
+            "en": "Clinic"
+          },
+          "definition": {
+            "de": "Klinische Einheit, genannt für die Vetsuisse-Fakultät und für die Medizin.",
+            "fr": "Unité clinique, nommée pour la faculté Vetsuisse et pour la médecine.",
+            "en": "Clinical unit, named for the Vetsuisse Faculty and for medicine."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "lehrstuhl",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Lehrstuhl",
+            "fr": "Chaire",
+            "en": "Chair"
+          },
+          "definition": {
+            "de": "Das Protokoll fragt für die Rechtswissenschaft, ob der Lehrstuhl die Grundeinheit ist.",
+            "fr": "Le protocole demande, pour le droit, si la chaire est l'unité de base.",
+            "en": "The protocol asks, for law, whether the chair is the basic unit."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "fachbereich",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Fachbereich",
+            "fr": "Domaine",
+            "en": "Subject area"
+          },
+          "definition": {
+            "de": "Das Protokoll nennt den Fachbereich als mögliche Grundeinheit der Rechtswissenschaftlichen Fakultät.",
+            "fr": "Le protocole cite le Fachbereich comme unité de base possible de la faculté de droit.",
+            "en": "The protocol names the Fachbereich as a possible basic unit of the Faculty of Law."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "tierspital",
+          "parent": "types_unites",
+          "labels": {
+            "de": "Tierspital",
+            "fr": "Hôpital animalier",
+            "en": "Animal hospital"
+          },
+          "definition": {
+            "de": "Im Protokoll bei der Vetsuisse-Fakultät genannt, getrennt von den Kliniken.",
+            "fr": "Nommé par le protocole pour la faculté Vetsuisse, à part des cliniques.",
+            "en": "Named in the protocol for the Vetsuisse Faculty, apart from the clinics."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "structures_transversales",
+          "parent": "universitaet",
+          "labels": {
+            "de": "Querschnittliche Strukturen",
+            "fr": "Structures transversales",
+            "en": "Cross-faculty structures"
+          },
+          "definition": {
+            "de": "Strukturen, die keine Fakultät sind und nicht nur innerhalb einer Fakultät liegen. Das Protokoll verlangt Typ, Zuordnung und einige Instanzen mit URL.",
+            "fr": "Structures qui ne sont pas une faculté et qui ne vivent pas seulement à l'intérieur d'une faculté. Le protocole demande le type, le rattachement et quelques instances avec URL.",
+            "en": "Structures that are not a faculty and do not live only inside one faculty. The protocol asks for the type, the attachment, and a few instances with a URL."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "ufsp_urpp",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "UFSP / URPP",
+            "fr": "UFSP / URPP",
+            "en": "UFSP / URPP"
+          },
+          "definition": {
+            "de": "Universitäre Forschungsschwerpunkte (UFSP), auf Englisch University Research Priority Programs (URPP). Das Protokoll nennt den Typ, keine Instanz und keine URL.",
+            "fr": "Pôles de recherche universitaires (UFSP), en anglais University Research Priority Programs (URPP). Le protocole cite le type, sans instance ni URL.",
+            "en": "Universitäre Forschungsschwerpunkte (UFSP), in English University Research Priority Programs (URPP). The protocol names the type, with no instance and no URL."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "kompetenzzentrum",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "Kompetenzzentrum",
+            "fr": "Centre de compétence",
+            "en": "Competence center"
+          },
+          "definition": {
+            "de": "Typ einer querschnittlichen Struktur. Keine Instanz und keine URL im Protokoll.",
+            "fr": "Type de structure transversale. Aucune instance et aucune URL dans le protocole.",
+            "en": "Type of cross-faculty structure. No instance and no URL in the protocol."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "nfs_nccr",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "NFS / NCCR",
+            "fr": "Pôle de recherche national",
+            "en": "National Centre of Competence in Research"
+          },
+          "definition": {
+            "de": "Nationaler Forschungsschwerpunkt (NFS), auf Englisch National Centre of Competence in Research (NCCR). Typ ohne Instanz.",
+            "fr": "Pôle de recherche national (NFS), en anglais National Centre of Competence in Research (NCCR). Type sans instance.",
+            "en": "Nationaler Forschungsschwerpunkt (NFS), in English National Centre of Competence in Research (NCCR). A type, with no instance."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "institut_associe",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "Assoziiertes Institut",
+            "fr": "Institut associé",
+            "en": "Associated institute"
+          },
+          "definition": {
+            "de": "Institut, das mit der Universität verbunden ist, ohne eine der sieben Fakultäten zu sein. Keine Instanz im Protokoll.",
+            "fr": "Institut lié à l'université sans être l'une des sept facultés. Aucune instance dans le protocole.",
+            "en": "Institute linked to the university without being one of the seven faculties. No instance in the protocol."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "graduate_campus",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "Graduate Campus",
+            "fr": "Graduate Campus",
+            "en": "Graduate Campus"
+          },
+          "definition": {
+            "de": "Querschnittliche Struktur und, im Studienrelevé, ein Portal. Host grc.uzh.ch.",
+            "fr": "Structure transversale et, dans le relevé des études, un portail. Hôte grc.uzh.ch.",
+            "en": "Cross-faculty structure and, in the study survey, a portal. Host grc.uzh.ch."
+          },
+          "status": "seed",
+          "sources": ["https://www.grc.uzh.ch/"]
+        },
+        {
+          "id": "dsi",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "Digital Society Initiative",
+            "fr": "Digital Society Initiative",
+            "en": "Digital Society Initiative"
+          },
+          "definition": {
+            "de": "Querschnittliche Struktur. Host dsi.uzh.ch.",
+            "fr": "Structure transversale. Hôte dsi.uzh.ch.",
+            "en": "Cross-faculty structure. Host dsi.uzh.ch."
+          },
+          "status": "seed",
+          "sources": ["https://www.dsi.uzh.ch/"]
+        },
+        {
+          "id": "hoepitaux",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "Spitäler",
+            "fr": "Hôpitaux",
+            "en": "Hospitals"
+          },
+          "definition": {
+            "de": "Verweiskategorie. Spitalwebsites ausserhalb von uzh.ch werden vermerkt und nicht ausgebreitet. Keine URL im Protokoll.",
+            "fr": "Catégorie de renvoi. Les sites hospitaliers hors uzh.ch se signalent et ne se détaillent pas. Pas d'URL dans le protocole.",
+            "en": "Pointer category. Hospital sites outside uzh.ch are noted and not expanded. No URL in the protocol."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "cooperation_eth",
+          "parent": "structures_transversales",
+          "labels": {
+            "de": "Kooperationen mit der ETH",
+            "fr": "Coopérations avec l'ETH",
+            "en": "Cooperation with ETH"
+          },
+          "definition": {
+            "de": "Zusammenarbeit mit der ETH, als Kategorie genannt, ohne Instanz und ohne URL.",
+            "fr": "Collaboration avec l'ETH, nommée comme catégorie, sans instance ni URL.",
+            "en": "Collaboration with ETH, named as a category, with no instance and no URL."
+          },
+          "status": "seed",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "publics",
+      "labels": {
+        "de": "Publikum",
+        "fr": "Publics",
+        "en": "Audiences"
+      },
+      "definition": {
+        "de": "An wen sich eine Seite richtet. Die Klassen stammen aus dem Protokoll: Studierende nach Stufe, Doktorierende, Forschende, administratives und technisches Personal, Dozierende, Studieninteressierte, Alumni und die externe Öffentlichkeit. Welcher Inhalt welches Publikum betrifft, ist noch nicht erhoben.",
+        "fr": "À qui une page s'adresse. Les classes viennent du protocole : étudiants par niveau, doctorants, chercheurs, personnel administratif et technique, enseignants, personnes intéressées à étudier, alumni et public externe. Le contenu qui concerne chaque public n'est pas encore relevé.",
+        "en": "Who a page is addressed to. The classes come from the protocol: students by level, doctoral students, researchers, administrative and technical staff, teaching staff, prospective students, alumni, and the external public. Which content concerns each audience is not surveyed yet."
+      },
+      "nodes": [
+        {
+          "id": "studierende",
+          "parent": null,
+          "labels": {
+            "de": "Studierende",
+            "fr": "Étudiants",
+            "en": "Students"
+          },
+          "definition": {
+            "de": "Studierende, nach Stufe zu unterscheiden. Welcher Inhalt sie betrifft, ist noch nicht erhoben.",
+            "fr": "Étudiantes et étudiants, à distinguer par niveau. Le contenu qui les concerne n'est pas encore relevé.",
+            "en": "Students, to be distinguished by level. Which content concerns them is not surveyed yet."
+          },
+          "status": "seed",
+          "sources": ["https://www.uzh.ch/de/studies.html"]
+        },
+        {
+          "id": "studierende_bachelor",
+          "parent": "studierende",
+          "labels": {
+            "de": "Bachelor-Studierende",
+            "fr": "Étudiants bachelor",
+            "en": "Bachelor students"
+          },
+          "definition": {
+            "de": "Studierende im Bachelor. Eine Stufe des Publikums, nicht das Studienangebot selbst.",
+            "fr": "Étudiants en bachelor. Un niveau du public, pas l'offre d'études elle-même.",
+            "en": "Students in a bachelor program. A level of the audience, not the study offer itself."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "studierende_master",
+          "parent": "studierende",
+          "labels": {
+            "de": "Master-Studierende",
+            "fr": "Étudiants master",
+            "en": "Master's students"
+          },
+          "definition": {
+            "de": "Studierende im Master. Eine Stufe des Publikums, nicht das Studienangebot selbst.",
+            "fr": "Étudiants en master. Un niveau du public, pas l'offre d'études elle-même.",
+            "en": "Students in a master's program. A level of the audience, not the study offer itself."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "doktorierende",
+          "parent": null,
+          "labels": {
+            "de": "Doktorierende",
+            "fr": "Doctorants",
+            "en": "Doctoral students"
+          },
+          "definition": {
+            "de": "Publikum, getrennt vom Doktorat als Studienangebot.",
+            "fr": "Public, distinct du doctorat comme offre d'études.",
+            "en": "Audience, distinct from the doctorate as a study offer."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "forschende",
+          "parent": null,
+          "labels": {
+            "de": "Forschende",
+            "fr": "Chercheurs",
+            "en": "Researchers"
+          },
+          "definition": {
+            "de": "Personen, die an der Universität forschen. Das Protokoll führt sie als eigenes Publikum.",
+            "fr": "Personnes qui font de la recherche à l'université. Le protocole en fait un public à part.",
+            "en": "People who do research at the university. The protocol lists them as their own audience."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "personal",
+          "parent": null,
+          "labels": {
+            "de": "Administratives und technisches Personal",
+            "fr": "Personnel administratif et technique",
+            "en": "Administrative and technical staff"
+          },
+          "definition": {
+            "de": "Publikum von Seiten, nicht eine Organisationseinheit.",
+            "fr": "Public de pages, pas une unité de l'organisation.",
+            "en": "An audience for pages, not a unit of the organisation."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "dozierende",
+          "parent": null,
+          "labels": {
+            "de": "Dozierende",
+            "fr": "Enseignants",
+            "en": "Teaching staff"
+          },
+          "definition": {
+            "de": "Personen, die an der Universität lehren.",
+            "fr": "Personnes qui enseignent à l'université.",
+            "en": "People who teach at the university."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "studieninteressierte",
+          "parent": null,
+          "labels": {
+            "de": "Studieninteressierte",
+            "fr": "Personnes intéressées à étudier",
+            "en": "Prospective students"
+          },
+          "definition": {
+            "de": "Personen, die ein Studium an der UZH erwägen.",
+            "fr": "Personnes qui envisagent d'étudier à l'UZH.",
+            "en": "People considering studying at UZH."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "alumni",
+          "parent": null,
+          "labels": {
+            "de": "Alumni",
+            "fr": "Alumni",
+            "en": "Alumni"
+          },
+          "definition": {
+            "de": "Ehemalige Studierende.",
+            "fr": "Anciennes et anciens étudiants.",
+            "en": "Former students."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "oeffentlichkeit",
+          "parent": null,
+          "labels": {
+            "de": "Externe Öffentlichkeit",
+            "fr": "Public externe",
+            "en": "External public"
+          },
+          "definition": {
+            "de": "Publikum ausserhalb der Universität.",
+            "fr": "Public hors de l'université.",
+            "en": "Audience outside the university."
+          },
+          "status": "seed",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "types_document",
+      "labels": {
+        "de": "Dokumenttypen",
+        "fr": "Types de documents",
+        "en": "Document types"
+      },
+      "definition": {
+        "de": "Welche Art von Inhalt eine Seite ist. Normtexte sind ein Untertyp. Daneben stehen die Klassen, die das Protokoll als Kategorien ohne Vertiefung nennt: News, einzelne Ereignisse, persönliche Seiten, Projektseiten und Seiten von Forschungsgruppen. Portale und Intranet sind weitere Arten von Seiten. Wiederkehrende Rubriken werden ergänzt, sobald eine Seite sie benennt.",
+        "fr": "Quel genre de contenu est une page. Les textes normatifs sont un sous-type. À côté d'eux, les classes que le protocole signale sans les développer : actualités, événements ponctuels, pages personnelles, pages de projet et pages de groupes de recherche. Les portails et l'intranet sont d'autres sortes de pages. Les rubriques récurrentes s'ajouteront quand une page les nommera.",
+        "en": "What kind of content a page is. Normative texts are one subtype. Beside them are the classes the protocol flags without expanding them: news, one-off events, personal pages, project pages, and research-group pages. Portals and the intranet are further kinds of page. Recurring sections will be added when a page names them."
+      },
+      "nodes": [
+        {
+          "id": "texte_normatif",
+          "parent": null,
+          "labels": {
+            "de": "Normtext",
+            "fr": "Texte normatif",
+            "en": "Normative text"
+          },
+          "definition": {
+            "de": "Text, der eine Regel setzt. Das Protokoll nennt Gesetz, Universitätsordnung, Rahmenverordnung, Studienordnung, Wegleitung und Merkblatt und lässt die Liste für später gefundene Typen offen. Ein Vorrang eines Textes vor einem anderen wird nicht behauptet, solange keine Seite ihn begründet. Für jeden Typ ist noch offen, welche Ebene ihn erlässt und ob eine untere Ebene ihn präzisieren darf. Viele dieser Texte liegen in der Rechtssammlung; das Universitätsgesetz wird auf ZH-Lex verwiesen, ohne URL.",
+            "fr": "Texte qui pose une règle. Le protocole cite la loi, le règlement d'université, la Rahmenverordnung, la Studienordnung, la Wegleitung et le Merkblatt, et laisse la liste ouverte aux types rencontrés plus tard. Il n'affirme pas qu'un texte prévaut sur un autre tant qu'une page ne le fonde pas. Pour chaque type, le niveau qui le pose et la possibilité de le préciser plus bas restent ouverts. Plusieurs de ces textes sont dans la Rechtssammlung ; la loi est renvoyée à ZH-Lex, sans URL.",
+            "en": "A text that lays down a rule. The protocol names the act, the university statutes, the Rahmenverordnung, the Studienordnung, the Wegleitung, and the Merkblatt, and leaves the list open for types found later. It does not claim that one text prevails over another until a page establishes it. For each type, which level enacts it and whether a lower level may specify it remains open. Many of these texts sit in the Rechtssammlung; the act is pointed to ZH-Lex, with no URL."
+          },
+          "status": "seed",
+          "sources": ["https://www.rechtssammlung.uzh.ch/"]
+        },
+        {
+          "id": "universitaetsgesetz",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Universitätsgesetz",
+            "fr": "Loi sur l'université",
+            "en": "University Act"
+          },
+          "definition": {
+            "de": "Gesetz. Das Protokoll verortet es auf ZH-Lex und gibt keine URL.",
+            "fr": "Loi. Le protocole la situe sur ZH-Lex et ne donne pas d'URL.",
+            "en": "Act. The protocol places it on ZH-Lex and gives no URL."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "universitaetsordnung",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Universitätsordnung",
+            "fr": "Règlement de l'université",
+            "en": "University statutes"
+          },
+          "definition": {
+            "de": "Ordnung der Universität, unter den Normtexten des Protokolls.",
+            "fr": "Règlement de l'université, parmi les textes normatifs du protocole.",
+            "en": "Statutes of the university, among the normative texts of the protocol."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "rahmenverordnung",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Rahmenverordnung",
+            "fr": "Ordonnance-cadre",
+            "en": "Framework ordinance"
+          },
+          "definition": {
+            "de": "Rahmenverordnung. Das Schema des Protokolls verknüpft sie mit der Rechtssammlung.",
+            "fr": "Ordonnance-cadre. Le schéma du protocole la relie à la Rechtssammlung.",
+            "en": "Framework ordinance. The protocol schema links it to the Rechtssammlung."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "studienordnung",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Studienordnung",
+            "fr": "Règlement d'études",
+            "en": "Program regulations"
+          },
+          "definition": {
+            "de": "Ordnung eines Studiums. Das Protokoll fragt für die Philosophische und die Mathematisch-naturwissenschaftliche Fakultät, ob die Fakultät oder das Institut sie veröffentlicht.",
+            "fr": "Règlement d'un cursus. Le protocole demande, pour les lettres et les sciences, si la faculté ou l'institut le publie.",
+            "en": "Regulations of a program. The protocol asks, for arts and for science, whether the faculty or the institute publishes them."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "wegleitung",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Wegleitung",
+            "fr": "Guide d'études",
+            "en": "Study guidelines"
+          },
+          "definition": {
+            "de": "Begleittext zur Studienordnung. Das Protokoll fragt, wer sie veröffentlicht, Fakultät oder Institut, und was eine Einheit daran ergänzt.",
+            "fr": "Texte qui accompagne le règlement d'études. Le protocole demande qui le publie, la faculté ou l'institut, et ce qu'une unité y ajoute.",
+            "en": "Text that accompanies the program regulations. The protocol asks who publishes it, the faculty or the institute, and what a unit adds."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "merkblatt",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Merkblatt",
+            "fr": "Aide-mémoire",
+            "en": "Information sheet"
+          },
+          "definition": {
+            "de": "Kurzer Hinweis. Das Protokoll führt ihn unter den Normtexten und sagt noch nicht, ob er verbindlich ist.",
+            "fr": "Note courte. Le protocole la range parmi les textes normatifs et ne dit pas encore si elle est contraignante.",
+            "en": "A short note. The protocol lists it among normative texts and does not yet say whether it binds."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "studienplan",
+          "parent": "texte_normatif",
+          "labels": {
+            "de": "Studienplan",
+            "fr": "Plan d'études",
+            "en": "Study plan"
+          },
+          "definition": {
+            "de": "Vom Protokoll für die Mathematisch-naturwissenschaftliche Fakultät neben Studienordnung und Wegleitung genannt.",
+            "fr": "Nommé par le protocole, pour la faculté des sciences, à côté de la Studienordnung et de la Wegleitung.",
+            "en": "Named by the protocol, for the Faculty of Science, alongside the Studienordnung and the Wegleitung."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "actualite",
+          "parent": null,
+          "labels": {
+            "de": "News",
+            "fr": "Actualité",
+            "en": "News"
+          },
+          "definition": {
+            "de": "Punktuelle News. Das Protokoll führt sie als Kategorie ohne Vertiefung.",
+            "fr": "Actualité ponctuelle. Le protocole la signale comme catégorie, sans la développer.",
+            "en": "A one-off news item. The protocol flags it as a category and does not expand it."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "evenement",
+          "parent": null,
+          "labels": {
+            "de": "Einzelnes Ereignis",
+            "fr": "Événement ponctuel",
+            "en": "One-off event"
+          },
+          "definition": {
+            "de": "Punktuelles Ereignis. Kategorie ohne Vertiefung, getrennt von einer News und von einer Lehrveranstaltung des Studienangebots.",
+            "fr": "Événement ponctuel. Catégorie non développée, distincte d'une actualité et d'un cours du programme.",
+            "en": "A one-off event. A category that is not expanded, distinct from a news item and from a course in the study offer."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "page_personnelle",
+          "parent": null,
+          "labels": {
+            "de": "Persönliche Seite",
+            "fr": "Page personnelle",
+            "en": "Personal page"
+          },
+          "definition": {
+            "de": "Persönliche Seite einer forschenden Person. Kategorie ohne Vertiefung.",
+            "fr": "Page personnelle d'un chercheur. Catégorie non développée.",
+            "en": "Personal page of a researcher. A category that is not expanded."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "page_projet",
+          "parent": null,
+          "labels": {
+            "de": "Projektseite",
+            "fr": "Page de projet",
+            "en": "Project page"
+          },
+          "definition": {
+            "de": "Seite eines zeitlich begrenzten Projekts. Kategorie ohne Vertiefung.",
+            "fr": "Page d'un projet éphémère. Catégorie non développée.",
+            "en": "Page of a short-lived project. A category that is not expanded."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "page_groupe",
+          "parent": null,
+          "labels": {
+            "de": "Seite einer Forschungsgruppe",
+            "fr": "Page d'un groupe de recherche",
+            "en": "Research-group page"
+          },
+          "definition": {
+            "de": "Seite einer Forschungsgruppe. Das Protokoll nennt sie bei der Mathematisch-naturwissenschaftlichen Fakultät als Kategorie ohne Vertiefung, getrennt von einer Institutsseite ausserhalb des zentralen CMS.",
+            "fr": "Page d'un groupe de recherche. Le protocole la signale, pour la faculté des sciences, comme catégorie non développée, distincte d'un site d'institut hors du CMS central.",
+            "en": "Page of a research group. The protocol flags it, for the Faculty of Science, as a category that is not expanded, distinct from an institute site outside the central CMS."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "portail",
+          "parent": null,
+          "labels": {
+            "de": "Portal",
+            "fr": "Portail",
+            "en": "Portal"
+          },
+          "definition": {
+            "de": "Seite oder Website, die auf andere Inhalte verweist. Das Protokoll nennt Studienangebot, Vorlesungsverzeichnis, Weiterbildung und Graduate Campus. Weiterbildung und Graduate Campus haben bereits einen Knoten, bei den Zyklen und bei der Organisation.",
+            "fr": "Page ou site qui renvoie vers d'autres contenus. Le protocole nomme le Studienangebot, le Vorlesungsverzeichnis, la formation continue et le Graduate Campus. La formation continue et le Graduate Campus ont déjà un nœud, dans les cycles et dans l'organisation.",
+            "en": "A page or site that points to other content. The protocol names the Studienangebot, the Vorlesungsverzeichnis, continuing education, and the Graduate Campus. Continuing education and the Graduate Campus already have a node, under cycles and under organisation."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "studienangebot_portal",
+          "parent": "portail",
+          "labels": {
+            "de": "Studienangebot",
+            "fr": "Portail des programmes",
+            "en": "Program portal"
+          },
+          "definition": {
+            "de": "Portal der Programme. Gleicher Host wie die Studies-Spur des Protokolls. Der Knoten des Studienangebots als Achse beschreibt die Programme selbst.",
+            "fr": "Portail des programmes. Même hôte que la piste « studies » du protocole. L'axe Offre d'études décrit les programmes eux-mêmes.",
+            "en": "Portal of the programs. Same host as the protocol's studies lead. The Study offer axis describes the programs themselves."
+          },
+          "status": "seed",
+          "sources": ["https://www.uzh.ch/de/studies.html"]
+        },
+        {
+          "id": "vorlesungsverzeichnis",
+          "parent": "portail",
+          "labels": {
+            "de": "Vorlesungsverzeichnis",
+            "fr": "Annuaire des cours",
+            "en": "Course catalogue"
+          },
+          "definition": {
+            "de": "Portal der Lehrveranstaltungen. Das Protokoll nennt es ohne URL.",
+            "fr": "Portail des enseignements. Le protocole le nomme, sans URL.",
+            "en": "Portal of courses. The protocol names it, with no URL."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "intranet",
+          "parent": null,
+          "labels": {
+            "de": "Intranet",
+            "fr": "Intranet",
+            "en": "Intranet"
+          },
+          "definition": {
+            "de": "Seiten mit beschränktem Zugang. Das Protokoll verlangt, sie zusammen mit Sitemap und Hosts zu vermerken, ohne sie auszubreiten.",
+            "fr": "Pages à accès restreint. Le protocole demande de les repérer avec le sitemap et les hôtes, sans les développer.",
+            "en": "Pages with restricted access. The protocol asks to note them along with the sitemap and the hosts, without expanding them."
+          },
+          "status": "seed",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "id": "offre_etudes",
+      "labels": {
+        "de": "Studienangebot",
+        "fr": "Offre d'études",
+        "en": "Study offer"
+      },
+      "definition": {
+        "de": "Was die Universität als Studium anbietet. Das Protokoll trennt Zyklen und Kombinationsformen: Bachelor, Master, Doktorat, Weiterbildung, dazu Mono, Major und Minor. Die reale Zuordnung, Fakultät oder Institut, wird nicht erzwungen. ECTS-Punkte werden nur eingetragen, wenn eine Seite sie nennt.",
+        "fr": "Ce que l'université propose comme études. Le protocole sépare les cycles et les formes de combinaison : bachelor, master, doctorat, formation continue, puis mono, major et minor. Le rattachement réel, faculté ou institut, ne se force pas. Les crédits ECTS ne s'inscrivent que si une page les indique.",
+        "en": "What the university offers as study. The protocol separates cycles and combination shapes: bachelor, master, doctorate, continuing education, then mono, major, and minor. The real attachment, faculty or institute, is not forced. ECTS credits are entered only when a page states them."
+      },
+      "nodes": [
+        {
+          "id": "cycles",
+          "parent": null,
+          "labels": {
+            "de": "Zyklen",
+            "fr": "Cycles",
+            "en": "Cycles"
+          },
+          "definition": {
+            "de": "Ausbildungsstufen, die das Protokoll nennt.",
+            "fr": "Niveaux de formation nommés par le protocole.",
+            "en": "Levels of study named by the protocol."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "bachelor",
+          "parent": "cycles",
+          "labels": {
+            "de": "Bachelor",
+            "fr": "Bachelor",
+            "en": "Bachelor"
+          },
+          "definition": {
+            "de": "Erster Zyklus.",
+            "fr": "Premier cycle.",
+            "en": "First cycle."
+          },
+          "status": "seed",
+          "sources": ["https://www.uzh.ch/de/studies.html"]
+        },
+        {
+          "id": "master",
+          "parent": "cycles",
+          "labels": {
+            "de": "Master",
+            "fr": "Master",
+            "en": "Master"
+          },
+          "definition": {
+            "de": "Zweiter Zyklus.",
+            "fr": "Deuxième cycle.",
+            "en": "Second cycle."
+          },
+          "status": "seed",
+          "sources": ["https://www.uzh.ch/de/studies.html"]
+        },
+        {
+          "id": "doktorat",
+          "parent": "cycles",
+          "labels": {
+            "de": "Doktorat",
+            "fr": "Doctorat",
+            "en": "Doctorate"
+          },
+          "definition": {
+            "de": "Doktoratsstufe, getrennt vom Publikum Doktorierende. Der Graduate Campus ist eine Spur, nicht der Abschluss selbst.",
+            "fr": "Cycle doctoral, distinct du public des doctorants. Le Graduate Campus est une piste, pas le diplôme lui-même.",
+            "en": "Doctoral cycle, distinct from doctoral students as an audience. The Graduate Campus is a lead, not the degree itself."
+          },
+          "status": "seed",
+          "sources": ["https://www.grc.uzh.ch/"]
+        },
+        {
+          "id": "weiterbildung",
+          "parent": "cycles",
+          "labels": {
+            "de": "Weiterbildung",
+            "fr": "Formation continue",
+            "en": "Continuing education"
+          },
+          "definition": {
+            "de": "Weiterbildung. Host weiterbildung.uzh.ch.",
+            "fr": "Formation continue. Hôte weiterbildung.uzh.ch.",
+            "en": "Continuing education. Host weiterbildung.uzh.ch."
+          },
+          "status": "seed",
+          "sources": ["https://www.weiterbildung.uzh.ch/"]
+        },
+        {
+          "id": "formes_programme",
+          "parent": null,
+          "labels": {
+            "de": "Programmformen",
+            "fr": "Formes de programme",
+            "en": "Program shapes"
+          },
+          "definition": {
+            "de": "Art, ein Programm zu kombinieren, in der Regel im Bachelor oder Master. Das ist kein zusätzlicher Abschluss.",
+            "fr": "Façon de combiner un programme, en général au bachelor ou au master. Ce n'est pas un diplôme de plus.",
+            "en": "A way of combining a program, usually in the bachelor or the master. It is not an extra degree."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "mono",
+          "parent": "formes_programme",
+          "labels": {
+            "de": "Mono",
+            "fr": "Filière unique",
+            "en": "Single subject"
+          },
+          "definition": {
+            "de": "Programm in einem einzigen Fach.",
+            "fr": "Programme suivi dans une seule branche.",
+            "en": "A program taken in a single subject."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "major",
+          "parent": "formes_programme",
+          "labels": {
+            "de": "Major",
+            "fr": "Branche principale",
+            "en": "Major"
+          },
+          "definition": {
+            "de": "Hauptfach eines kombinierten Programms.",
+            "fr": "Branche principale d'un programme combiné.",
+            "en": "Main subject of a combined program."
+          },
+          "status": "seed",
+          "sources": []
+        },
+        {
+          "id": "minor",
+          "parent": "formes_programme",
+          "labels": {
+            "de": "Minor",
+            "fr": "Branche secondaire",
+            "en": "Minor"
+          },
+          "definition": {
+            "de": "Nebenfach eines kombinierten Programms.",
+            "fr": "Branche secondaire d'un programme combiné.",
+            "en": "Secondary subject of a combined program."
+          },
+          "status": "seed",
+          "sources": []
+        }
+      ]
+    }
+  ]
+}
