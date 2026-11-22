@@ -1,0 +1,8 @@
+{
+  "organisation": "philosophische",
+  "publics": ["studierende", "studieninteressierte"],
+  "types_document": "portail",
+  "offre_etudes": ["bachelor", "master"],
+  "title": "Studium",
+  "resume_markdown": "La faculté présente ses cursus de bachelor et de master."
+}

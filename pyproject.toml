@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uzh-crawler"
+version = "0.1.0"
+description = "Crawl the UZH web, summarize pages with a local LLM, and assign closed taxonomy tags."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx[http2]>=0.27",
+  "pydantic>=2",
+  "beautifulsoup4>=4.12",
+  "markdownify>=0.13",
+  "pymupdf>=1.24,<2",
+  "PyYAML>=6",
+]
+
+[project.optional-dependencies]
+js = ["playwright>=1.40"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+uzh-crawler = "uzh_crawler.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = [
+  "ignore:builtin type SwigPy.* has no __module__ attribute:DeprecationWarning",
+  "ignore:builtin type swigvarlink has no __module__ attribute:DeprecationWarning",
+]
