@@ -58,10 +58,11 @@ Sitemaps are read by default. The three ways to build the list are compared in [
 | `--out` | required | Run directory |
 | `--refresh` | off | Also asks again for pages already stored, with a conditional request |
 | `--js-fallback` | off | One Playwright pass when the useful text is under 200 characters |
+| `--workers` | one per processor | Processes that convert documents to Markdown. `1` converts in the main process. A scrape of fewer than 8 documents never starts workers |
 | `--max-pages` | `0` | Maximum number of downloads in this execution. `0` means no ceiling |
 | `--rate-limit`, `--burst`, `--crawl-concurrency`, `--ignore-robots` | as for `crawl` | |
 
-The scope of the run is the one recorded by `crawl`; `scrape` has no scope options.
+The scope of the run is the one recorded by `crawl`; `scrape` has no scope options. Which formats are read, and what their Markdown looks like, is in [Scope](scope.md#what-scrape-stores-and-extracts). How fast a scrape is, and why, is in [Scrape performance](scrape-performance.md).
 
 The HTTP client identifies itself as `askUZH-TaxonomyCrawler/0.1 (+local; research)`, follows redirects, and uses a 60-second timeout. `HTTP_PROXY` and `HTTPS_PROXY` apply to `crawl` and `scrape`. Calls to Ollama ignore them.
 
@@ -113,7 +114,7 @@ The option help (`--help`) and these progress messages are in French. The words 
 | `URL de départ`, `profondeur`, `plafond` | Start URLs, depth, page ceiling (`libre` and `sans plafond` mean no limit) |
 | `lu` | crawl: the HTML page was read for its links |
 | `listé` | crawl: the URL was added to the list without a download |
-| `copie locale` | scrape: the HTML kept by the crawl was used, with no new request |
+| `copie locale` | scrape: the file kept by the crawl was used, with no new request |
 | `cache HTTP` | The server answered 304; the stored copy is kept |
 | `fetched`, `empty`, `failed`, `blocked_auth` | The page status just written. See [Outputs](outputs.md) |
 | `hors périmètre` | The host is out of scope |

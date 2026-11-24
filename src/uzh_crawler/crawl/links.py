@@ -9,8 +9,6 @@ from __future__ import annotations
 
 from urllib.parse import urljoin
 
-from selectolax.lexbor import LexborHTMLParser
-
 from uzh_crawler.urls import try_normalize
 
 _SKIP_HREF_PREFIXES = ("#", "mailto:", "tel:", "javascript:")
@@ -20,7 +18,13 @@ _TEMPLATE_MARKERS = ("[%", "{{", "${", "<%")
 
 def extract_links(html: str, page_url: str) -> tuple[str | None, list[str]]:
     """Return the page title and every absolute, normalized ``a[href]``, in document order."""
-    tree = LexborHTMLParser(html)
+    from selectolax.lexbor import LexborHTMLParser
+
+    return links_of(LexborHTMLParser(html), page_url)
+
+
+def links_of(tree, page_url: str) -> tuple[str | None, list[str]]:
+    """The same, from a page that is already parsed."""
     base = tree.css_first("base[href]")
     base_href = base.attributes.get("href") if base is not None else None
     base_url = urljoin(page_url, base_href) if base_href else page_url

@@ -95,7 +95,7 @@ Run-to-run noise on the headline task is about 0.02 s, so a difference smaller t
 
 **Token bucket (1).** Each host has a bucket of 20 tokens. A request takes one token; an empty bucket makes the request wait. Tokens come back at the steady rate. A short crawl therefore sends its first 20 requests at once, and a long crawl still averages 3 requests per second. `--burst` sets the size of the bucket and `--rate-limit` the refill rate.
 
-**lexbor parser (5).** A crawl reads pages only for their links. lexbor is an HTML5 parser written in C; it reads a page about fifteen times faster than BeautifulSoup and returned the same links on every benchmark page. BeautifulSoup is still used by `scrape`, where the page is turned into Markdown.
+**lexbor parser (5).** A crawl reads pages only for their links. lexbor is an HTML5 parser written in C; it reads a page about fifteen times faster than BeautifulSoup and returned the same links on every benchmark page. `scrape` now uses the same parser to find the text of a page ([Scrape performance](scrape-performance.md)).
 
 **Lazy imports (6).** `crawl` no longer loads the Markdown, PDF and model libraries that only the later stages use.
 

@@ -7,7 +7,8 @@ runs/<id>/
   crawl.json                 state of the run: one entry per URL        all stages
   urls.txt                   every in-scope URL, one per line           crawl
   files/<hash>.<ext>         the original bytes as served               crawl (HTML), scrape
-  raw/<hash>.md              the text, as Markdown                      scrape
+  raw/<hash>.md              the text of an HTML, PDF, Word or Excel    scrape
+                             document, as Markdown
   raw/<hash>.links.txt       the links of an HTML page                  crawl, scrape
   summaries/<hash>.md        title and summary                          summarize
   digests/<hash>.md          summary and tags: the final result         classify
@@ -65,14 +66,14 @@ A page moves down this table as the stages run.
 | --- | --- | --- |
 | `discovered` | crawl | Listed and in scope. Not scraped yet, or changed since it was |
 | `fetched` | scrape | Stored, with at least 200 characters of text. Waiting for a summary |
-| `empty` | scrape | Stored, but with under 200 characters of text, or in a format with no text extractor. Not summarized |
+| `empty` | scrape | Stored, but with under 200 characters of text, or in a format `scrape` cannot read (anything but HTML, PDF, Word `.docx`, Excel `.xlsx` and plain text). Not summarized |
 | `summarized` | summarize | Summary written. Waiting for tags |
 | `summary_error` | summarize | The model failed twice. Retried by the next `summarize` |
 | `tagged` | classify | Tags valid and digest written. The end state |
 | `tag_error` | classify | The model failed or produced refused tags twice. Retried by the next `classify` |
 | `blocked_auth` | crawl, scrape | HTTP 401 or 403. Not requested again |
 | `out_of_scope` | crawl, scrape | Host out of scope, or a redirect left the scope or the section. Not requested again |
-| `failed` | crawl, scrape | Request error, unreadable PDF, or `robots.txt` refusal. Retried |
+| `failed` | crawl, scrape | Request error, a PDF, Word or Excel file that cannot be opened, or `robots.txt` refusal. Retried |
 
 ## Summary file
 

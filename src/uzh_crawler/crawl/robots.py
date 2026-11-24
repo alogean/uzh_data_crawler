@@ -3,9 +3,6 @@ from __future__ import annotations
 import asyncio
 import logging
 from urllib.parse import urlsplit, urlunsplit
-from urllib.robotparser import RobotFileParser
-
-import httpx
 
 from uzh_crawler.crawl.limiter import HostRateLimiter
 
@@ -55,6 +52,8 @@ class RobotsCache:
     async def _load(self, url: str) -> tuple[str | None, RobotFileParser | None]:
         parts = urlsplit(url)
         robots_url = urlunsplit((parts.scheme, parts.netloc, "/robots.txt", "", ""))
+        import httpx
+
         await self.limiter.wait(parts.hostname or "")
         try:
             response = await self.client.get(robots_url)
@@ -70,6 +69,8 @@ class RobotsCache:
                 parts.hostname,
             )
             return None, None
+        from urllib.robotparser import RobotFileParser
+
         parser = RobotFileParser()
         parser.parse(response.text.splitlines())
         return response.text, parser

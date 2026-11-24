@@ -213,6 +213,12 @@ def _add_scrape_args(command: argparse.ArgumentParser) -> None:
         help="Redemande aussi les pages déjà stockées (requête conditionnelle)",
     )
     command.add_argument(
+        "--workers",
+        type=int,
+        default=None,
+        help="Processus de conversion en Markdown (défaut : jusqu'à 8 selon la machine ; 1 = aucun)",
+    )
+    command.add_argument(
         "--js-fallback",
         action="store_true",
         help="Un passage Playwright si le texte utile fait moins de 200 caractères",
@@ -286,6 +292,7 @@ def _config_from_args(args: argparse.Namespace) -> RunConfig:
         max_depth=max_depth,
         allow_subdomains=bool(getattr(args, "allow_subdomains", False)),
         crawl_concurrency=getattr(args, "crawl_concurrency", 20),
+        extract_workers=getattr(args, "workers", None),
         llm_concurrency=getattr(args, "llm_concurrency", 2),
         lang=getattr(args, "lang", "fr"),
         rate_limit=getattr(args, "rate_limit", 3.0),

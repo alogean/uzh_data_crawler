@@ -83,7 +83,7 @@ Prefixes of the same host are merged, so `phil.uzh.ch` gets both `/de/studium` a
 
 `robots.txt` is respected by `crawl` and `scrape` unless `--ignore-robots` is passed. A forbidden URL is `failed`, with the error `disallowed by robots.txt`, and is checked again on the next run. When a host has no `robots.txt`, or the file cannot be loaded, everything on that host is allowed.
 
-`robots.txt` is downloaded once per host and serves both for the access rules and for the sitemap addresses it declares.
+`robots.txt` is downloaded once per host and serves both for the access rules and for the sitemap addresses it declares. `scrape` asks it only before a download: a file that the crawl already stored was allowed when the crawl fetched it.
 
 Requests to one host are paced by a token bucket. The host receives a first burst of 20 requests at once (`--burst`); after that, requests are released at 3 per second (`--rate-limit`). A host left alone earns its burst back at the same rate, so the average over a long crawl never exceeds the rate. Up to 20 requests run in parallel (`--crawl-concurrency`). A body larger than 20 MB is refused. HTTP 401 and 403 give `blocked_auth`; any other status outside 2xx gives `failed`.
 
@@ -94,11 +94,22 @@ Requests to one host are paced by a token bucket. The host receives a first burs
 | Kind | Recognized by | Text |
 | --- | --- | --- |
 | HTML | `text/html`, `application/xhtml+xml`, or an untyped body that starts like HTML | Converted to Markdown |
-| PDF | `application/pdf`, a `.pdf` URL with no type, or a body starting with `%PDF-` | Extracted page by page |
+| PDF | `application/pdf`, a `.pdf` URL with no type, or a body starting with `%PDF-` | Extracted page by page, pages separated by an empty line |
+| Word | The `.docx` media type, or a zip file whose URL ends in `.docx` or `.docm` | Headings, paragraphs, lists and tables, in the order of the document |
+| Excel | The `.xlsx` media type, or a zip file whose URL ends in `.xlsx` or `.xlsm` | One section and one table per sheet |
 | Plain text | `text/plain` | Kept as it is |
-| Anything else | Word, Excel, PowerPoint, XML feeds, … | None. The page is `empty` with the error `no text extractor for <type>` |
+| Anything else | Old `.doc` and `.xls` files, PowerPoint, XML feeds, … | None. The page is `empty` with the error `no text extractor for <type>` |
 
-For HTML, links are extracted from the whole document, navigation included. The text comes from `main` or `article` when one exists, otherwise from the body. In both cases `script`, `style`, `nav`, `footer`, `header`, `aside`, `noscript` and `iframe` are removed first. Raw HTML is never sent to the model.
+The four formats give Markdown of the same shape, so the summary stage does not need to know where a text came from:
+
+- **HTML.** Links are extracted from the whole document, navigation included. The text comes from `main` or `article` when one exists, otherwise from the body. In both cases `script`, `style`, `nav`, `footer`, `header`, `aside`, `noscript`, `iframe` and `svg` are removed first. Raw HTML is never sent to the model.
+- **PDF.** The text of each page, as the file stores it. Scanned pages, which hold a picture and no text, give nothing.
+- **Word.** A paragraph in a heading style becomes a `#` heading of the same level, a numbered or bulleted paragraph becomes a `-` item, and a table becomes a Markdown table. A merged cell repeats its text in every column and row it covers. The fields of a form are skipped.
+- **Excel.** Each sheet that holds something becomes `## <sheet name>` followed by a table. A formula gives its last computed value, a date is written as `2026-03-01`, a whole number without `.0`. Empty rows are dropped, and a cell holding an error such as `#DIV/0!` is left empty.
+
+A Word, Excel or PDF file that cannot be opened makes the page `failed`, with the cause in `error`.
+
+The conversion runs in several processes at once, one per processor, when a scrape has 8 documents or more. [Scrape performance](scrape-performance.md) explains how, and how fast it is.
 
 Useful text is at least 200 characters; below that, the page is `empty` and is not summarized. With `--js-fallback`, one Playwright attempt takes place before that decision.
 

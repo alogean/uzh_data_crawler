@@ -7,6 +7,7 @@
 | [Taxon and its skills](agent.md) | What Taxon does, how to call it, how taxonomy proposals work |
 | [Command line](cli.md) | Commands, options, progress output, exit codes |
 | [Crawl performance](crawl-performance.md) | How the speed of `crawl` is measured, what was tried, what limits it |
+| [Scrape performance](scrape-performance.md) | How the speed of `scrape` is measured, how documents are converted in parallel, what was tried |
 | [Scope](scope.md) | Hosts, path prefixes, sitemaps, exclusions, what is downloaded and extracted |
 | [Resume and cache](resume-and-cache.md) | Resuming a run, HTTP cache, when a model call is skipped |
 | [Outputs](outputs.md) | `crawl.json`, `urls.txt`, `files/`, `raw/`, `summaries/`, `digests/`, statuses, `validate` |
@@ -100,6 +101,9 @@ CLAUDE.md                      Taxon, the agent: loaded when the project is open
   agents/taxon.md              Taxon as a subagent, for delegated tasks
 benchmarks/
   crawl_speed.py               measures how fast crawl lists URLs
+  scrape_speed.py              measures how fast scrape converts 55 documents
+  scrape_urls.txt              the 55 URLs of that test
+  expected_scrape/             the Markdown each of them must give
   experiments/go-crawl/        the benchmark crawl in Go, kept as a comparison
 src/uzh_crawler/
   cli.py              argument parsing, RunConfig construction, validate and proposals commands
@@ -120,9 +124,9 @@ src/uzh_crawler/
     robots.py         robots.txt, fetched once per host
     limiter.py        per-host token bucket: a burst, then a steady rate
   scrape/             stage 2
-    scraper.py        download or reuse, store the original, extract, set the status
-    fetch.py          one HTTP exchange: conditional request, size limit, content type
-    extract.py        HTML and PDF to Markdown
+    scraper.py        download or reuse, store the original, hand the conversion to worker processes, set the status
+    fetch.py          one HTTP exchange: conditional request, size limit, content type; the client built on first use
+    extract.py        HTML, PDF, Word and Excel to Markdown
     js_fallback.py    optional Playwright render
   summarize/          stage 3
     summarizer.py     the summary call, the stage loop, the summary file format

@@ -8,10 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import xml.etree.ElementTree as ET
 from urllib.parse import urljoin, urlsplit, urlunsplit
-
-import httpx
 
 from uzh_crawler.crawl.limiter import HostRateLimiter
 from uzh_crawler.urls import try_normalize
@@ -56,6 +53,8 @@ def _parse_text_sitemap(body: bytes) -> list[str]:
 
 
 def _parse_xml_sitemap(body: bytes) -> tuple[list[str], list[str]]:
+    import xml.etree.ElementTree as ET
+
     try:
         root = ET.fromstring(body)
     except ET.ParseError:
@@ -175,6 +174,8 @@ async def _fetch_sitemap(
     url: str,
     limiter: HostRateLimiter,
 ) -> tuple[bytes, str | None] | None:
+    import httpx
+
     await limiter.wait(urlsplit(url).hostname or "")
     try:
         response = await client.get(url)

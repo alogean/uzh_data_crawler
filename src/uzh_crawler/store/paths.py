@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import functools
 import hashlib
 import re
 from pathlib import Path
@@ -13,18 +14,22 @@ def artifact_stem(normalized_url: str) -> str:
 
 
 def safe_join(root: Path, relative: str) -> Path:
-    if not relative or relative.startswith(("/", "\\")) or ".." in Path(relative).parts:
+    """The path of a run file. A path that would leave the run directory is refused."""
+    if not relative or relative.startswith(("/", "\\")) or ".." in relative.replace("\\", "/").split("/"):
         raise ValueError(f"path escapes run directory: {relative}")
-    root_resolved = root.resolve()
-    path = (root_resolved / relative).resolve()
-    if path != root_resolved and root_resolved not in path.parents:
-        raise ValueError(f"path escapes run directory: {relative}")
-    return path
+    return _resolved(root) / relative
+
+
+@functools.lru_cache(maxsize=8)
+def _resolved(root: Path) -> Path:
+    # Resolving asks the file system about every folder of the path, so it is
+    # done once per run directory and not once per file.
+    return root.resolve()
 
 
 def file_relative(normalized_url: str, kind: str) -> str:
-    """Path of the original bytes. ``kind`` is html, pdf, text or other."""
-    suffix = {"html": ".html", "pdf": ".pdf", "text": ".txt"}.get(kind)
+    """Path of the original bytes. ``kind`` is html, pdf, docx, xlsx, text or other."""
+    suffix = {"html": ".html", "pdf": ".pdf", "text": ".txt", "docx": ".docx", "xlsx": ".xlsx"}.get(kind)
     if suffix is None:
         found = Path(urlsplit(normalized_url).path).suffix.lower()
         suffix = found if _SUFFIX.fullmatch(found) else ".bin"

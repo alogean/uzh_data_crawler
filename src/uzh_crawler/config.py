@@ -53,6 +53,7 @@ class RunConfig:
     max_depth: int | None = None
     allow_subdomains: bool = False
     crawl_concurrency: int = 20
+    extract_workers: int | None = None
     llm_concurrency: int = 2
     lang: str = "fr"
     rate_limit: float = 3.0

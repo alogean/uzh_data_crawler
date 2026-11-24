@@ -16,12 +16,10 @@ from __future__ import annotations
 
 import logging
 
-import httpx
-
 from uzh_crawler.config import CONFIG_KEYS, SCOPE_KEYS, ConfigError, RunConfig
 from uzh_crawler.progress import Progress
 from uzh_crawler.scope import Scope
-from uzh_crawler.scrape.fetch import make_client
+from uzh_crawler.scrape.fetch import LazyClient
 from uzh_crawler.store.crawl_json import (
     ERROR_STATUSES,
     ROBOTS_ERROR,
@@ -75,12 +73,14 @@ async def execute(
     needs_http = "crawl" in stages or "scrape" in stages
     owns_client = client is None and needs_http
     if owns_client:
-        client = make_client(concurrency=config.crawl_concurrency)
+        client = LazyClient(concurrency=config.crawl_concurrency)
     ollama_client: httpx.AsyncClient | None = None
     cache = None
 
     def chat():
         from uzh_crawler.llm.ollama import OllamaChat
+
+        import httpx
 
         nonlocal ollama_client
         if ollama_client is None:

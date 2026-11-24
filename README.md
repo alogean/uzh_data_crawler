@@ -21,6 +21,7 @@ The repository also holds the askUZH taxonomy browser in [`browser/`](browser/),
 | [How a run works](docs/README.md#how-a-run-works) | Workflow diagram of the four stages |
 | [Command line](docs/cli.md) | Commands, options, progress output, exit codes |
 | [Crawl performance](docs/crawl-performance.md) | How the speed of `crawl` is measured, what was tried, what limits it |
+| [Scrape performance](docs/scrape-performance.md) | How the speed of `scrape` is measured, how documents are converted in parallel, what was tried |
 | [Scope](docs/scope.md) | Hosts, path prefixes, sitemaps, exclusions, what is downloaded and extracted |
 | [Resume and cache](docs/resume-and-cache.md) | Resuming a run, HTTP cache, when a model call is skipped |
 | [Outputs](docs/outputs.md) | `crawl.json`, `urls.txt`, `files/`, `raw/`, `summaries/`, `digests/`, statuses, `validate` |

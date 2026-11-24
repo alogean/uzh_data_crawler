@@ -3,10 +3,12 @@ import json
 from pathlib import Path
 
 import httpx
+import office_files
 
 from uzh_crawler.classify.schema import annotation_model
 from uzh_crawler.config import USER_AGENT, RunConfig
 from uzh_crawler.pipeline import execute
+from uzh_crawler.scrape import scraper
 from uzh_crawler.scrape.fetch import make_client
 from uzh_crawler.summarize.summarizer import PageSummary
 from uzh_crawler.taxonomy import TagValidationError, load_taxonomy
@@ -337,17 +339,35 @@ def test_sitemap_and_prefixes_keep_the_crawl_inside_the_section(tmp_path: Path):
     assert set(fetched) <= {"/robots.txt", "/sitemap.txt", "/sitemap.xml", "/sitemap_index.xml"}
 
 
-def test_scrape_one_url_keeps_the_original_file_and_refuses_to_read_office_bytes(tmp_path: Path):
-    docx_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+DOCX_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+XLSX_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+def test_scrape_urls_stores_each_original_and_its_markdown(tmp_path: Path):
+    word = office_files.docx(
+        office_files.paragraph("Antrag", style="Titel"), office_files.paragraph(SENTENCE * 6)
+    )
+    excel = office_files.xlsx({"Noten": [["Modul", "ECTS"]] + [[f"Modul {n} der Fakultät", 6] for n in range(20)]})
 
     def handler(request: httpx.Request) -> httpx.Response:
-        if request.url.path == "/robots.txt":
+        path = request.url.path
+        if path == "/robots.txt":
             return httpx.Response(404)
-        if request.url.path.endswith(".docx"):
-            return httpx.Response(200, content=b"PK\x03\x04" + b"\x00" * 600, headers={"content-type": docx_type})
+        if path.endswith("antrag.docx"):
+            return httpx.Response(200, content=word, headers={"content-type": DOCX_TYPE})
+        if path.endswith("kaputt.docx"):
+            return httpx.Response(200, content=b"PK\x03\x04" + b"\x00" * 600, headers={"content-type": DOCX_TYPE})
+        if path.endswith(".xlsx"):
+            return httpx.Response(200, content=excel, headers={"content-type": XLSX_TYPE})
+        if path.endswith(".pptx"):
+            return httpx.Response(200, content=b"PK\x03\x04", headers={"content-type": "application/vnd.ms-powerpoint"})
         return httpx.Response(200, text=_html(SENTENCE * 6, ["/x"]), headers={"content-type": "text/html"})
 
-    urls = ("https://www.phil.uzh.ch/de/studium.html", "https://www.phil.uzh.ch/dam/antrag.docx")
+    base = "https://www.phil.uzh.ch"
+    urls = tuple(
+        f"{base}{path}"
+        for path in ("/de/studium.html", "/dam/antrag.docx", "/dam/noten.xlsx", "/dam/kaputt.docx", "/dam/folien.pptx")
+    )
 
     async def run():
         async with _client(httpx.MockTransport(handler)) as client:
@@ -358,18 +378,105 @@ def test_scrape_one_url_keeps_the_original_file_and_refuses_to_read_office_bytes
                 client=client,
             )
 
-    assert asyncio.run(run()) == 0
+    assert asyncio.run(run()) == 2  # one file could not be read
     pages = _pages(tmp_path)
+
+    def text(page: dict) -> str:
+        return (tmp_path / page["raw_path"]).read_text(encoding="utf-8")
+
     page = pages[urls[0]]
     assert page["status"] == "fetched"
     assert page["file_path"].endswith(".html") and (tmp_path / page["file_path"]).is_file()
-    assert "bachelor" in (tmp_path / page["raw_path"]).read_text(encoding="utf-8")
+    assert "bachelor" in text(page)
     docx = pages[urls[1]]
-    assert docx["status"] == "empty"
-    assert docx["file_path"].endswith(".docx")
-    assert (tmp_path / docx["file_path"]).read_bytes().startswith(b"PK")
-    assert "no text extractor" in docx["error"]
-    assert (tmp_path / docx["raw_path"]).read_text(encoding="utf-8") == ""
+    assert docx["status"] == "fetched" and docx["file_path"].endswith(".docx")
+    assert (tmp_path / docx["file_path"]).read_bytes() == word
+    assert text(docx).startswith("# Antrag\n\nLa faculté")
+    xlsx = pages[urls[2]]
+    assert xlsx["status"] == "fetched" and xlsx["file_path"].endswith(".xlsx")
+    assert "| Modul 3 der Fakultät | 6 |" in text(xlsx)
+    broken = pages[urls[3]]
+    assert broken["status"] == "failed" and "Word file could not be opened" in broken["error"]
+    assert (tmp_path / broken["file_path"]).read_bytes().startswith(b"PK")
+    slides = pages[urls[4]]
+    assert slides["status"] == "empty" and slides["file_path"].endswith(".pptx")
+    assert "no text extractor" in slides["error"]
+    assert text(slides) == ""
+
+
+def test_scrape_after_crawl_converts_stored_pages_in_worker_processes(tmp_path: Path):
+    paths = [f"/de/seite-{n}.html" for n in range(9)]
+    requested: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        path = request.url.path
+        requested.append(path)
+        if path == "/robots.txt":
+            return httpx.Response(404)
+        if path == "/":
+            return httpx.Response(200, text=_html(SENTENCE * 6, paths), headers={"content-type": "text/html"})
+        if path in paths:
+            body = _html(f"Seite {path}. " + SENTENCE * 6, [])
+            return httpx.Response(200, text=body, headers={"content-type": "text/html"})
+        return httpx.Response(404)
+
+    config = RunConfig(
+        out_dir=tmp_path, seed_url=HOME, rate_limit=0, max_pages=None, discover_sitemaps=False, extract_workers=2
+    )
+
+    async def run(mode: str):
+        async with _client(httpx.MockTransport(handler)) as client:
+            return await execute(config, mode=mode, client=client)
+
+    assert asyncio.run(run("crawl")) == 0
+    requested.clear()
+    assert asyncio.run(run("scrape")) == 0
+    # Every page was read from the copy the crawl stored: no request, not even robots.txt.
+    assert requested == []
+    pages = _pages(tmp_path)
+    assert len(pages) == 10
+    for path in paths:
+        page = pages[f"https://www.phil.uzh.ch{path}"]
+        assert page["status"] == "fetched" and page["title"] == "Studium"
+        markdown = (tmp_path / page["raw_path"]).read_text(encoding="utf-8")
+        assert f"Seite {path}." in markdown and "NAVSECRET" not in markdown
+        assert page["content_hash"].startswith("sha256:")
+
+
+def test_js_fallback_replaces_a_page_whose_html_holds_too_little_text(tmp_path: Path, monkeypatch):
+    short = "<html><head><title>Court</title></head><body><main><p>court</p></main></body></html>"
+    long = "<html><head><title>Long</title></head><body><main><p>" + ("texte utile " * 40) + "</p></main></body></html>"
+    rendered = {"html": None}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/robots.txt":
+            return httpx.Response(404)
+        return httpx.Response(200, text=short, headers={"content-type": "text/html"})
+
+    async def render(_url: str):
+        return rendered["html"]
+
+    monkeypatch.setattr(scraper, "render_page", render)
+    url = "https://www.uzh.ch/de.html"
+
+    async def run(js_fallback: bool):
+        async with _client(httpx.MockTransport(handler)) as client:
+            config = RunConfig(out_dir=tmp_path, rate_limit=0, max_pages=None, js_fallback=js_fallback, refresh=True)
+            return await execute(config, mode="scrape", urls=(url,), client=client)
+
+    assert asyncio.run(run(False)) == 0
+    page = _pages(tmp_path)[url]
+    assert (page["status"], page["title"], page["error"]) == ("empty", "Court", None)
+
+    assert asyncio.run(run(True)) == 0
+    page = _pages(tmp_path)[url]
+    assert (page["status"], page["error"]) == ("empty", "js fallback produced no HTML")
+
+    rendered["html"] = long
+    assert asyncio.run(run(True)) == 0
+    page = _pages(tmp_path)[url]
+    assert (page["status"], page["title"]) == ("fetched", "Long")
+    assert "texte utile" in (tmp_path / page["raw_path"]).read_text(encoding="utf-8")
 
 
 def test_version_1_run_keeps_its_crawl_and_redoes_the_model_work(tmp_path: Path):

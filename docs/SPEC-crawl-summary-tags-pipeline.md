@@ -477,8 +477,9 @@ Added after the brief was written. These are the points where the code went a di
 | Discovery | Links only | Sitemaps and links by default; `--sitemap-only` and `--no-sitemap` choose one |
 | `www` and bare host | Not addressed | Treated as one site |
 | Same-site URL outside the section | Not addressed | Not recorded at all; only a foreign host becomes `out_of_scope` |
-| HTML → Markdown | `htmd-py` or `trafilatura` | BeautifulSoup + `markdownify` |
-| PDF text | `pymupdf4llm` | PyMuPDF directly |
+| HTML → Markdown | `htmd-py` or `trafilatura` | `selectolax` (lexbor) to find the text, `html-to-markdown` to write it |
+| PDF text | `pymupdf4llm` | `pypdfium2` (pdfium) |
+| Word and Excel | Not addressed | `.docx` and `.xlsx` are read into Markdown ([Scope](scope.md#what-scrape-stores-and-extracts)) |
 | Content hash | BLAKE3 or SHA-256 | SHA-256, prefixed `sha256:` |
 | 304 response | Skips fetch and LLM | Skips the download only; each model stage has its own cache |
 | Cache table | One `documents` table | Two tables, `summaries` and `classifications` |

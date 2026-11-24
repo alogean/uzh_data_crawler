@@ -3,8 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from urllib.parse import urlsplit
 
-import httpx
-
 from uzh_crawler.config import USER_AGENT
 
 MAX_BYTES = 20 * 1024 * 1024
@@ -47,6 +45,8 @@ def make_client(
     transport: httpx.BaseTransport | None = None,
     trust_env: bool = True,
 ) -> httpx.AsyncClient:
+    import httpx
+
     http2 = False
     try:
         import h2  # noqa: F401
@@ -71,6 +71,27 @@ def make_client(
     )
 
 
+class LazyClient:
+    """An HTTP client that is only built when the first request is made.
+
+    Building it loads httpx and the TLS certificates, about 60 ms. A scrape
+    that only reads files the crawl already stored never pays for it.
+    """
+
+    def __init__(self, **options):
+        self._options = options
+        self._client = None
+
+    def __getattr__(self, name: str):
+        if self._client is None:
+            self._client = make_client(**self._options)
+        return getattr(self._client, name)
+
+    async def aclose(self) -> None:
+        if self._client is not None:
+            await self._client.aclose()
+
+
 async def download(
     client: httpx.AsyncClient,
     url: str,
@@ -80,6 +101,8 @@ async def download(
     html_only: bool = False,
 ) -> Download:
     """GET one URL. With ``html_only`` the body of a non-HTML response is not read."""
+    import httpx
+
     headers: dict[str, str] = {}
     if etag:
         headers["If-None-Match"] = etag
@@ -145,15 +168,24 @@ async def _read_limited(response: httpx.Response) -> bytes | None:
     return b"".join(chunks)
 
 
+_DOCX_MEDIA = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+_XLSX_MEDIA = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+_OFFICE_SUFFIXES = {"docx": (".docx", ".docm"), "xlsx": (".xlsx", ".xlsm")}
+
+
 def media_type(content_type: str | None) -> str:
     return (content_type or "").split(";", 1)[0].strip().lower()
 
 
 def header_kind(url: str, content_type: str | None) -> str:
-    """What the headers alone say: html, pdf, text, other, or unknown."""
+    """What the headers alone say: html, pdf, docx, xlsx, text, other, or unknown."""
     media = media_type(content_type)
     if media in {"text/html", "application/xhtml+xml"}:
         return "html"
+    if media == _DOCX_MEDIA:
+        return "docx"
+    if media == _XLSX_MEDIA:
+        return "xlsx"
     if media == "application/pdf" or (not media and is_document_url(url, (".pdf",))):
         return "pdf"
     if media == "text/plain":
@@ -164,16 +196,23 @@ def header_kind(url: str, content_type: str | None) -> str:
 
 
 def sniff_kind(url: str, content_type: str | None, body: bytes) -> str:
-    """html, pdf, text or other, from the headers and then the first bytes.
+    """html, pdf, docx, xlsx, text or other, from the headers and then the first bytes.
 
     The media type is compared exactly. An Office file is
     ``application/vnd.openxmlformats-…``: it contains "xml" and is not HTML.
+    A Word or Excel file served under a generic type is recognized by its
+    zip signature and the suffix of its URL.
     """
     kind = header_kind(url, content_type)
     if kind != "unknown":
         return kind
     if body[:5] == b"%PDF-" or is_document_url(url, (".pdf",)):
         return "pdf"
+    if body[:4] == b"PK\x03\x04":
+        for office, suffixes in _OFFICE_SUFFIXES.items():
+            if is_document_url(url, suffixes):
+                return office
+        return "other"
     sample = body.lstrip()[:64].lower()
     if sample.startswith((b"<!doctype html", b"<html", b"<head")):
         return "html"
