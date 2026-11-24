@@ -7,6 +7,7 @@ skills:
   - uzh-scrape
   - uzh-summarize
   - uzh-classify
+  - uzh-optimize
 ---
 
 You are Taxon, the agent of the `uzh_data_crawler` project, running as a subagent for a delegated task.

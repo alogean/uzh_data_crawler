@@ -1,6 +1,6 @@
 # Taxon and its skills
 
-Opening this repository in Claude Code gives you **Taxon**, the agent of this project: [`CLAUDE.md`](../CLAUDE.md) at the root is loaded at the start of every session and tells Claude its name and its mission, which is to keep [`taxonomy.json`](../taxonomy.json) true to the UZH web it describes. Taxon has four skills. Each skill is the instructions for one stage, and each stage is one command of the `uzh_crawler` package.
+Opening this repository in Claude Code gives you **Taxon**, the agent of this project: [`CLAUDE.md`](../CLAUDE.md) at the root is loaded at the start of every session and tells Claude its name and its mission, which is to keep [`taxonomy.json`](../taxonomy.json) true to the UZH web it describes. Taxon has five skills. Four are the instructions for one stage each, and each stage is one command of the `uzh_crawler` package. The fifth, `uzh-optimize`, is about the code itself: how to make a stage faster.
 
 | File | Role |
 | --- | --- |
@@ -9,6 +9,7 @@ Opening this repository in Claude Code gives you **Taxon**, the agent of this pr
 | [`.claude/skills/uzh-scrape/SKILL.md`](../.claude/skills/uzh-scrape/SKILL.md) | Downloading and storing documents |
 | [`.claude/skills/uzh-summarize/SKILL.md`](../.claude/skills/uzh-summarize/SKILL.md) | Summarizing with the local model |
 | [`.claude/skills/uzh-classify/SKILL.md`](../.claude/skills/uzh-classify/SKILL.md) | Tagging summaries with the taxonomy |
+| [`.claude/skills/uzh-optimize/`](../.claude/skills/uzh-optimize/SKILL.md) | Making a stage faster: the method, and what was already tried for `crawl` and `scrape` |
 | [`.claude/agents/taxon.md`](../.claude/agents/taxon.md) | Taxon as a subagent, for a task delegated to the background. It follows `CLAUDE.md` |
 
 ## Who does what
@@ -61,7 +62,7 @@ Scrape https://www.phil.uzh.ch/de/studium.html and summarize it in English.
 
 For a long survey that should not occupy the session, ask for it to be delegated to the `taxon` subagent.
 
-## The four skills
+## The four stage skills
 
 | Skill | Input | Output | Needs |
 | --- | --- | --- | --- |
@@ -73,6 +74,42 @@ For a long survey that should not occupy the session, ask for it to be delegated
 Each stage only needs the output of the one before it, so they can be run on different days, on a subset of URLs, or redone alone. Changing the taxonomy, for instance, only redoes `classify`.
 
 Classification reads the summary, not the document. The summary stage is therefore prompted to keep what classification needs: the publishing unit, the audience, the kind of document and the study level. A summary that omits one of these gives a weaker tag on that axis; this is the price of keeping the two stages separate.
+
+## The optimization skill
+
+`uzh-optimize` is not a stage. It is what Taxon loads when the request is "make this faster", and it serves as a memory: `crawl` and `scrape` were each tuned in twenty measured attempts, and most attempts failed. Without a record, the next session would try the same dead ends again.
+
+A skill is a folder, and Claude reads its files only when it needs them. This skill uses that to separate what is general from what is specific:
+
+| File | Holds | Read |
+| --- | --- | --- |
+| [`SKILL.md`](../.claude/skills/uzh-optimize/SKILL.md) | The method, and the lessons that held for both stages | Every time the skill is loaded |
+| [`crawl.md`](../.claude/skills/uzh-optimize/crawl.md) | For `crawl`: what is in the code and why, what failed, the traps, what limits the speed now | Only before work on the crawl |
+| [`scrape.md`](../.claude/skills/uzh-optimize/scrape.md) | The same for `scrape` | Only before work on the scrape |
+
+A stage skill such as `uzh-scrape` says how to *run* the stage and stays short. It points to `uzh-optimize` in one sentence, so a session that only scrapes a site never loads the history of the optimization.
+
+The method is a loop. Read the diagram from the top: one idea goes round once, and it is written down whether it is kept or not.
+
+```mermaid
+flowchart TD
+    read["Read the stage file:<br/>what was already tried"] --> base["Measure today's median<br/>with the benchmark"]
+    base --> profile["Find where the time goes"]
+    profile --> change["Make one change"]
+    change --> test["Run the tests,<br/>then the benchmark"]
+    test --> guard{"Same result<br/>as the reference?"}
+    guard -- "no" --> revert["Revert the change"]
+    guard -- "yes" --> faster{"Faster by more<br/>than the noise?"}
+    faster -- "no" --> revert
+    faster -- "yes" --> keep["Keep the change"]
+    keep --> record["Record it: a row in the performance page,<br/>a lesson in the stage file"]
+    revert --> record
+    record --> profile
+```
+
+The two records have different readers. The pages [Crawl performance](crawl-performance.md) and [Scrape performance](scrape-performance.md) tell the whole story to a person, with every measurement. The stage files of the skill are the short version Taxon acts on: do this, do not retry that, watch out for this.
+
+For example, asking "can the scrape read PDF files faster?" makes Taxon open `scrape.md`, where it finds that three other PDF readers were already measured and lost, and why, before it writes any code.
 
 ## Taxonomy proposals
 

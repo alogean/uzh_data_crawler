@@ -51,7 +51,7 @@ Two things set the duration, and they are separate:
 - **Downloading** is paced by politeness: a host receives 20 requests at once, then 3 per second. A thousand documents from one host take about five and a half minutes. Raise `--rate-limit` only when the user asks for it: it is the load put on the UZH servers.
 - **Converting** uses every processor: with 8 documents or more, worker processes convert in parallel, about 1,700 documents per second on a 16-processor machine. HTML that the crawl already downloaded is read from `files/` without a new request, so a scrape right after a crawl only downloads the documents.
 
-How the speed was measured and tuned is in `docs/scrape-performance.md`.
+To make the scrape itself faster, load the `uzh-optimize` skill: it holds what was already tried, kept and rejected. The measurements are in `docs/scrape-performance.md`.
 
 ## Options that matter
 

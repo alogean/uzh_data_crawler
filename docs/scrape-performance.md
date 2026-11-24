@@ -166,3 +166,4 @@ The crawl was rewritten in Go as an experiment ([Crawl performance](crawl-perfor
 3. Run the tests, then the benchmark again. For anything about the workers, also run it with `--copies 20`.
 4. Keep the change only if the median moves by more than the noise and no run is reported `WRONG`. When a run is `WRONG`, read the lost and added words it prints before you decide: the reference in `benchmarks/expected_scrape/` changes only when the new text is better, and for a reason you can state.
 5. Add a row to the table above either way, so the next person does not repeat a dead end.
+6. If the idea taught something a later attempt must know, add it to [`.claude/skills/uzh-optimize/scrape.md`](../.claude/skills/uzh-optimize/scrape.md), the short record Taxon reads before it works on speed ([Taxon and its skills](agent.md#the-optimization-skill)).

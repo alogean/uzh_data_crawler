@@ -1,6 +1,6 @@
 # Documentation
 
-`uzh_data_crawler` is the home of **Taxon**, an agent that maintains the taxonomy of the UZH web in [`taxonomy.json`](../taxonomy.json). Its four skills drive four commands of the `uzh_crawler` package: list the URLs of a site, download them, summarize each document with a local model, and tag each summary with the taxonomy. Installation and a first command are in the [README](../README.md) at the repository root.
+`uzh_data_crawler` is the home of **Taxon**, an agent that maintains the taxonomy of the UZH web in [`taxonomy.json`](../taxonomy.json). Four of its skills drive four commands of the `uzh_crawler` package: list the URLs of a site, download them, summarize each document with a local model, and tag each summary with the taxonomy. Installation and a first command are in the [README](../README.md) at the repository root.
 
 | Page | Content |
 | --- | --- |
@@ -97,7 +97,8 @@ The package has one sub-package per stage.
 ```text
 CLAUDE.md                      Taxon, the agent: loaded when the project is opened
 .claude/
-  skills/uzh-*/SKILL.md        its four skills
+  skills/uzh-*/SKILL.md        its skills: one per stage, and uzh-optimize
+  skills/uzh-optimize/         how to make a stage faster; crawl.md and scrape.md record what was tried
   agents/taxon.md              Taxon as a subagent, for delegated tasks
 benchmarks/
   crawl_speed.py               measures how fast crawl lists URLs

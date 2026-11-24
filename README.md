@@ -2,7 +2,7 @@
 
 **Taxon** is an agent that maintains a taxonomy of the web of the University of Zurich. It surveys `uzh.ch` sites, tags their documents with the closed vocabulary in [`taxonomy.json`](taxonomy.json), and turns what does not fit into proposals for a person to accept.
 
-Taxon is [Claude Code](https://claude.com/claude-code) opened in this repository: [`CLAUDE.md`](CLAUDE.md) gives it its name and its mission, and it has four skills. Each skill drives one command of the `uzh_crawler` Python package, which does the actual work and can be used on its own. Summaries and tags come from a model running on your machine through [Ollama](https://ollama.com/).
+Taxon is [Claude Code](https://claude.com/claude-code) opened in this repository: [`CLAUDE.md`](CLAUDE.md) gives it its name and its mission, and it has five skills. Four of them each drive one command of the `uzh_crawler` Python package, which does the actual work and can be used on its own. Summaries and tags come from a model running on your machine through [Ollama](https://ollama.com/).
 
 | Skill | Command | What it does |
 | --- | --- | --- |
@@ -10,6 +10,7 @@ Taxon is [Claude Code](https://claude.com/claude-code) opened in this repository
 | `uzh-scrape` | `scrape` | Downloads URLs, stores the original files and extracts their text |
 | `uzh-summarize` | `summarize` | Summarizes each document with the local model |
 | `uzh-classify` | `classify` | Tags each summary with ids from the taxonomy |
+| `uzh-optimize` | the benchmarks | Makes a stage faster, and remembers what was already tried |
 
 The repository also holds the askUZH taxonomy browser in [`browser/`](browser/), a static page that displays `taxonomy.json`.
 

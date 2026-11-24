@@ -25,7 +25,7 @@ Each host gets a burst of 20 requests at once (`--burst`), then 3 per second (`-
 
 `--max-pages` caps the HTML pages read and defaults to 500; pass `0` for a complete crawl. `--max-depth N` stops following links N levels from the start. A URL beyond the page cap or at the depth limit is still listed as `discovered`, without a request: the crawl reads a page only when it needs that page's links, and whether a listed page exists is settled by the scrape stage.
 
-Raise `--rate-limit` only when the user asks for it: it is the load put on the UZH servers. How the speed was measured and tuned is in `docs/crawl-performance.md`.
+Raise `--rate-limit` only when the user asks for it: it is the load put on the UZH servers. To make the crawl itself faster, load the `uzh-optimize` skill: it holds what was already tried, kept and rejected. The measurements are in `docs/crawl-performance.md`.
 
 ## Staying inside a section
 

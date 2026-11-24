@@ -465,7 +465,7 @@ Added after the brief was written. These are the points where the code went a di
 
 | Topic | In this brief | In the code |
 | --- | --- | --- |
-| Shape | One CLI pipeline | A Claude Code agent with four skills, each driving one command ([Taxon and its skills](agent.md)) |
+| Shape | One CLI pipeline | A Claude Code agent with one skill per stage, each driving one command ([Taxon and its skills](agent.md)) |
 | Stages | Crawl, which also stores the pages, then one digest step | Four: `crawl` lists URLs, `scrape` downloads, `summarize`, `classify` ([How a run works](README.md#how-a-run-works)) |
 | Commands | `run`, `crawl-only`, `digest-only`, `validate` | `crawl`, `scrape`, `summarize`, `classify`, `run`, `validate`, `proposals` ([Command line](cli.md)) |
 | Model calls | One call returns the summary and the tags | Two calls: the summary first, then the tags from the summary ([Tags](tags.md)) |

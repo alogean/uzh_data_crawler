@@ -123,3 +123,4 @@ That experiment covers only what the benchmark needs. A real replacement would h
 2. Make one change.
 3. Run the tests, then the benchmark again, with at least 7 runs.
 4. Keep the change only if the median moves by more than the noise and the listed URLs are unchanged. Add a row to the table above either way, so the next person does not repeat a dead end.
+5. If the idea taught something a later attempt must know, add it to [`.claude/skills/uzh-optimize/crawl.md`](../.claude/skills/uzh-optimize/crawl.md), the short record Taxon reads before it works on speed ([Taxon and its skills](agent.md#the-optimization-skill)).
