@@ -7,6 +7,9 @@
 
 ``run`` chains the four. Every stage can also be called alone, on the whole
 run or on the URLs given.
+
+Each stage is imported when it runs. A crawl then starts without loading the
+Markdown, PDF and model libraries it does not use.
 """
 
 from __future__ import annotations
@@ -15,15 +18,10 @@ import logging
 
 import httpx
 
-from uzh_crawler.classify.classifier import OllamaClassifier, classify_pages, needs_classification
 from uzh_crawler.config import CONFIG_KEYS, SCOPE_KEYS, ConfigError, RunConfig
-from uzh_crawler.crawl.discover import discover, write_url_list
-from uzh_crawler.llm.ollama import OllamaChat
 from uzh_crawler.progress import Progress
 from uzh_crawler.scope import Scope
 from uzh_crawler.scrape.fetch import make_client
-from uzh_crawler.scrape.scraper import scrape_pages
-from uzh_crawler.store.cache_sqlite import StageCache
 from uzh_crawler.store.crawl_json import (
     ERROR_STATUSES,
     ROBOTS_ERROR,
@@ -34,7 +32,6 @@ from uzh_crawler.store.crawl_json import (
     now_iso,
     save_manifest,
 )
-from uzh_crawler.summarize.summarizer import OllamaSummarizer, needs_summary, summarize_pages
 from uzh_crawler.taxonomy import Taxonomy, load_taxonomy
 from uzh_crawler.urls import host_of, is_uzh_host, normalize_url
 
@@ -80,9 +77,11 @@ async def execute(
     if owns_client:
         client = make_client(concurrency=config.crawl_concurrency)
     ollama_client: httpx.AsyncClient | None = None
-    cache: StageCache | None = None
+    cache = None
 
-    def chat() -> OllamaChat:
+    def chat():
+        from uzh_crawler.llm.ollama import OllamaChat
+
         nonlocal ollama_client
         if ollama_client is None:
             ollama_client = httpx.AsyncClient(
@@ -98,6 +97,8 @@ async def execute(
 
     try:
         if "crawl" in stages:
+            from uzh_crawler.crawl.discover import discover, write_url_list
+
             progress = Progress("crawl", config.max_pages)
             depth = "libre" if config.max_depth is None else str(config.max_depth)
             ceiling = "sans plafond" if config.max_pages is None else f"plafond {config.max_pages} pages"
@@ -107,6 +108,8 @@ async def execute(
             progress.note(f"{listed} URL dans urls.txt")
 
         if "scrape" in stages:
+            from uzh_crawler.scrape.scraper import scrape_pages
+
             pages = _scrape_targets(manifest, config, targets, mode)
             progress = Progress("scrape", len(pages) or None)
             progress.note(f"{len(pages)} URL à télécharger ou à relire")
@@ -116,9 +119,17 @@ async def execute(
             )
 
         if "summarize" in stages or "classify" in stages:
+            from uzh_crawler.store.cache_sqlite import StageCache
+
             cache = StageCache(config.out_dir / "cache.sqlite")
 
         if "summarize" in stages:
+            from uzh_crawler.summarize.summarizer import (
+                OllamaSummarizer,
+                needs_summary,
+                summarize_pages,
+            )
+
             candidates = _known_pages(manifest, targets) if mode == "summarize" and targets else manifest.pages
             forced = mode == "summarize" and bool(targets)
             pending = [
@@ -135,6 +146,12 @@ async def execute(
                 await summarize_pages(config, manifest, cache, summarizer, pending, progress)
 
         if "classify" in stages:
+            from uzh_crawler.classify.classifier import (
+                OllamaClassifier,
+                classify_pages,
+                needs_classification,
+            )
+
             candidates = _known_pages(manifest, targets) if mode == "classify" and targets else manifest.pages
             forced = mode == "classify" and bool(targets)
             pending = [

@@ -9,20 +9,13 @@ from pathlib import Path
 
 from uzh_crawler.config import DEFAULT_MODEL, SUMMARY_LANGUAGES, ConfigError, RunConfig
 from uzh_crawler.pipeline import execute
-from uzh_crawler.proposals import (
-    PROPOSALS_FILE,
-    accept_proposals,
-    check_proposals,
-    load_proposals,
-    unit_hints,
-)
 from uzh_crawler.scope import bare_host
 from uzh_crawler.sections import study_section_scope
 from uzh_crawler.taxonomy import TaxonomyError, load_taxonomy
 from uzh_crawler.urls import host_of, is_uzh_host, normalize_url
-from uzh_crawler.validate import validate_run
 
 CRAWLING = {"crawl", "run"}
+PROPOSALS_FILE = "taxonomy.proposals.json"
 
 
 class Parser(argparse.ArgumentParser):
@@ -203,6 +196,12 @@ def _add_http_args(command: argparse.ArgumentParser, *, max_pages: int) -> None:
         default=3.0,
         help="Requêtes par seconde et par hôte (0 = sans pause)",
     )
+    command.add_argument(
+        "--burst",
+        type=int,
+        default=20,
+        help="Requêtes qu'un hôte reçoit d'un coup avant que le débit s'applique",
+    )
     command.add_argument("--crawl-concurrency", type=int, default=20)
     command.add_argument("--ignore-robots", action="store_true")
 
@@ -249,6 +248,7 @@ def _config_from_args(args: argparse.Namespace) -> RunConfig:
     _check_minimum("--num-ctx", getattr(args, "num_ctx", 1), 1)
     _check_minimum("--temperature", getattr(args, "temperature", 0), 0)
     _check_minimum("--rate-limit", getattr(args, "rate_limit", 0), 0)
+    _check_minimum("--burst", getattr(args, "burst", 1), 1)
     max_depth = getattr(args, "max_depth", None)
     if max_depth is not None:
         _check_minimum("--max-depth", max_depth, 0)
@@ -289,6 +289,7 @@ def _config_from_args(args: argparse.Namespace) -> RunConfig:
         llm_concurrency=getattr(args, "llm_concurrency", 2),
         lang=getattr(args, "lang", "fr"),
         rate_limit=getattr(args, "rate_limit", 3.0),
+        burst=getattr(args, "burst", 20),
         ignore_robots=bool(getattr(args, "ignore_robots", False)),
         js_fallback=bool(getattr(args, "js_fallback", False)),
         num_ctx=getattr(args, "num_ctx", 32768),
@@ -348,6 +349,8 @@ def _include_prefixes(pairs: list[list[str]]) -> dict[str, tuple[str, ...]]:
 
 
 def _validate(args: argparse.Namespace) -> int:
+    from uzh_crawler.validate import validate_run
+
     errors = validate_run(Path(args.out), load_taxonomy(_taxonomy_path(args)))
     if not errors:
         print("validate: ok")
@@ -358,6 +361,8 @@ def _validate(args: argparse.Namespace) -> int:
 
 
 def _proposals(args: argparse.Namespace) -> int:
+    from uzh_crawler.proposals import accept_proposals, check_proposals, load_proposals, unit_hints
+
     if args.action == "hints":
         print(json.dumps(unit_hints(Path(args.out)), ensure_ascii=False, indent=2))
         return 0

@@ -11,3 +11,7 @@ dist/
 build/
 runs/
 data/
+
+# Benchmark experiments: built binaries
+benchmarks/experiments/go-crawl/go-crawl
+benchmarks/results.jsonl

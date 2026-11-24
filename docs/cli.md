@@ -37,18 +37,19 @@ python -m uzh_crawler classify --out runs/phil --taxonomy taxonomy.json
 | `--seed URL` | | Another way to give a start URL. Can be repeated |
 | `--study-sections` | off | Adds the eight study and faculty sections and their prefixes. See [Scope](scope.md) |
 | `--max-pages` | `500` | Maximum number of HTML pages read. `0` removes the ceiling |
-| `--max-depth` | no limit | Depth of the links followed. `0` reads only the start URLs and the sitemap URLs |
+| `--max-depth` | no limit | Depth of the links followed. Pages at that depth are listed without being read, since their links would not be followed. `0` lists the start URLs and the sitemap URLs and reads nothing |
 | `--same-host` | yes | Stays on the start hosts. `www` and the bare host are the same site. This is the default; the flag only states it |
 | `--allow-subdomains` | no | Follows any `*.uzh.ch` host. Cannot be combined with `--same-host` |
 | `--include-prefix HOST PREFIX` | | Confines a host to a path. Repeat the option |
 | `--exclude-path TEXT` | | Skips URLs whose path contains this text. Repeat the option |
 | `--no-sitemap` | | Does not read sitemaps; the list comes from links only |
 | `--sitemap-only` | | Lists the sitemap URLs and reads no page. The fastest mode |
-| `--rate-limit` | `3` | Requests per second and per host. `0` does not wait |
+| `--rate-limit` | `3` | Steady rate, in requests per second and per host. `0` does not wait |
+| `--burst` | `20` | Requests a host receives at once before the steady rate applies |
 | `--crawl-concurrency` | `20` | Parallel requests |
 | `--ignore-robots` | off | Ignores `robots.txt` |
 
-Sitemaps are read by default. The three ways to build the list are compared in [Scope](scope.md#how-the-list-is-built).
+Sitemaps are read by default. The three ways to build the list are compared in [Scope](scope.md#how-the-list-is-built). How fast a crawl is, and why, is in [Crawl performance](crawl-performance.md).
 
 ## scrape
 
@@ -58,7 +59,7 @@ Sitemaps are read by default. The three ways to build the list are compared in [
 | `--refresh` | off | Also asks again for pages already stored, with a conditional request |
 | `--js-fallback` | off | One Playwright pass when the useful text is under 200 characters |
 | `--max-pages` | `0` | Maximum number of downloads in this execution. `0` means no ceiling |
-| `--rate-limit`, `--crawl-concurrency`, `--ignore-robots` | as for `crawl` | |
+| `--rate-limit`, `--burst`, `--crawl-concurrency`, `--ignore-robots` | as for `crawl` | |
 
 The scope of the run is the one recorded by `crawl`; `scrape` has no scope options.
 

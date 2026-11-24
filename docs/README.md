@@ -6,6 +6,7 @@
 | --- | --- |
 | [Taxon and its skills](agent.md) | What Taxon does, how to call it, how taxonomy proposals work |
 | [Command line](cli.md) | Commands, options, progress output, exit codes |
+| [Crawl performance](crawl-performance.md) | How the speed of `crawl` is measured, what was tried, what limits it |
 | [Scope](scope.md) | Hosts, path prefixes, sitemaps, exclusions, what is downloaded and extracted |
 | [Resume and cache](resume-and-cache.md) | Resuming a run, HTTP cache, when a model call is skipped |
 | [Outputs](outputs.md) | `crawl.json`, `urls.txt`, `files/`, `raw/`, `summaries/`, `digests/`, statuses, `validate` |
@@ -38,8 +39,8 @@ flowchart TD
         scope -- "same site, outside<br/>prefixes or excluded" --> dropped["Not recorded"]
         scope -- "yes" --> robots{"robots.txt<br/>allows it?"}
         robots -- "no" --> failed(["failed"])
-        robots -- "yes" --> isdoc{"Document link?<br/>PDF, Office"}
-        isdoc -- "yes: listed,<br/>not downloaded" --> discovered(["discovered"])
+        robots -- "yes" --> isdoc{"Document link,<br/>or at the depth limit?"}
+        isdoc -- "yes: listed,<br/>not requested" --> discovered(["discovered"])
         isdoc -- "no" --> read["Read the HTML<br/>for its links"]
         read --> discovered
         read -. "links found" .-> queue
@@ -97,6 +98,9 @@ CLAUDE.md                      Taxon, the agent: loaded when the project is open
 .claude/
   skills/uzh-*/SKILL.md        its four skills
   agents/taxon.md              Taxon as a subagent, for delegated tasks
+benchmarks/
+  crawl_speed.py               measures how fast crawl lists URLs
+  experiments/go-crawl/        the benchmark crawl in Go, kept as a comparison
 src/uzh_crawler/
   cli.py              argument parsing, RunConfig construction, validate and proposals commands
   config.py           RunConfig, user agent, which command owns which config key
@@ -111,13 +115,14 @@ src/uzh_crawler/
   validate.py         checks crawl.json, summaries and digests
   crawl/              stage 1
     discover.py       queue, workers, link following, urls.txt
+    links.py          title and links of an HTML page (lexbor parser)
     sitemap.py        sitemap discovery and parsing
-    robots.py         robots.txt cache
-    limiter.py        per-host rate limit
+    robots.py         robots.txt, fetched once per host
+    limiter.py        per-host token bucket: a burst, then a steady rate
   scrape/             stage 2
     scraper.py        download or reuse, store the original, extract, set the status
     fetch.py          one HTTP exchange: conditional request, size limit, content type
-    extract.py        HTML and PDF to Markdown, link extraction
+    extract.py        HTML and PDF to Markdown
     js_fallback.py    optional Playwright render
   summarize/          stage 3
     summarizer.py     the summary call, the stage loop, the summary file format

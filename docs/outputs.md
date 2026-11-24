@@ -41,7 +41,7 @@ Each page has these fields:
 | --- | --- | --- |
 | `seeds`, `allow_subdomains`, `include_prefixes`, `exclude_path_contains`, `discover_sitemaps` | crawl | The scope. `include_prefixes` maps a host without `www` to its list of prefixes |
 | `max_pages`, `max_depth`, `sitemap_only` | crawl | Limits. `null` means no limit |
-| `rate_limit`, `crawl_concurrency`, `ignore_robots` | crawl, scrape | Request behaviour |
+| `rate_limit`, `burst`, `crawl_concurrency`, `ignore_robots` | crawl, scrape | Request behaviour |
 | `js_fallback` | scrape | |
 | `summary_model`, `lang` | summarize | |
 | `classify_model`, `taxonomy_path`, `taxonomy_sha256` | classify | The taxonomy file and the SHA-256 of its bytes |

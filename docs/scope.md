@@ -51,6 +51,8 @@ The HTML that the crawl reads is kept under `files/`, with its links under `raw/
 
 `--max-pages` caps the HTML pages read. URLs found beyond the cap are still listed, as `discovered`; their own links are not followed.
 
+`--max-depth N` works the same way: a page found N links away from a start URL is listed without a request, because its links would not be followed. A crawl only reads a page when it needs that page's links. Whether a listed page still exists is found out by `scrape`.
+
 ## Sitemaps
 
 Each start origin is read in this order:
@@ -60,7 +62,7 @@ Each start origin is read in this order:
 
 A text sitemap is one URL per line. An XML sitemap is a `urlset` or a `sitemapindex`; indexes are followed. At most 32 sitemap documents are read. An address that does not load is skipped and the crawl continues.
 
-The URLs kept are those that pass the same host, prefix and exclusion rules as a link. They enter the queue at depth 0, like the start pages. With `--max-depth 0` they are read, but the links they contain are not followed.
+The URLs kept are those that pass the same host, prefix and exclusion rules as a link. They enter the queue at depth 0, like the start pages. With `--max-depth 0` they are listed and nothing is read.
 
 ## Study sections
 
@@ -81,7 +83,9 @@ Prefixes of the same host are merged, so `phil.uzh.ch` gets both `/de/studium` a
 
 `robots.txt` is respected by `crawl` and `scrape` unless `--ignore-robots` is passed. A forbidden URL is `failed`, with the error `disallowed by robots.txt`, and is checked again on the next run. When a host has no `robots.txt`, or the file cannot be loaded, everything on that host is allowed.
 
-The default rate is 3 requests per second and per host, with 20 requests in parallel. A body larger than 20 MB is refused. HTTP 401 and 403 give `blocked_auth`; any other status outside 2xx gives `failed`.
+`robots.txt` is downloaded once per host and serves both for the access rules and for the sitemap addresses it declares.
+
+Requests to one host are paced by a token bucket. The host receives a first burst of 20 requests at once (`--burst`); after that, requests are released at 3 per second (`--rate-limit`). A host left alone earns its burst back at the same rate, so the average over a long crawl never exceeds the rate. Up to 20 requests run in parallel (`--crawl-concurrency`). A body larger than 20 MB is refused. HTTP 401 and 403 give `blocked_auth`; any other status outside 2xx gives `failed`.
 
 ## What scrape stores and extracts
 

@@ -55,7 +55,7 @@ async def scrape_pages(
     explicit: bool = False,
 ) -> None:
     """Scrape the given pages. ``explicit`` pages were named by the user, not found by a crawl."""
-    limiter = HostRateLimiter(config.rate_limit)
+    limiter = HostRateLimiter(config.rate_limit, config.burst)
     robots = RobotsCache(client, USER_AGENT, ignore=config.ignore_robots, limiter=limiter)
     render = render_page if config.js_fallback else None
     persist = ThrottledSaver(run_dir / "crawl.json", manifest)

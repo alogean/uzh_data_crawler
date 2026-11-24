@@ -19,7 +19,13 @@ The target is a domain (`phil.uzh.ch`), a section URL (`www.oec.uzh.ch/de/studie
 - **Sitemap and links** (default): reads every HTML page for its links, so it also finds pages and documents the sitemap omits. This is the reliable list; it costs one request per HTML page.
 - **Links only** (`--no-sitemap`): for a site whose sitemap is wrong or missing.
 
-Speed is bounded by `--rate-limit`, 3 requests per second per host by default. `--max-pages` caps the HTML pages read and defaults to 500; pass `0` for a complete crawl. URLs beyond the cap are still listed as `discovered` when a sitemap or a link named them.
+## Speed
+
+Each host gets a burst of 20 requests at once (`--burst`), then 3 per second (`--rate-limit`). A site of up to twenty pages is listed in well under a second; beyond that, count one third of a second per HTML page. Listing from sitemaps costs a handful of requests whatever the size of the site.
+
+`--max-pages` caps the HTML pages read and defaults to 500; pass `0` for a complete crawl. `--max-depth N` stops following links N levels from the start. A URL beyond the page cap or at the depth limit is still listed as `discovered`, without a request: the crawl reads a page only when it needs that page's links, and whether a listed page exists is settled by the scrape stage.
+
+Raise `--rate-limit` only when the user asks for it: it is the load put on the UZH servers. How the speed was measured and tuned is in `docs/crawl-performance.md`.
 
 ## Staying inside a section
 

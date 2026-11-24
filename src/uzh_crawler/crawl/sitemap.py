@@ -6,6 +6,7 @@ host, prefix and exclusion rules as a link found while crawling.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import xml.etree.ElementTree as ET
 from urllib.parse import urljoin, urlsplit, urlunsplit
@@ -86,38 +87,44 @@ async def discover_sitemap_pages(
     *,
     limiter: HostRateLimiter,
     accept,
+    robots=None,
 ) -> list[tuple[str, str]]:
     """Return ``(page URL, sitemap URL)`` for accepted pages.
 
     ``accept`` receives a normalized URL and returns whether it belongs in
     the section. A sitemap that fails to load is skipped.
+
+    Sitemaps are fetched in waves: every document known at one moment is
+    requested at the same time, then the indexes among them give the next wave.
     """
-    documents = await _sitemap_documents(client, origins, limiter)
+    wave = await _sitemap_documents(client, origins, limiter, robots)
     seen_documents: set[str] = set()
     pages: list[tuple[str, str]] = []
     seen_pages: set[str] = set()
-    while documents and len(seen_documents) < _MAX_SITEMAP_DOCUMENTS:
-        sitemap_url = documents.pop(0)
-        key = try_normalize(sitemap_url) or sitemap_url
-        if key in seen_documents:
-            continue
-        seen_documents.add(key)
-        loaded = await _fetch_sitemap(client, sitemap_url, limiter)
-        if loaded is None:
-            continue
-        body, content_type = loaded
-        page_urls, nested = parse_sitemap(body, content_type=content_type)
-        for nested_url in nested:
-            if len(seen_documents) + len(documents) < _MAX_SITEMAP_DOCUMENTS:
-                documents.append(nested_url)
-        for raw in page_urls:
-            normalized = try_normalize(raw)
-            if normalized is None or normalized in seen_pages:
+    while wave and len(seen_documents) < _MAX_SITEMAP_DOCUMENTS:
+        batch: list[str] = []
+        for sitemap_url in wave:
+            key = try_normalize(sitemap_url) or sitemap_url
+            if key in seen_documents or len(seen_documents) >= _MAX_SITEMAP_DOCUMENTS:
                 continue
-            if not accept(normalized):
+            seen_documents.add(key)
+            batch.append(sitemap_url)
+        loaded = await asyncio.gather(*(_fetch_sitemap(client, url, limiter) for url in batch))
+        wave = []
+        for sitemap_url, result in zip(batch, loaded, strict=True):
+            if result is None:
                 continue
-            seen_pages.add(normalized)
-            pages.append((normalized, sitemap_url))
+            body, content_type = result
+            page_urls, nested = parse_sitemap(body, content_type=content_type)
+            wave.extend(nested)
+            for raw in page_urls:
+                normalized = try_normalize(raw)
+                if normalized is None or normalized in seen_pages:
+                    continue
+                if not accept(normalized):
+                    continue
+                seen_pages.add(normalized)
+                pages.append((normalized, sitemap_url))
     return pages
 
 
@@ -125,7 +132,13 @@ async def _sitemap_documents(
     client: httpx.AsyncClient,
     origins: list[str],
     limiter: HostRateLimiter,
+    robots=None,
 ) -> list[str]:
+    """Where to look first: what each robots.txt declares, then the usual paths.
+
+    ``robots`` is the crawl's RobotsCache. Using it means robots.txt is
+    downloaded once, for the sitemap lines and for the access rules alike.
+    """
     documents: list[str] = []
     seen: set[str] = set()
 
@@ -136,12 +149,16 @@ async def _sitemap_documents(
         seen.add(normalized)
         documents.append(normalized)
 
-    for origin in origins:
-        robots_url = urljoin(origin, "/robots.txt")
-        loaded = await _fetch_sitemap(client, robots_url, limiter)
-        if loaded is not None:
-            body, _content_type = loaded
-            for url in robots_sitemap_urls(body.decode("utf-8", errors="replace"), origin):
+    async def robots_text(origin: str) -> str | None:
+        if robots is not None:
+            return await robots.text(origin)
+        loaded = await _fetch_sitemap(client, urljoin(origin, "/robots.txt"), limiter)
+        return None if loaded is None else loaded[0].decode("utf-8", errors="replace")
+
+    texts = await asyncio.gather(*(robots_text(origin) for origin in origins))
+    for origin, text in zip(origins, texts, strict=True):
+        if text:
+            for url in robots_sitemap_urls(text, origin):
                 add(url)
         for path in _COMMON_PATHS:
             add(urljoin(origin, path))

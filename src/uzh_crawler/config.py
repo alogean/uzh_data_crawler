@@ -18,8 +18,8 @@ SCOPE_KEYS = (
 )
 CONFIG_KEYS = {
     "crawl": SCOPE_KEYS
-    + ("max_pages", "max_depth", "sitemap_only", "rate_limit", "crawl_concurrency", "ignore_robots"),
-    "scrape": ("rate_limit", "crawl_concurrency", "ignore_robots", "js_fallback"),
+    + ("max_pages", "max_depth", "sitemap_only", "rate_limit", "burst", "crawl_concurrency", "ignore_robots"),
+    "scrape": ("rate_limit", "burst", "crawl_concurrency", "ignore_robots", "js_fallback"),
     "summarize": ("summary_model", "lang", "num_ctx", "temperature", "llm_concurrency"),
     "classify": (
         "classify_model",
@@ -56,6 +56,7 @@ class RunConfig:
     llm_concurrency: int = 2
     lang: str = "fr"
     rate_limit: float = 3.0
+    burst: int = 20
     ignore_robots: bool = False
     js_fallback: bool = False
     num_ctx: int = 32768
@@ -88,6 +89,7 @@ class RunConfig:
             "max_pages": self.max_pages,
             "max_depth": self.max_depth,
             "rate_limit": self.rate_limit,
+            "burst": self.burst,
             "crawl_concurrency": self.crawl_concurrency,
             "ignore_robots": self.ignore_robots,
             "js_fallback": self.js_fallback,

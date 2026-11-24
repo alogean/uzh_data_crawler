@@ -16,11 +16,11 @@ from urllib.parse import urlsplit
 
 from uzh_crawler.config import USER_AGENT, RunConfig
 from uzh_crawler.crawl.limiter import HostRateLimiter
+from uzh_crawler.crawl.links import extract_links
 from uzh_crawler.crawl.robots import RobotsCache
 from uzh_crawler.crawl.sitemap import discover_sitemap_pages, origin_of
 from uzh_crawler.progress import Progress
 from uzh_crawler.scope import Scope, frontier_dedupe_key
-from uzh_crawler.scrape.extract import extract_links
 from uzh_crawler.scrape.fetch import (
     conditional_validators,
     decode_text,
@@ -76,7 +76,8 @@ class ThrottledSaver:
         self.path = path
         self.manifest = manifest
         self.interval = interval
-        self._last = 0.0
+        # The clock starts now: the caller has just written the file once.
+        self._last = time.monotonic()
 
     def __call__(self) -> None:
         now = time.monotonic()
@@ -101,7 +102,7 @@ async def discover(
     seen: set[str] = set()
     lock = asyncio.Lock()
     fetches = {"n": 0}
-    limiter = HostRateLimiter(config.rate_limit)
+    limiter = HostRateLimiter(config.rate_limit, config.burst)
     robots = RobotsCache(client, USER_AGENT, ignore=config.ignore_robots, limiter=limiter)
     persist = ThrottledSaver(run_dir / "crawl.json", manifest)
 
@@ -192,7 +193,10 @@ async def discover(
             await remember(url, parent, depth, "failed", error=ROBOTS_ERROR)
             report("robots", url)
             return
-        if config.sitemap_only or is_document_url(url):
+        at_depth_limit = config.max_depth is not None and depth >= config.max_depth
+        if config.sitemap_only or at_depth_limit or is_document_url(url):
+            # Listed without a request: a document, or a page whose links would
+            # not be followed anyway. Reading it is the scrape stage's job.
             await remember(url, parent, depth, "discovered")
             report("listé", url)
             return
@@ -296,6 +300,7 @@ async def discover(
             origins,
             limiter=limiter,
             accept=lambda url: scope.classify(url) == "in" and not is_asset(url),
+            robots=robots,
         )
         if progress is not None:
             progress.note(f"{len(found)} URL de sitemap dans le périmètre")
