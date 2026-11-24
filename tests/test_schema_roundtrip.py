@@ -3,8 +3,10 @@ from pathlib import Path
 
 import pytest
 
-from uzh_crawler.digest.prompt import system_prompt, truncate_for_llm
-from uzh_crawler.digest.schema import annotation_model, parse_annotation
+from uzh_crawler.classify.prompt import system_prompt
+from uzh_crawler.classify.schema import annotation_model, missing_unit_of, parse_annotation
+from uzh_crawler.llm.ollama import ModelOutputError, load_json_object
+from uzh_crawler.summarize.prompt import truncate_for_llm
 from uzh_crawler.taxonomy import TagValidationError, load_taxonomy
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,25 +17,27 @@ FIXTURE = ROOT / "tests" / "fixtures" / "llm_page.json"
 def test_fixture_json_roundtrips_through_the_closed_schema():
     taxonomy = load_taxonomy(TAXONOMY)
     payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
-    annotation = parse_annotation(json.dumps(payload), taxonomy)
-    fenced = parse_annotation("```json\n" + json.dumps(payload) + "\n```", taxonomy)
+    annotation = parse_annotation(load_json_object(json.dumps(payload)), taxonomy)
+    fenced = load_json_object("```json\n" + json.dumps(payload) + "\n```")
+    assert fenced == payload
+    with pytest.raises(ModelOutputError):
+        load_json_object("pas du JSON")
     assert annotation.organisation == "philosophische"
     assert list(annotation.publics) == ["studierende", "studieninteressierte"]
     assert annotation.types_document == "portail"
     assert list(annotation.offre_etudes) == ["bachelor", "master"]
-    assert fenced.title == "Studium"
-    assert "cursus" in fenced.resume_markdown
+    assert missing_unit_of(annotation) == "Philosophisches Seminar"
 
 
 def test_schema_rejects_unknown_ids_and_extra_fields():
     taxonomy = load_taxonomy(TAXONOMY)
     payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
     with pytest.raises(TagValidationError):
-        parse_annotation(json.dumps(dict(payload, organisation="invente")), taxonomy)
+        parse_annotation(dict(payload, organisation="invente"), taxonomy)
     with pytest.raises(TagValidationError):
-        parse_annotation(json.dumps(dict(payload, publics=[])), taxonomy)
+        parse_annotation(dict(payload, publics=[]), taxonomy)
     with pytest.raises(TagValidationError):
-        parse_annotation(json.dumps(dict(payload, note="hors schéma")), taxonomy)
+        parse_annotation(dict(payload, note="hors schéma"), taxonomy)
 
 
 def test_json_schema_lists_only_taxonomy_ids():

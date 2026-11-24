@@ -1,32 +1,26 @@
 from __future__ import annotations
 
-from uzh_crawler.taxonomy import REQUIRED_AXES, Taxonomy
-
 LANG_NAMES = {"fr": "français", "de": "allemand", "en": "anglais"}
 SUMMARY_HEADINGS = {"fr": "Résumé", "de": "Zusammenfassung", "en": "Summary"}
 _INPUT_LIMIT = 80_000
 
 
-def system_prompt(taxonomy: Taxonomy, lang: str) -> str:
+def system_prompt(lang: str) -> str:
     language = LANG_NAMES[lang]
-    sections = []
-    for axis_id in REQUIRED_AXES:
-        lines = [f"- {node_id} — {label}" for node_id, label in taxonomy.labels_for(axis_id, lang)]
-        sections.append(f"### {axis_id}\n" + "\n".join(lines))
-    catalogue = "\n\n".join(sections)
-    return f"""Tu analyses une page du web de l'Université de Zurich déjà extraite en Markdown.
+    return f"""Tu résumes un document du web de l'Université de Zurich déjà extrait en Markdown.
 Tu t'appuies uniquement sur ce Markdown.
 
-Choisis les tags uniquement parmi les id du schéma JSON. N'invente aucun terme.
-- organisation : exactement un id, le nœud le plus spécifique plausible (une faculté plutôt que universitaet quand la page l'indique).
-- publics : au moins un id.
-- types_document : exactement un id, le type principal de la page.
-- offre_etudes : une liste vide si la page n'est pas clairement liée à un cycle ou à une forme de programme.
-Le résumé est en {language}, fidèle au texte, concis, et structuré avec des titres de niveau ## et des listes.
-Pas de préambule en dehors du JSON.
+Réponds par un objet JSON à deux champs.
+- title : le titre du document, court, sans mise en forme.
+- resume_markdown : le résumé en {language}, fidèle au texte, concis, structuré avec des titres de niveau ## et des listes.
 
-Annexe (id — libellé). Seuls ces id sont autorisés :
-{catalogue}
+Le résumé sert ensuite à classer le document sans relire le texte. Il nomme donc, quand le texte les indique :
+- l'unité de l'UZH qui publie le document (faculté, institut, département, service) ;
+- le public auquel il s'adresse ;
+- sa nature (page d'accueil, règlement, formulaire, actualité, événement, offre d'emploi, etc.) ;
+- le cycle ou la forme d'études concernés (bachelor, master, doctorat, formation continue, etc.).
+Ce que le texte ne dit pas, le résumé ne le dit pas non plus : aucune supposition, aucune déduction à partir de l'URL.
+Pas de préambule en dehors du JSON.
 """
 
 

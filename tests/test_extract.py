@@ -1,11 +1,11 @@
 import asyncio
 from pathlib import Path
 
-import httpx
 import pymupdf
 
-from uzh_crawler.crawl.extract import extract_html, extract_pdf
-from uzh_crawler.crawl.fetch import fetch_url, make_client
+from uzh_crawler.scrape.extract import extract_html, extract_pdf
+from uzh_crawler.scrape.fetch import sniff_kind
+from uzh_crawler.scrape.scraper import _extract
 
 FIXTURE = Path(__file__).resolve().parent / "fixtures" / "page.html"
 
@@ -36,30 +36,26 @@ def test_pdf_text_is_extracted():
 
 
 def test_short_html_stays_empty_until_js_fallback_returns_text():
-    short = "<html><head><title>Court</title></head><body><main><p>court</p></main></body></html>"
+    short = b"<html><head><title>Court</title></head><body><main><p>court</p></main></body></html>"
     long = "<html><head><title>Long</title></head><body><main><p>" + ("texte utile " * 40) + "</p></main></body></html>"
-
-    async def scenario(render):
-        transport = httpx.MockTransport(
-            lambda request: httpx.Response(200, text=short, headers={"content-type": "text/html"})
-        )
-        async with make_client(concurrency=1, transport=transport, trust_env=False) as client:
-            return await fetch_url(
-                client,
-                "https://www.uzh.ch/de.html",
-                seed_url="https://www.uzh.ch/de.html",
-                allow_subdomains=False,
-                render_js=render,
-            )
-
-    empty = asyncio.run(scenario(None))
-    assert empty.status == "empty"
-    assert empty.links == []
+    url = "https://www.uzh.ch/de.html"
 
     async def render(_url: str) -> str:
         return long
 
-    filled = asyncio.run(scenario(render))
-    assert filled.status == "fetched"
-    assert "texte utile" in (filled.markdown or "")
+    empty = asyncio.run(_extract("html", short, "text/html", url, url, None))
+    assert len(empty.markdown) < 200
+    assert empty.links == []
+    filled = asyncio.run(_extract("html", short, "text/html", url, url, render))
+    assert "texte utile" in filled.markdown
     assert filled.title == "Long"
+
+
+def test_the_media_type_decides_what_is_html():
+    office = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    assert sniff_kind("https://www.uzh.ch/a.docx", office, b"PK\x03\x04") == "other"
+    assert sniff_kind("https://www.uzh.ch/a", "text/html; charset=utf-8", b"") == "html"
+    assert sniff_kind("https://www.uzh.ch/a", "application/pdf", b"") == "pdf"
+    assert sniff_kind("https://www.uzh.ch/a", None, b"%PDF-1.7") == "pdf"
+    assert sniff_kind("https://www.uzh.ch/a", "application/octet-stream", b"<!doctype html><html>") == "html"
+    assert sniff_kind("https://www.uzh.ch/feed", "application/rss+xml", b"<rss>") == "other"

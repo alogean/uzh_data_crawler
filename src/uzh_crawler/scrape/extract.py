@@ -12,6 +12,8 @@ from uzh_crawler.urls import try_normalize
 MIN_USEFUL_CHARS = 200
 _DROP_TAGS = ("script", "style", "nav", "footer", "header", "aside", "noscript", "iframe")
 _SKIP_HREF_PREFIXES = ("#", "mailto:", "tel:", "javascript:")
+# Unrendered client-side templates, such as href="[%=href%]".
+_TEMPLATE_MARKERS = ("[%", "{{", "${", "<%")
 
 
 @dataclass(frozen=True)
@@ -42,6 +44,18 @@ def extract_html(html: str, page_url: str) -> ExtractedHtml:
         _drop(root)
     markdown = normalize_markdown(to_markdown(str(root), heading_style="ATX", bullets="-"))
     return ExtractedHtml(title=title, markdown=markdown, links=links)
+
+
+def extract_links(html: str, page_url: str) -> tuple[str | None, list[str]]:
+    """Title and links only. Discovery uses this and skips the Markdown conversion."""
+    soup = BeautifulSoup(html, "html.parser")
+    base_tag = soup.find("base", href=True)
+    base_href = base_tag.get("href") if base_tag else None
+    base_url = urljoin(page_url, str(base_href)) if base_href else page_url
+    title = None
+    if soup.title and soup.title.string:
+        title = " ".join(soup.title.string.split())
+    return title, _links(soup, base_url)
 
 
 def extract_pdf(data: bytes) -> str:
@@ -89,6 +103,8 @@ def _links(soup: BeautifulSoup, base_url: str) -> list[str]:
             href = href[0] if href else ""
         href = str(href or "").strip()
         if not href or href.lower().startswith(_SKIP_HREF_PREFIXES):
+            continue
+        if any(marker in href for marker in _TEMPLATE_MARKERS):
             continue
         normalized = try_normalize(urljoin(base_url, href))
         if normalized and normalized not in found:
