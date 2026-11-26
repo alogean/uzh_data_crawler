@@ -96,6 +96,7 @@ The package has one sub-package per stage.
 
 ```text
 CLAUDE.md                      Taxon, the agent: loaded when the project is opened
+AGENTS.md                      points Codex to CLAUDE.md
 .claude/
   skills/uzh-*/SKILL.md        its skills: one per stage, and uzh-optimize
   skills/uzh-optimize/         how to make a stage faster; crawl.md and scrape.md record what was tried

@@ -5,6 +5,7 @@ Opening this repository in Claude Code gives you **Taxon**, the agent of this pr
 | File | Role |
 | --- | --- |
 | [`CLAUDE.md`](../CLAUDE.md) | Taxon: name, mission, how the stages fit together, how to propose taxonomy changes. Loaded automatically |
+| [`AGENTS.md`](../AGENTS.md) | The same instructions for Codex: it tells Codex to load and follow `CLAUDE.md`, which wins on any conflict |
 | [`.claude/skills/uzh-crawl/SKILL.md`](../.claude/skills/uzh-crawl/SKILL.md) | Listing the URLs of a domain |
 | [`.claude/skills/uzh-scrape/SKILL.md`](../.claude/skills/uzh-scrape/SKILL.md) | Downloading and storing documents |
 | [`.claude/skills/uzh-summarize/SKILL.md`](../.claude/skills/uzh-summarize/SKILL.md) | Summarizing with the local model |
