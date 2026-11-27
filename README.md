@@ -2,7 +2,7 @@
 
 **Taxon** is an agent that maintains a taxonomy of the web of the University of Zurich. It surveys `uzh.ch` sites, tags their documents with the closed vocabulary in [`taxonomy.json`](taxonomy.json), and turns what does not fit into proposals for a person to accept.
 
-Taxon is [Claude Code](https://claude.com/claude-code) opened in this repository: [`CLAUDE.md`](CLAUDE.md) gives it its name and its mission, and it has five skills. Four of them each drive one command of the `uzh_crawler` Python package, which does the actual work and can be used on its own. Summaries and tags come from a model running on your machine through [Ollama](https://ollama.com/).
+Taxon is [Claude Code](https://claude.com/claude-code) opened in this repository: [`CLAUDE.md`](CLAUDE.md) gives it its name and its mission, and it has six skills. Four of them each drive one stage command of the `uzh_crawler` Python package, which does the actual work and can be used on its own. Summaries and tags come from a model running on your machine through [Ollama](https://ollama.com/).
 
 | Skill | Command | What it does |
 | --- | --- | --- |
@@ -10,6 +10,7 @@ Taxon is [Claude Code](https://claude.com/claude-code) opened in this repository
 | `uzh-scrape` | `scrape` | Downloads URLs, stores the original files and extracts their text |
 | `uzh-summarize` | `summarize` | Summarizes each document with the local model |
 | `uzh-classify` | `classify` | Tags each summary with ids from the taxonomy |
+| `taxon-gate` | `taxonomy` | Reads, checks, changes and exports the taxonomy: proposals, versions, history, CSV, JSON, Markdown, SKOS |
 | `uzh-optimize` | the benchmarks | Makes a stage faster, and remembers what was already tried |
 
 The repository also holds the askUZH taxonomy browser in [`browser/`](browser/), a static page that displays `taxonomy.json`.
@@ -18,7 +19,8 @@ The repository also holds the askUZH taxonomy browser in [`browser/`](browser/),
 
 | Page | Content |
 | --- | --- |
-| [Taxon and its skills](docs/agent.md) | What Taxon does, how to call it, how taxonomy proposals work |
+| [Taxon and its skills](docs/agent.md) | What Taxon does, how to call it, who decides what |
+| [Taxonomy management](docs/taxonomy.md) | The rules of the taxonomy and their sources, proposals, versions, history, exports |
 | [How a run works](docs/README.md#how-a-run-works) | Workflow diagram of the four stages |
 | [Command line](docs/cli.md) | Commands, options, progress output, exit codes |
 | [Crawl performance](docs/crawl-performance.md) | How the speed of `crawl` is measured, what was tried, what limits it |
@@ -87,6 +89,15 @@ python -m uzh_crawler validate --out runs/phil --taxonomy taxonomy.json
 ```
 
 `run` chains the first four. Each command can also take URLs to work on a few documents only, and running a command again resumes where it stopped.
+
+The taxonomy has a command of its own, `taxonomy`, its only way in and out ([Taxonomy management](docs/taxonomy.md)):
+
+```bash
+python -m uzh_crawler taxonomy tree --axis organisation     # read the tree
+python -m uzh_crawler taxonomy hints --out runs/phil        # units of a run with no node
+python -m uzh_crawler taxonomy check                        # every quality rule
+python -m uzh_crawler taxonomy export --format ttl --output taxonomy.ttl
+```
 
 ## Tests
 

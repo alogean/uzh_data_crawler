@@ -7,6 +7,7 @@ skills:
   - uzh-scrape
   - uzh-summarize
   - uzh-classify
+  - taxon-gate
   - uzh-optimize
 ---
 

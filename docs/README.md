@@ -1,10 +1,11 @@
 # Documentation
 
-`uzh_data_crawler` is the home of **Taxon**, an agent that maintains the taxonomy of the UZH web in [`taxonomy.json`](../taxonomy.json). Four of its skills drive four commands of the `uzh_crawler` package: list the URLs of a site, download them, summarize each document with a local model, and tag each summary with the taxonomy. Installation and a first command are in the [README](../README.md) at the repository root.
+`uzh_data_crawler` is the home of **Taxon**, an agent that maintains the taxonomy of the UZH web in [`taxonomy.json`](../taxonomy.json). Four of its skills drive four commands of the `uzh_crawler` package: list the URLs of a site, download them, summarize each document with a local model, and tag each summary with the taxonomy. A fifth, `taxon-gate`, keeps the taxonomy itself through the `taxonomy` command. Installation and a first command are in the [README](../README.md) at the repository root.
 
 | Page | Content |
 | --- | --- |
-| [Taxon and its skills](agent.md) | What Taxon does, how to call it, how taxonomy proposals work |
+| [Taxon and its skills](agent.md) | What Taxon does, how to call it, who decides what |
+| [Taxonomy management](taxonomy.md) | The rules of the taxonomy and their sources, proposals, versions, history, the `taxonomy` command, exports |
 | [Command line](cli.md) | Commands, options, progress output, exit codes |
 | [Crawl performance](crawl-performance.md) | How the speed of `crawl` is measured, what was tried, what limits it |
 | [Scrape performance](scrape-performance.md) | How the speed of `scrape` is measured, how documents are converted in parallel, what was tried |
@@ -84,7 +85,7 @@ flowchart TD
     sums --> c_need
     taxonomy[("taxonomy.json")] --> c_llm
     tagged --> out[("digests/&lt;hash&gt;.md<br/>summary and tags")]
-    tagged -. "missing_unit" .-> proposals["proposals hints<br/>units with no node"]
+    tagged -. "missing_unit" .-> hints["taxonomy hints<br/>units with no node"]
 
     out --> validate["validate"]
 ```
@@ -93,13 +94,17 @@ The rules behind each decision are in [Scope](scope.md) for crawl and scrape, an
 
 ## Code layout
 
-The package has one sub-package per stage.
+The package has one sub-package per stage, and `gate/` for the taxonomy itself.
 
 ```text
 CLAUDE.md                      Taxon, the agent: loaded when the project is opened
 AGENTS.md                      points Codex to CLAUDE.md
+taxonomy.json                  the taxonomy: four axes of nodes, a version
+taxonomy.proposals.json        changes waiting for a person's decision (absent when none)
+taxonomy.history.jsonl         every decision, one line each
 .claude/
   skills/uzh-*/SKILL.md        its skills: one per stage, and uzh-optimize
+  skills/taxon-gate/SKILL.md   how to read, change and export the taxonomy
   skills/uzh-optimize/         how to make a stage faster; crawl.md, scrape.md, summarize.md record what was tried
   agents/taxon.md              Taxon as a subagent, for delegated tasks
 benchmarks/
@@ -112,7 +117,7 @@ benchmarks/
   expected_scrape/             the Markdown each of them must give
   experiments/go-crawl/        the benchmark crawl in Go, kept as a comparison
 src/uzh_crawler/
-  cli.py              argument parsing, RunConfig construction, validate and proposals commands
+  cli.py              argument parsing, RunConfig construction, the validate command
   config.py           RunConfig, user agent, which command owns which config key
   pipeline.py         opens the run, chains the stages, picks the pages each one handles, exit code
   progress.py         progress lines with elapsed and remaining time
@@ -120,8 +125,15 @@ src/uzh_crawler/
   sections.py         the eight --study-sections URLs and their prefixes
   urls.py             URL normalization, uzh.ch host check
   text.py             Markdown normalization and content hash
-  taxonomy.py         loads taxonomy.json, validates tag ids and cardinalities
-  proposals.py        missing-unit hints, proposal checks, accepting a proposal
+  taxonomy.py         loads taxonomy.json for classification, validates tag ids and cardinalities
+  gate/               the taxonomy command: every read and write of taxonomy.json
+    store.py          the three taxonomy files, versions
+    checks.py         the quality rules (RULES)
+    changes.py        proposals: add, update, move, deprecate; accept, reject
+    read.py           tree, show, find
+    export.py         CSV, JSON, Markdown, SKOS Turtle
+    hints.py          units a run could not name
+    commands.py       the taxonomy subcommands
   validate.py         checks crawl.json, summaries and digests
   crawl/              stage 1
     discover.py       queue, workers, link following, urls.txt

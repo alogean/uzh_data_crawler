@@ -1,6 +1,6 @@
 # Taxon and its skills
 
-Opening this repository in Claude Code gives you **Taxon**, the agent of this project: [`CLAUDE.md`](../CLAUDE.md) at the root is loaded at the start of every session and tells Claude its name and its mission, which is to keep [`taxonomy.json`](../taxonomy.json) true to the UZH web it describes. Taxon has five skills. Four are the instructions for one stage each, and each stage is one command of the `uzh_crawler` package. The fifth, `uzh-optimize`, is about the code itself: how to make a stage faster.
+Opening this repository in Claude Code gives you **Taxon**, the agent of this project: [`CLAUDE.md`](../CLAUDE.md) at the root is loaded at the start of every session and tells Claude its name and its mission, which is to keep [`taxonomy.json`](../taxonomy.json) true to the UZH web it describes. Taxon has six skills. Four are the instructions for one stage each, and each stage is one command of the `uzh_crawler` package. `taxon-gate` keeps the taxonomy itself: it reads, checks, changes and exports it through the `taxonomy` command. `uzh-optimize` is about the code: how to make a stage faster.
 
 | File | Role |
 | --- | --- |
@@ -10,16 +10,18 @@ Opening this repository in Claude Code gives you **Taxon**, the agent of this pr
 | [`.claude/skills/uzh-scrape/SKILL.md`](../.claude/skills/uzh-scrape/SKILL.md) | Downloading and storing documents |
 | [`.claude/skills/uzh-summarize/SKILL.md`](../.claude/skills/uzh-summarize/SKILL.md) | Summarizing with the local model |
 | [`.claude/skills/uzh-classify/SKILL.md`](../.claude/skills/uzh-classify/SKILL.md) | Tagging summaries with the taxonomy |
+| [`.claude/skills/taxon-gate/SKILL.md`](../.claude/skills/taxon-gate/SKILL.md) | Reading, checking, changing and exporting the taxonomy |
 | [`.claude/skills/uzh-optimize/`](../.claude/skills/uzh-optimize/SKILL.md) | Making a stage faster: the method, and what was already tried for `crawl`, `scrape` and `summarize` |
 | [`.claude/agents/taxon.md`](../.claude/agents/taxon.md) | Taxon as a subagent, for a task delegated to the background. It follows `CLAUDE.md` |
 
 ## Who does what
 
-Three actors are involved, and the split between them is deliberate.
+Four actors are involved, and the split between them is deliberate.
 
 - **The Python package** does everything that must be exact and repeatable: HTTP, scope rules, file storage, hashes, caches, the closed JSON schema, validation.
 - **The local model** (Ollama) reads documents. It writes each summary, and it picks tags from the list of ids it is given. It never sees the taxonomy file itself and cannot store a tag outside it.
-- **Taxon** (Claude) decides what to run and in which order, reads the results, reports, and writes taxonomy proposals. It never edits `taxonomy.json` by hand.
+- **Taxon** (Claude) decides what to run and in which order, reads the results, reports, and proposes taxonomy changes through the `taxonomy` command. The command writes the taxonomy files; Taxon never edits them by hand.
+- **You** decide which proposals enter the taxonomy. Taxon accepts a proposal only when you name its id.
 
 ## Two standing duties
 
@@ -112,49 +114,29 @@ The two records have different readers. The pages [Crawl performance](crawl-perf
 
 For example, asking "can the scrape read PDF files faster?" makes Taxon open `scrape.md`, where it finds that three other PDF readers were already measured and lost, and why, before it writes any code.
 
-## Taxonomy proposals
+## The taxonomy skill
 
-The taxonomy skeleton has no node for most institutes, departments and services. When the classification model has to fall back to a broader `organisation` node, it also writes the unit's name, as free text, in the page's `missing_unit` field. That field is the bridge from a crawl to the taxonomy.
+`taxon-gate` is how Taxon keeps the taxonomy. Its leading idea is a **gate**: the `taxonomy` command is the only way to read or change [`taxonomy.json`](../taxonomy.json), so that every change is checked against the rules, versioned, and recorded with its reason. The rules, their sources and every command are in [Taxonomy management](taxonomy.md).
+
+The skeleton has no node for most institutes, departments and services. When the classification model has to fall back to a broader `organisation` node, it writes the unit's name, as free text, in the page's `missing_unit`. That field is the bridge from a crawl to the taxonomy. The diagram reads from left to right: Taxon prepares, the command checks, you decide.
 
 ```mermaid
 flowchart LR
-    classify["classify<br/>records missing_unit"] --> hints["proposals hints<br/>groups the unit names"]
-    hints --> agent["Taxon checks the unit<br/>and writes a candidate node"]
-    agent --> file[("taxonomy.proposals.json")]
-    file --> check["proposals check"]
-    check --> person{"A person<br/>accepts?"}
-    person -- "yes" --> accept["proposals accept ID"]
+    classify["classify<br/>records missing_unit"] --> hints["taxonomy hints<br/>groups the unit names"]
+    hints --> agent["Taxon checks the unit<br/>on its pages"]
+    agent --> propose["taxonomy propose<br/>every rule checked"]
+    propose --> file[("taxonomy.proposals.json")]
+    file --> person{"You decide"}
+    person -- "accept ID" --> accept["taxonomy accept<br/>new version, history line"]
     accept --> taxonomy[("taxonomy.json")]
-    person -- "no" --> file
+    person -- "reject ID" --> reject["taxonomy reject<br/>reason kept in the history"]
 ```
 
-1. `proposals hints --out runs/phil` prints, as JSON, each unit name with its number of pages, the node those pages were tagged with, their hosts and example URLs.
-2. Taxon confirms that a name is a real unit, finds its parent, and writes a candidate node to `taxonomy.proposals.json` with trilingual labels and definitions, the unit's home page as source, and the reason.
-3. `proposals check` verifies the file: known axis, new id, parent in the same axis, labels and definitions in German, French and English, at least one source, a reason.
-4. You read the proposals and choose. `proposals accept ID…` moves the chosen nodes into `taxonomy.json` with the status `accepted` and removes them from the proposals file.
+1. `taxonomy hints --out runs/phil` lists each unit name with its number of pages, the node they fell back to, example URLs, and any node that already has that name.
+2. Taxon confirms on the unit's pages that it is a real unit, finds its official names and its parent, and submits a proposal with `taxonomy propose`. The command refuses a proposal that breaks a rule and says which.
+3. Taxon shows you the pending proposals as a table. You name the ones to accept or reject.
+4. `taxonomy accept ID…` applies them, raises the version and writes the history. The next `classify` tags every page again; the summaries are reused.
 
-Taxon runs `accept` only for ids you have named. Accepting a node changes the taxonomy fingerprint, so the next `classify` tags every page again; the summaries are reused.
+Proposals are not only new nodes. A node can also get new labels or alternative labels (`update`), a new parent (`move`), or be retired with the nodes that replace it (`deprecate`). A retired node stays in the file, so that old tags keep their meaning.
 
-A proposal has this shape:
-
-```json
-{
-  "schema_version": 1,
-  "kind": "taxonomy_proposals",
-  "proposals": [
-    {
-      "axis": "organisation",
-      "node": {
-        "id": "philosophisches_seminar",
-        "parent": "philosophische",
-        "labels": {"de": "Philosophisches Seminar", "fr": "Séminaire de philosophie", "en": "Department of Philosophy"},
-        "definition": {"de": "…", "fr": "…", "en": "…"},
-        "status": "proposed",
-        "sources": ["https://www.philosophie.uzh.ch/"]
-      },
-      "reason": "34 pages of runs/phil fell back to philosophische",
-      "evidence": ["https://www.philosophie.uzh.ch/de/studium.html"]
-    }
-  ]
-}
-```
+The same command reads the taxonomy (`taxonomy tree`, `show`, `find`) and exports it as CSV, JSON, Markdown or SKOS Turtle (`taxonomy export`).

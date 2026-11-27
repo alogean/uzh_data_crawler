@@ -12,9 +12,7 @@ The entry point is `python -m uzh_crawler` or `uzh-crawler`. Installation and th
 | `classify [URL…]` | Tags the summaries with the taxonomy | Ollama, `--taxonomy` |
 | `run [DOMAIN…]` | Chains the four stages above | All of them |
 | `validate` | Checks `crawl.json`, the summaries and the digests | `--taxonomy` |
-| `proposals hints` | Lists the units that classification could not name | A classified run |
-| `proposals check` | Verifies `taxonomy.proposals.json` | `--taxonomy` |
-| `proposals accept ID…` | Moves proposals into `taxonomy.json` | `--taxonomy` |
+| `taxonomy ACTION` | Reads, checks, changes and exports the taxonomy: `tree`, `show`, `find`, `check`, `propose`, `pending`, `accept`, `reject`, `history`, `export`, `hints` | `taxonomy.json` |
 
 ```bash
 python -m uzh_crawler crawl phil.uzh.ch --out runs/phil --max-pages 0
@@ -83,19 +81,21 @@ The HTTP client identifies itself as `askUZH-TaxonomyCrawler/0.1 (+local; resear
 
 `run` accepts the options of all four stages and applies `--model` and `--llm-concurrency` to both model stages; without them each stage keeps its own default. It is the same as running `crawl`, `scrape`, `summarize` and `classify` in turn on one directory, with one difference: its `--max-pages` (500 by default) caps the pages read by the crawl and, separately, the downloads of the scrape. Pass `--max-pages 0` for a complete run.
 
-## proposals
+## taxonomy
 
 ```bash
-python -m uzh_crawler proposals hints --out runs/phil
-python -m uzh_crawler proposals check --taxonomy taxonomy.json
-python -m uzh_crawler proposals accept philosophisches_seminar --taxonomy taxonomy.json
+python -m uzh_crawler taxonomy tree --axis organisation
+python -m uzh_crawler taxonomy hints --out runs/phil
+python -m uzh_crawler taxonomy propose < change.json
+python -m uzh_crawler taxonomy accept philosophisches_seminar
+python -m uzh_crawler taxonomy export --format csv --output taxonomy.csv
 ```
 
-`hints` prints JSON on standard output. `check` and `accept` read `taxonomy.proposals.json` in the current directory, or the file given with `--proposals`. The workflow is described in [Taxon and its skills](agent.md#taxonomy-proposals).
+Every action takes `--taxonomy` (default `taxonomy.json`) and works on the two files beside it, `taxonomy.proposals.json` and `taxonomy.history.jsonl`. The actions, the rules they apply and their outputs are in [Taxonomy management](taxonomy.md).
 
 ## Progress output
 
-Progress is written to standard error, one line at a time, with the elapsed time and an estimate of the time left. Standard output carries only `validate: ok`, `proposals: ok`, the `accepted:` lines and the JSON of `proposals hints`.
+Progress is written to standard error, one line at a time, with the elapsed time and an estimate of the time left. Standard output carries only `validate: ok` and the answers of the `taxonomy` command; its refusals and warnings go to standard error.
 
 ```text
 [crawl] 1 URL de départ · profondeur libre · sans plafond · écoulé 0s
@@ -133,9 +133,9 @@ The last line of a command gives the counters: `<run_id>: discovered=… fetched
 
 | Code | Meaning |
 | --- | --- |
-| `0` | Finished, no page in `failed`, `summary_error` or `tag_error`. For `validate` and `proposals check`: nothing to report |
+| `0` | Finished, no page in `failed`, `summary_error` or `tag_error`. For `validate` and `taxonomy check`: nothing to report |
 | `1` | Invalid configuration, a run directory that does not match the command, a URL that is not in the run, or Ollama unreachable |
-| `2` | The command finished, but at least one page of the run is `failed`, `summary_error` or `tag_error`. For `validate` and `proposals check`: at least one problem |
+| `2` | The command finished, but at least one page of the run is `failed`, `summary_error` or `tag_error`. For `validate`: at least one problem. For `taxonomy`: a change or a check refused, see [Taxonomy management](taxonomy.md#exit-codes) |
 
 The exit code reflects the whole run directory, not only the pages this command touched. A URL refused by `robots.txt` is `failed` with the error `disallowed by robots.txt` and does not cause code 2 on its own.
 

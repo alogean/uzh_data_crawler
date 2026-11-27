@@ -1,6 +1,9 @@
 {
   "schema_version": 1,
   "kind": "taxonomy",
+  "version": "1.0.0",
+  "modified": "2026-11-27",
+  "uri_base": "https://github.com/alogean/uzh_data_crawler/blob/taxonomie-uzh/taxonomy.json#",
   "title": {
     "de": "Taxonomie des UZH-Webs",
     "fr": "Taxonomie du web UZH",

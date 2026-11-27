@@ -30,7 +30,7 @@ Ollama must be running, as for `uzh-summarize`.
 
 `digests/<hash>.md` is the result for one document: the tags in the YAML header, the summary below. `crawl.json` holds the same tags in the page's `tags`. The page becomes `tagged`, or `tag_error` with the cause in `error` after two failed attempts.
 
-When no `organisation` id names the publishing unit, the model picks a broader node and writes the unit's name in the page's `missing_unit`. Those names are the raw material for taxonomy proposals: `proposals hints --out <run>` groups them.
+When no `organisation` id names the publishing unit, the model picks a broader node and writes the unit's name in the page's `missing_unit`. Those names are the raw material for taxonomy proposals: `taxonomy hints --out <run>` groups them, and the `taxon-gate` skill turns them into proposals.
 
 ## When tags are redone
 

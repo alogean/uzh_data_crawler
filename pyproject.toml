@@ -22,7 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 js = ["playwright>=1.40"]
-dev = ["pytest>=8", "pymupdf>=1.24,<2"]
+dev = ["pytest>=8", "pymupdf>=1.24,<2", "rdflib>=7"]
 
 [project.scripts]
 uzh-crawler = "uzh_crawler.cli:main"

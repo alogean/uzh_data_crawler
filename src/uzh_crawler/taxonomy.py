@@ -6,6 +6,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 REQUIRED_AXES = ("organisation", "publics", "types_document", "offre_etudes")
+# A retired node stays in the file, so that old tags keep their meaning, but is
+# no longer offered to classification.
+DEPRECATED = "deprecated"
 
 
 class TaxonomyError(ValueError):
@@ -25,6 +28,11 @@ class TaxonomyNode:
     status: str
     sources: tuple[str, ...]
     axis_id: str
+    replaced_by: tuple[str, ...] = ()
+
+    @property
+    def active(self) -> bool:
+        return self.status != DEPRECATED
 
     def label(self, lang: str) -> str:
         return self.labels.get(lang) or self.labels.get("fr") or self.labels.get("en") or self.id
@@ -54,11 +62,21 @@ class Taxonomy:
     source_path: str | None = None
 
     def ids(self, axis_id: str) -> tuple[str, ...]:
+        """The ids classification may use: every node of the axis that is not deprecated."""
         self._require_axis(axis_id)
-        return tuple(node.id for node in self.axes[axis_id])
+        return tuple(node.id for node in self.axes[axis_id] if node.active)
 
     def id_set(self, axis_id: str) -> set[str]:
         return set(self.ids(axis_id))
+
+    def retired(self) -> dict[str, tuple[str, ...]]:
+        """Deprecated ids and the ids that replace them."""
+        return {
+            node.id: node.replaced_by
+            for nodes in self.axes.values()
+            for node in nodes
+            if not node.active
+        }
 
     def node(self, node_id: str) -> TaxonomyNode:
         for nodes in self.axes.values():
@@ -69,7 +87,7 @@ class Taxonomy:
 
     def labels_for(self, axis_id: str, lang: str) -> list[tuple[str, str]]:
         self._require_axis(axis_id)
-        return [(node.id, node.label(lang)) for node in self.axes[axis_id]]
+        return [(node.id, node.label(lang)) for node in self.axes[axis_id] if node.active]
 
     def _require_axis(self, axis_id: str) -> None:
         if axis_id not in self.axes:
@@ -78,35 +96,50 @@ class Taxonomy:
     def validate_tags(self, raw: dict | None) -> Tags:
         if not isinstance(raw, dict):
             raise TagValidationError("tags must be an object")
-        organisation = _one_id(raw.get("organisation"), self.id_set("organisation"), "organisation")
-        publics = _many_ids(raw.get("publics"), self.id_set("publics"), "publics", minimum=1)
+        retired = self.retired()
+        organisation = _one_id(
+            raw.get("organisation"), self.id_set("organisation"), "organisation", retired
+        )
+        publics = _many_ids(
+            raw.get("publics"), self.id_set("publics"), "publics", retired, minimum=1
+        )
         types_document = _one_id(
-            raw.get("types_document"), self.id_set("types_document"), "types_document"
+            raw.get("types_document"), self.id_set("types_document"), "types_document", retired
         )
         offre_etudes = _many_ids(
             raw.get("offre_etudes", []),
             self.id_set("offre_etudes"),
             "offre_etudes",
+            retired,
             minimum=0,
         )
         return Tags(organisation, tuple(publics), types_document, tuple(offre_etudes))
 
 
-def _one_id(value: object, allowed: set[str], field: str) -> str:
+def _not_allowed(field: str, value: object, retired: dict[str, tuple[str, ...]]) -> TagValidationError:
+    if isinstance(value, str) and value in retired:
+        replacement = ", ".join(retired[value]) or "no replacement"
+        return TagValidationError(
+            f"{field} id is deprecated: {value} (replaced by {replacement}); classify again"
+        )
+    return TagValidationError(f"{field} id not in taxonomy: {value!r}")
+
+
+def _one_id(value: object, allowed: set[str], field: str, retired: dict) -> str:
     if not isinstance(value, str) or not value:
         raise TagValidationError(f"{field} must be a single id")
     if value not in allowed:
-        raise TagValidationError(f"{field} id not in taxonomy: {value}")
+        raise _not_allowed(field, value, retired)
     return value
 
 
-def _many_ids(value: object, allowed: set[str], field: str, minimum: int) -> list[str]:
+def _many_ids(value: object, allowed: set[str], field: str, retired: dict, minimum: int) -> list[str]:
     if not isinstance(value, list):
         raise TagValidationError(f"{field} must be a list of ids")
     seen: list[str] = []
     for item in value:
         if not isinstance(item, str) or item not in allowed:
-            raise TagValidationError(f"{field} id not in taxonomy: {item!r}")
+            raise _not_allowed(field, item, retired)
         if item not in seen:
             seen.append(item)
     if len(seen) < minimum:
@@ -173,6 +206,9 @@ def taxonomy_from_dict(
                 raise TaxonomyError(f"labels and definition of {node_id} must be objects")
             if not isinstance(sources, list) or not all(isinstance(item, str) for item in sources):
                 raise TaxonomyError(f"sources of {node_id} must be a list of strings")
+            replaced_by = node.get("replaced_by") or []
+            if not isinstance(replaced_by, list) or not all(isinstance(item, str) for item in replaced_by):
+                raise TaxonomyError(f"replaced_by of {node_id} must be a list of ids")
             nodes.append(
                 TaxonomyNode(
                     id=node_id,
@@ -182,6 +218,7 @@ def taxonomy_from_dict(
                     status=str(node.get("status") or ""),
                     sources=tuple(sources),
                     axis_id=axis_id,
+                    replaced_by=tuple(replaced_by),
                 )
             )
         axes[axis_id] = tuple(nodes)

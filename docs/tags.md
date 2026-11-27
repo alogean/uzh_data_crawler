@@ -1,6 +1,6 @@
 # Tags
 
-Tags are `id` values from [`taxonomy.json`](../taxonomy.json), never free labels. The file has `schema_version` 1, `kind` `taxonomy`, and four axes. Each node has an `id` that is unique in the whole file, a `parent` in the same axis or `null`, and `labels` and a `definition` in German, French and English.
+Tags are `id` values from [`taxonomy.json`](../taxonomy.json), never free labels. The file has `schema_version` 1, `kind` `taxonomy`, and four axes. Each node has an `id` that is unique in the whole file, a `parent` in the same axis or `null`, and `labels` and a `definition` in German, French and English. The full list of fields and the rules they follow are in [Taxonomy management](taxonomy.md#what-a-node-is).
 
 | Axis | Role | Cardinality | Nodes today |
 | --- | --- | --- | --- |
@@ -13,7 +13,9 @@ The axis names and node ids are identifiers and stay as they are, whatever the s
 
 An unknown id, a wrong cardinality or an extra field prevents `tagged`. The page stays `tag_error`. An id repeated in a list is kept once. `validate` runs the same check again on pages already tagged.
 
-The skeleton is incomplete: many institute or department pages have no node named after the unit. The model then picks a broader node that exists in the axis, for example `fakultaeten`, `departement` or `institut`, and names the unit in `missing_unit`. That is the starting point of a [taxonomy proposal](agent.md#taxonomy-proposals).
+A node whose `status` is `deprecated` is retired: it stays in the file but is left out of the list the model sees, and a tag with its id is refused. A page tagged with it before it was retired fails `validate` with the ids that replace it, until `classify` runs again. How nodes are added, changed and retired is in [Taxonomy management](taxonomy.md).
+
+The skeleton is incomplete: many institute or department pages have no node named after the unit. The model then picks a broader node that exists in the axis, for example `fakultaeten`, `departement` or `institut`, and names the unit in `missing_unit`. That is the starting point of a [taxonomy proposal](taxonomy.md#hints-from-a-run).
 
 A taxonomy file that is not valid JSON, lacks one of the four axes, repeats a node id, or has a `parent` outside its axis stops the command with exit code 1.
 

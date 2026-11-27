@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import json
 import logging
 import sys
 from pathlib import Path
@@ -23,7 +22,6 @@ from uzh_crawler.taxonomy import TaxonomyError, load_taxonomy
 from uzh_crawler.urls import host_of, is_uzh_host, normalize_url
 
 CRAWLING = {"crawl", "run"}
-PROPOSALS_FILE = "taxonomy.proposals.json"
 
 
 class Parser(argparse.ArgumentParser):
@@ -45,8 +43,10 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.command == "validate":
             return _validate(args)
-        if args.command == "proposals":
-            return _proposals(args)
+        if args.command == "taxonomy":
+            from uzh_crawler.gate.commands import run
+
+            return run(args)
         config = _config_from_args(args)
         urls = tuple(getattr(args, "urls", None) or ())
         return asyncio.run(execute(config, mode=args.command, urls=urls))
@@ -101,17 +101,9 @@ def _parser() -> Parser:
     _add_out(validate)
     _add_taxonomy(validate)
 
-    proposals = sub.add_parser("proposals", help="Nœuds candidats pour la taxonomie")
-    actions = proposals.add_subparsers(dest="action", required=True, parser_class=Parser)
-    hints = actions.add_parser("hints", help="Unités sans nœud relevées par la classification")
-    _add_out(hints)
-    check = actions.add_parser("check", help="Vérifie le fichier de propositions")
-    accept = actions.add_parser("accept", help="Déplace des propositions dans taxonomy.json")
-    accept.add_argument("ids", nargs="+", metavar="ID")
-    for action in (check, accept):
-        _add_taxonomy(action)
-        action.add_argument("--proposals", default=PROPOSALS_FILE, help="Fichier de propositions")
-        action.add_argument("--verbose", action="store_true")
+    from uzh_crawler.gate.commands import add_parser
+
+    add_parser(sub, Parser)
     return parser
 
 
@@ -380,28 +372,6 @@ def _validate(args: argparse.Namespace) -> int:
     for error in errors:
         print(error, file=sys.stderr)
     return 2
-
-
-def _proposals(args: argparse.Namespace) -> int:
-    from uzh_crawler.proposals import accept_proposals, check_proposals, load_proposals, unit_hints
-
-    if args.action == "hints":
-        print(json.dumps(unit_hints(Path(args.out)), ensure_ascii=False, indent=2))
-        return 0
-    taxonomy_path = _taxonomy_path(args)
-    proposals_path = Path(args.proposals)
-    if args.action == "check":
-        taxonomy_data = json.loads(taxonomy_path.read_text(encoding="utf-8"))
-        errors = check_proposals(taxonomy_data, load_proposals(proposals_path))
-        if not errors:
-            print("proposals: ok")
-            return 0
-        for error in errors:
-            print(error, file=sys.stderr)
-        return 2
-    for node_id in accept_proposals(taxonomy_path, proposals_path, args.ids):
-        print(f"accepted: {node_id}")
-    return 0
 
 
 def _taxonomy_path(args: argparse.Namespace) -> Path:
