@@ -1,0 +1,80 @@
+{
+  "name": "thesis-form-docx",
+  "reference_model": "claude-fable-5-2",
+  "title": "Anmeldung zum Studienabschluss Master of Science UZH in Informatik (RVO16)",
+  "resume_markdown": "## Nature et éditeur\n- Formulaire d'inscription à la fin des études (Anmeldung zum Studienabschluss) pour le Master of Science UZH en informatique, selon l'ordonnance-cadre RVO16.\n- Il est à remettre au décanat (Dekanat / Dean's Office), qui en remplit une partie ; le site indiqué est www.oec.uzh.ch.\n- Il s'adresse aux étudiants de master en informatique qui demandent leur diplôme. Le formulaire est bilingue : version allemande, puis version anglaise identique.\n\n## Données à fournir\n- Coordonnées, numéro de matricule, date de promotion souhaitée, Major et Minor, travail final déposé sur OLAT.\n- Liste des modules suivis, par domaine, avec semestre, année, code, nom et crédits ECTS ; date et signature.\n\n## Consignes\n- Le formulaire doit être remis en original au plus tard à la date limite d'inscription pour la date de promotion choisie.\n- Les modules sont imputés au diplôme dans l'ordre chronologique ; les modules en surnombre ne comptent pas ; s'il y en a trop dans un semestre, ceux qui ont les meilleures notes sont retenus.\n- Pour un Minor d'une autre faculté, les règles de cette faculté s'appliquent.\n\n## Structure du diplôme à documenter\n- Prestations obligatoires, 21 ECTS : module de base de master (3) ou module obligatoire du Major (6), et projet de master (18, ou 15 plus 3 du domaine à option INF).\n- Travail de master : 30 ECTS.\n- Modules à option obligatoire et à option : 39 ECTS, selon la variante V1.0 ou V1.1 et selon le Major (IS, SOSY, POC, DS, AI, CE), répartis entre les domaines INF, OEC et WWF.\n- Séminaires : 3 ECTS au minimum, 9 au maximum.\n- Minor : 30 ECTS.",
+  "facts": [
+    {
+      "label": "Unité : décanat (Dekanat / Dean's Office), site oec.uzh.ch",
+      "kind": "unit",
+      "weight": 1,
+      "all_of": [["dekanat", "decanat", "dean.s office", "\\boec\\b", "faculte"]]
+    },
+    {
+      "label": "Public : étudiants de master en informatique en fin d'études",
+      "kind": "audience",
+      "weight": 1,
+      "all_of": [["etudiant", "studierend", "student", "candidat", "diplomand"]]
+    },
+    {
+      "label": "Nature : formulaire",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [["formulaire", "formular", "\\bform\\b"]]
+    },
+    {
+      "label": "Niveau : master",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [["master", "\\bmsc\\b"]]
+    },
+    {
+      "label": "Objet : inscription à la fin des études / demande de diplôme",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["inscription", "anmeldung", "annonce", "demande", "enregistrement", "registration"], ["fin (des |d.)etudes", "studienabschluss", "diplome", "obtention du (titre|grade)", "graduation", "cloture des etudes", "achevement des etudes", "promotion"]]
+    },
+    {
+      "label": "Discipline : informatique (Master of Science UZH in Informatik)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["informatique", "informatik", "informatics"]]
+    },
+    {
+      "label": "À remettre en original avant la date limite d'inscription pour la date de promotion",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["delai", "date limite", "au plus tard", "anmeldeschluss", "echeance", "avant la date"]]
+    },
+    {
+      "label": "Liste des modules suivis avec leurs crédits ECTS",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["module"], ["\\bects\\b", "credits"]]
+    },
+    {
+      "label": "Principes d'imputation : ordre chronologique, modules en surnombre non comptés",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["chronologi", "surnombre", "excedentaire", "surnumeraire", "uberzahlig", "en trop", "meilleures notes", "supplementaires ne"]]
+    },
+    {
+      "label": "Travail de master de 30 ECTS",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["travail de master", "masterarbeit", "memoire", "these de master", "master.s thesis"], ["\\b30\\b"]]
+    },
+    {
+      "label": "Major et Minor (Minor de 30 ECTS)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["\\bmajor", "majeure", "branche principale"], ["\\bminor", "mineure", "branche secondaire"]]
+    },
+    {
+      "label": "Formulaire bilingue allemand et anglais",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["bilingue", "allemand", "anglais", "deux langues"]]
+    }
+  ]
+}

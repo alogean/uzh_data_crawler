@@ -25,6 +25,7 @@ The repository also holds the askUZH taxonomy browser in [`browser/`](browser/),
 | [Scrape performance](docs/scrape-performance.md) | How the speed of `scrape` is measured, how documents are converted in parallel, what was tried |
 | [Scope](docs/scope.md) | Hosts, path prefixes, sitemaps, exclusions, what is downloaded and extracted |
 | [Resume and cache](docs/resume-and-cache.md) | Resuming a run, HTTP cache, when a model call is skipped |
+| [Summarize performance](docs/summarize-performance.md) | How fast and how good `summarize` is, how it is measured, what was tried |
 | [Outputs](docs/outputs.md) | `crawl.json`, `urls.txt`, `files/`, `raw/`, `summaries/`, `digests/`, statuses, `validate` |
 | [Tags](docs/tags.md) | Taxonomy contract, the two model calls, tag validation |
 | [Code layout](docs/README.md#code-layout) | Which module does what |
@@ -53,13 +54,19 @@ playwright install chromium
 
 `summarize` and `classify` need Ollama answering on `http://localhost:11434`. `crawl`, `scrape` and `validate` do not.
 
-The intended model on a 48 GB Mac is a Qwen 3 of about 9B parameters in 4-bit quantization, `qwen3.5:9b` by default. If that tag is not published in your Ollama, pass an equivalent Qwen 3.x model with `--model`.
+The two stages have their own default model, chosen for a 48 GB Mac:
+
+| Stage | Default model | Calls at a time |
+| --- | --- | --- |
+| `summarize` | `gemma4:e2b` | 4 |
+| `classify` | `qwen3.5:9b` | 2 |
 
 ```bash
+ollama pull gemma4:e2b
 ollama pull qwen3.5:9b
 ```
 
-`--llm-concurrency` defaults to 2. If you raise it, set `OLLAMA_NUM_PARALLEL` on the server to match.
+`--model` and `--llm-concurrency` change them. Ollama decides how many calls it really serves at once; more than that wait in its queue. Why these defaults: [Summarize performance](docs/summarize-performance.md).
 
 ## Quick start
 

@@ -47,7 +47,7 @@ The two stages are cached separately, and that is what makes a change cheap:
 | The summary model or `--lang` | Summaries, then the tags made from them |
 | The page content | Summary, then tags, for that page |
 
-Naming a URL on the command line of `summarize` or `classify` redoes it whatever the cache says.
+A new version of a prompt or of the cleaning does not make summaries out of date. Naming a URL on the command line of `summarize` or `classify` redoes it whatever the cache says.
 
 Before a model call, the previous result is cleared and the manifest is written: `summarize` puts the page back to `fetched` and drops its summary and tags, `classify` puts it back to `summarized` and drops its tags. A crash during the call therefore leaves the page to be redone, never with tags that belong to an older summary or taxonomy.
 

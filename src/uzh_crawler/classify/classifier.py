@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from uzh_crawler.classify.prompt import system_prompt, user_prompt
 from uzh_crawler.classify.render import render_digest
 from uzh_crawler.classify.schema import annotation_model, missing_unit_of, parse_annotation, tags_of
-from uzh_crawler.config import RunConfig
+from uzh_crawler.config import CLASSIFY_CONCURRENCY, RunConfig
 from uzh_crawler.llm.ollama import ModelOutputError, OllamaChat
 from uzh_crawler.progress import Progress
 from uzh_crawler.store.cache_sqlite import StageCache
@@ -71,7 +71,7 @@ async def classify_pages(
     pages: list[Page],
     progress: Progress | None = None,
 ) -> None:
-    semaphore = asyncio.Semaphore(max(config.llm_concurrency, 1))
+    semaphore = asyncio.Semaphore(config.llm_concurrency or CLASSIFY_CONCURRENCY)
     manifest_path = config.out_dir / "crawl.json"
 
     async def one(page: Page) -> None:

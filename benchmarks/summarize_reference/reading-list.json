@@ -1,0 +1,178 @@
+{
+  "name": "reading-list",
+  "reference_model": "claude-fable-5-2",
+  "title": "Reading List English Literature (September 2026 Version)",
+  "resume_markdown": "## Nature et éditeur\n- Liste de lecture de littérature anglaise (version de septembre 2026) publiée par l'English Department, précédée de remarques préliminaires.\n- Elle s'adresse aux étudiants de bachelor (B.A.) qui suivent le module de deux semestres « Literature in Context: History and Theory », recommandé en deuxième ou troisième année.\n\n## Rôle dans le module\n- La liste constitue la matière de la seconde partie du module ; la première partie est le cours magistral.\n- Le module se termine par un examen oral final à la fin du semestre de printemps, en présence d'un second enseignant qui tient le procès-verbal.\n- L'examen vise l'analyse (close reading, terminologie critique, situation des textes dans le genre et l'histoire littéraire) plutôt que les dates.\n- Lecture théorique conseillée : Peter Barry, « Beginning Theory ».\n\n## Exigences de sélection\n- Vingt éléments au total : huit en prose, huit en poésie, quatre pièces de théâtre, dont deux de Shakespeare.\n- Chacune des cinq périodes numérotées doit être représentée par au moins deux éléments ; textes britanniques et nord-américains se combinent librement.\n- Jusqu'à deux « textes visuels » (film, mise en scène, roman graphique, autre œuvre d'art) peuvent remplacer des éléments, en accord avec l'examinateur.\n- Manuels de base : The Norton Anthology of English Literature et The Norton Anthology of American Literature.\n\n## Contenu de la liste\n- Auteurs et œuvres classés par aire (littérature britannique et irlandaise, littérature nord-américaine, autres littératures de langue anglaise), par période et par genre (prose, théâtre, poésie).\n- Périodes : début de l'époque moderne, long XVIIIe siècle, long XIXe siècle, modernisme et après, période contemporaine (des années 1950 à aujourd'hui).",
+  "facts": [
+    {
+      "label": "Unité : English Department",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "english department",
+          "departement d.anglais",
+          "departement d.etudes anglaises",
+          "englisches seminar",
+          "seminaire d.anglais",
+          "institut d.anglais",
+          "department of english",
+          "departement anglais",
+          "anglistique"
+        ]
+      ]
+    },
+    {
+      "label": "Public : étudiants du module",
+      "kind": "audience",
+      "weight": 1,
+      "all_of": [
+        [
+          "etudiant",
+          "student",
+          "studierend"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : liste de lecture",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "liste de lecture",
+          "reading list",
+          "liste d.ouvrages",
+          "liste d.(oe|œ)uvres",
+          "liste des? textes",
+          "lekturelist",
+          "liste bibliographique",
+          "bibliographie"
+        ]
+      ]
+    },
+    {
+      "label": "Niveau : bachelor (B.A.)",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "bachelor",
+          "b\\.a\\.",
+          "\\bba\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Discipline : littérature anglaise / de langue anglaise",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "litterature",
+          "literature"
+        ],
+        [
+          "anglais",
+          "english",
+          "anglophone"
+        ]
+      ]
+    },
+    {
+      "label": "Module « Literature in Context: History and Theory »",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "literature in context",
+          "litterature en contexte"
+        ]
+      ]
+    },
+    {
+      "label": "Examen oral final",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\boral"
+        ],
+        [
+          "examen",
+          "exam",
+          "epreuve"
+        ]
+      ]
+    },
+    {
+      "label": "Sélection de vingt éléments au total",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "vingt",
+          "\\b20\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Répartition par genre : prose, poésie, théâtre",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "\\bprose\\b"
+        ],
+        [
+          "poesie",
+          "poetry",
+          "poeme"
+        ],
+        [
+          "theatre",
+          "drama",
+          "\\bpieces\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Deux pièces de Shakespeare obligatoires",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "shakespeare"
+        ]
+      ]
+    },
+    {
+      "label": "Organisation par périodes, chacune représentée par au moins deux éléments",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "periode",
+          "epoque",
+          "siecle"
+        ]
+      ]
+    },
+    {
+      "label": "Littératures britannique et nord-américaine",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "britanni",
+          "british"
+        ],
+        [
+          "americain",
+          "american",
+          "amerique"
+        ]
+      ]
+    }
+  ]
+}

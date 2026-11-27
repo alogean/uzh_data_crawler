@@ -1,0 +1,158 @@
+{
+  "name": "short-event",
+  "reference_model": "claude-fable-5-2",
+  "title": "Grüezi@PhF: Infoveranstaltung für Doktorierende",
+  "resume_markdown": "## Nature et éditeur\n- Annonce d'un événement : la séance d'information « Grüezi@PhF », organisée par l'École doctorale (Graduiertenschule, GS) de la Faculté de philosophie (Philosophische Fakultät, PhF) de l'Université de Zurich.\n- Cycle concerné : doctorat.\n\n## Public\n- Les doctorantes et doctorants qui viennent de commencer leur doctorat.\n- Celles et ceux qui sont passés de l'ancienne ordonnance de promotion (Promotionsverordnung) à la nouvelle.\n\n## Date\n- Mardi 17 octobre 2023, de 17h00 à 18h00, suivi d'un apéritif.\n\n## Programme\n- Présentation de l'École doctorale et de tout ce qui est important pour le doctorat à la faculté.\n- Possibilités de financement du doctorat, présentées par le service facultaire de soutien aux demandes de recherche.\n- Offres du Graduate Campus pour les doctorants de l'UZH.\n\n## Intervenantes\n- Prof. Dr. Fabienne Liptay, vice-doyenne GS.\n- Dr. Sandra Schneeberger, responsable du bureau de la GS.\n- Dr. Astrid Habenstein, soutien aux demandes de recherche.\n- Dr. Claudine Leysinger, cheffe de division du Graduate Campus.\n\n## Liens\n- Retour à la vue d'ensemble des actualités.\n- Sous-pages vers d'autres manifestations de 2024 : édition 2024 de Grüezi@PhF, H2R Summer School, une conférence sur les femmes philosophes du XIXe siècle, « Working in Research Support as a Career Choice ».",
+  "facts": [
+    {
+      "label": "Unité : Faculté de philosophie (PhF)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "philosophische fakultat",
+          "faculte de philosophie",
+          "faculte des lettres",
+          "faculte philosophique",
+          "\\bphf\\b",
+          "faculte des arts"
+        ]
+      ]
+    },
+    {
+      "label": "Unité : École doctorale (Graduiertenschule)",
+      "kind": "unit",
+      "weight": 1,
+      "all_of": [
+        [
+          "graduiertenschule",
+          "ecole doctorale",
+          "graduate school",
+          "ecole graduee",
+          "\\bgs\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Public : nouveaux doctorants (et ceux passés à la nouvelle ordonnance de promotion)",
+      "kind": "audience",
+      "weight": 2,
+      "all_of": [
+        [
+          "doctorant",
+          "doktorierend",
+          "doctoral students",
+          "phd students",
+          "candidats au doctorat"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : événement / séance d'information",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "evenement",
+          "seance",
+          "infoveranstaltung",
+          "manifestation",
+          "reunion",
+          "rencontre",
+          "soiree",
+          "veranstaltung",
+          "\\bevent\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Niveau : doctorat",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "doctorat",
+          "doktorat",
+          "doctoral",
+          "\\bphd\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Séance d'information nommée Grüezi@PhF",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "gruezi"
+        ]
+      ]
+    },
+    {
+      "label": "Date : 17 octobre 2023",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\b17\\b"
+        ],
+        [
+          "octobre",
+          "oktober",
+          "10\\.2023",
+          "10\\.23"
+        ],
+        [
+          "2023",
+          "10\\.23"
+        ]
+      ]
+    },
+    {
+      "label": "Horaire 17h-18h, suivi d'un apéritif",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "apero",
+          "aperitif",
+          "\\b17 ?h",
+          "17[:.]00",
+          "\\b18 ?h",
+          "18[:.]00"
+        ]
+      ]
+    },
+    {
+      "label": "Thème : informations sur le doctorat à la faculté",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "information",
+          "\\binfo"
+        ]
+      ]
+    },
+    {
+      "label": "Thème : possibilités de financement du doctorat",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "financ"
+        ]
+      ]
+    },
+    {
+      "label": "Présentation des offres du Graduate Campus",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "graduate campus"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "name": "huge-regulation",
+  "reference_model": "claude-fable-5-2",
+  "title": "Studienordnungen der Studienprogramme der Philosophischen Fakultät, Teil B: Romanisches Seminar (HS 2013)",
+  "resume_markdown": "## Nature et éditeur\n- Règlement d'études (Studienordnung), partie B « programmes de branche principale et secondaire des instituts et séminaires », publié par la Faculté de philosophie (Philosophische Fakultät) de l'Université de Zurich pour le Romanisches Seminar.\n- Version HS 2013, qui remplace les versions antérieures (depuis HS 2006) ; les étudiants ayant commencé avant HS 2013 y sont soumis.\n- Il concerne les étudiants de bachelor et de master de ces programmes. L'extrait fourni est tronqué.\n\n## Programmes couverts\n- Bachelor et master, en programmes de 15 à 120 crédits ECTS : littérature générale et comparée (Allgemeine und Vergleichende Literaturwissenschaft), langue et littérature françaises, italiennes, espagnoles, portugaises, roumaines, rhéto-romanes, linguistique romane comparée et, au master, littérature romane comparée.\n- Plusieurs petits programmes (30 ECTS au bachelor, 15 ECTS au master) sont en extinction : dernière admission en HS 2016 ou HS 2018, fin en FS 2022.\n\n## Contenu de chaque programme\n- Objectifs d'études et débouchés professionnels.\n- Conditions préalables (par exemple connaissances de latin ou de langues étrangères, absence d'exclusion définitive).\n- Combinaisons exclues avec d'autres programmes.\n- Structure : phases d'études (études de base, puis approfondissement), sous-disciplines (linguistique, littérature médiévale et moderne).\n- Curriculum : tableau des modules (crédits ECTS, notation, type de cours, contrôle de prestations, module obligatoire, à option ou libre) et plan d'études modèle sur six semestres pour le bachelor.\n- Règles : ordre et choix des modules, répétition selon l'ordonnance-cadre, stages, passage depuis la licence (Lizenziat).\n\n## Exemples\n- Bachelor en langue et littérature françaises (90 ECTS) : enseignement en français, travail de bachelor de 6 ECTS.\n- Master en littérature romane comparée (75 ECTS) : programme consécutif exigeant deux langues romanes étudiées au bachelor.",
+  "facts": [
+    {
+      "label": "Unité : Faculté de philosophie (Philosophische Fakultät)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "philosophische fakultat",
+          "faculte de philosophie",
+          "faculte des lettres",
+          "faculte philosophique",
+          "\\bphf\\b",
+          "faculte des arts"
+        ]
+      ]
+    },
+    {
+      "label": "Unité : Romanisches Seminar",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "romanisches seminar",
+          "seminaire (de )?(langues |d.etudes |des langues )?roman",
+          "institut (de |des )?(langues |d.etudes )?roman",
+          "romanistique",
+          "romanistik",
+          "etudes romanes",
+          "philologie romane"
+        ]
+      ]
+    },
+    {
+      "label": "Public : étudiants des programmes concernés",
+      "kind": "audience",
+      "weight": 1,
+      "all_of": [
+        [
+          "etudiant",
+          "studierend",
+          "student"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : règlement d'études (Studienordnung)",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "studienordnung",
+          "reglement",
+          "ordonnance d.etudes",
+          "plan d.etudes reglementaire",
+          "regles d.etudes"
+        ]
+      ]
+    },
+    {
+      "label": "Niveaux : bachelor et master",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "bachelor"
+        ],
+        [
+          "master"
+        ]
+      ]
+    },
+    {
+      "label": "Version HS 2013",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "2013",
+          "hs ?13"
+        ]
+      ]
+    },
+    {
+      "label": "Programmes de français (langue et littérature françaises)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "franzosisch",
+          "francais",
+          "francophone"
+        ]
+      ]
+    },
+    {
+      "label": "Autres langues romanes couvertes (italien, espagnol, etc.)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "italien",
+          "espagnol",
+          "spanisch",
+          "portugais",
+          "roumain",
+          "rheto",
+          "ratoroman",
+          "langues romanes"
+        ]
+      ]
+    },
+    {
+      "label": "Littérature générale et comparée (AVL)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "vergleichende literaturwissenschaft",
+          "litterature (generale et )?comparee",
+          "litteratures comparees",
+          "\\bavl\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Programmes de branche principale et secondaire définis en crédits ECTS",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bects\\b",
+          "credits"
+        ]
+      ]
+    },
+    {
+      "label": "Chaque programme décrit son curriculum : modules et plan d'études modèle",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "module"
+        ],
+        [
+          "curriculum",
+          "plan d.etudes",
+          "cursus",
+          "mustercurriculum",
+          "programme type",
+          "structure"
+        ]
+      ]
+    },
+    {
+      "label": "Petits programmes en extinction (dernière admission HS 2016 / HS 2018, fin FS 2022)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "extinction",
+          "auslaufend",
+          "derniere admission",
+          "supprim",
+          "abandonn",
+          "plus propose",
+          "\\barret\\b",
+          "2022",
+          "fin de vie",
+          "progressivement"
+        ]
+      ]
+    }
+  ]
+}

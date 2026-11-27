@@ -1,0 +1,150 @@
+{
+  "name": "study-home",
+  "reference_model": "claude-fable-5-2",
+  "title": "Studium am IPZ",
+  "resume_markdown": "## Nature et éditeur\n- Page d'accueil de la rubrique « Studium » (études) de l'IPZ : une page de navigation faite de tuiles et de listes de liens, avec très peu de texte propre.\n- Le texte ne désigne pas expressément de public ; il porte sur les études de science politique (Politikwissenschaft) à l'IPZ, au bachelor, au master et au doctorat.\n\n## Message d'introduction\n- L'IPZ se présente comme attaché à l'ouverture dans la recherche et l'enseignement, au dialogue entre méthodes et approches, à l'excellence scientifique.\n- Il se décrit comme une communauté internationale qui vit la diversité d'origine, de genre et d'expérience.\n\n## Accès proposés\n- Politikwissenschaft studieren (étudier la science politique).\n- Bachelor of Arts in Politikwissenschaft.\n- Master of Arts in Politikwissenschaft.\n- Doktorat in Politikwissenschaft.\n- Internationales (international).\n- Praktikum und Karriere (stage et carrière).\n\n## IPZ dans les médias\n- Trois contributions récentes de novembre 2026 :\n  - « Who Pays for Integrity? Scientific Rigor, Carbon Markets, and the Cost of Climate Action » (Dr. Axel Michaelowa) ;\n  - « What to expect as world leaders gather for COP31 » (Dr. Axel Michaelowa) ;\n  - « Digitalisierung im Krisentest » (Marina Sucari).\n\n## Événements de l'IPZ\n- Karriere Fokus IPZ 2026 : service public et institutions étatiques (02.11.2026).\n- Karriere Fokus IPZ 2026 (26.10.2026).\n- « Safe in a Democracy? Transnational Repression, Diaspora Experiences, and Democratic Resilience » (02.07.2026).",
+  "facts": [
+    {
+      "label": "Unité : IPZ",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bipz\\b",
+          "institut fur politikwissenschaft",
+          "institut de science politique",
+          "institut de sciences politiques"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : page d'accueil / page de navigation de la rubrique Études",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "page d.accueil",
+          "portail",
+          "page d.entree",
+          "page de (rubrique|navigation|section|presentation|garde)",
+          "page principale",
+          "vue d.ensemble",
+          "apercu",
+          "landing",
+          "page d.orientation",
+          "sommaire"
+        ]
+      ]
+    },
+    {
+      "label": "Niveaux : bachelor, master et doctorat",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "bachelor"
+        ],
+        [
+          "master"
+        ],
+        [
+          "doctorat",
+          "doktorat",
+          "doctoral",
+          "\\bphd\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Objet : les études (Studium) de science politique",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "politikwissenschaft",
+          "science politique",
+          "sciences politiques",
+          "politologie"
+        ]
+      ]
+    },
+    {
+      "label": "Rubrique Études (Studium)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "etudes",
+          "studium",
+          "etudier",
+          "cursus",
+          "formation"
+        ]
+      ]
+    },
+    {
+      "label": "Accès « Internationales »",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "internationales",
+          "international",
+          "mobilite"
+        ]
+      ]
+    },
+    {
+      "label": "Accès « Praktikum und Karriere » (stage et carrière)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "praktikum",
+          "\\bstages?\\b",
+          "karriere",
+          "carriere"
+        ]
+      ]
+    },
+    {
+      "label": "Section « IPZ in den Medien » (médias)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "\\bmedias?\\b",
+          "medien",
+          "presse"
+        ]
+      ]
+    },
+    {
+      "label": "Section des événements de l'IPZ",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "evenement",
+          "veranstaltung",
+          "manifestation",
+          "agenda"
+        ]
+      ]
+    },
+    {
+      "label": "Message d'introduction : ouverture, diversité, communauté internationale",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "ouverture",
+          "offenheit",
+          "diversite",
+          "vielfalt",
+          "ouvert"
+        ]
+      ]
+    }
+  ]
+}

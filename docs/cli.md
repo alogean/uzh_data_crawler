@@ -72,16 +72,16 @@ The HTTP client identifies itself as `askUZH-TaxonomyCrawler/0.1 (+local; resear
 | --- | --- | --- |
 | `--out` | required | Run directory |
 | `--taxonomy` | `taxonomy.json` | `classify` only |
-| `--model` | `qwen3.5:9b` | The model for this stage. The two stages can use different models |
+| `--model` | `gemma4:e2b` for `summarize`, `qwen3.5:9b` for `classify` | The model for this stage |
 | `--ollama-url` | `http://localhost:11434` | |
-| `--llm-concurrency` | `2` | Parallel model calls |
+| `--llm-concurrency` | `4` for `summarize`, `2` for `classify` | Parallel model calls |
 | `--lang` | `fr` | `fr`, `de` or `en`. Language of the summary, and of the labels shown to the classification model |
 | `--num-ctx` | `32768` | |
 | `--temperature` | `0.1` | |
 
 ## run
 
-`run` accepts the options of all four stages and applies `--model` to both model stages. It is the same as running `crawl`, `scrape`, `summarize` and `classify` in turn on one directory, with one difference: its `--max-pages` (500 by default) caps the pages read by the crawl and, separately, the downloads of the scrape. Pass `--max-pages 0` for a complete run.
+`run` accepts the options of all four stages and applies `--model` and `--llm-concurrency` to both model stages; without them each stage keeps its own default. It is the same as running `crawl`, `scrape`, `summarize` and `classify` in turn on one directory, with one difference: its `--max-pages` (500 by default) caps the pages read by the crawl and, separately, the downloads of the scrape. Pass `--max-pages 0` for a complete run.
 
 ## proposals
 

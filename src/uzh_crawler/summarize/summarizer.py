@@ -12,7 +12,7 @@ import httpx
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from uzh_crawler.config import RunConfig
+from uzh_crawler.config import SUMMARY_CONCURRENCY, RunConfig
 from uzh_crawler.llm.ollama import ModelOutputError, OllamaChat
 from uzh_crawler.progress import Progress
 from uzh_crawler.scrape.extract import MIN_USEFUL_CHARS
@@ -23,6 +23,10 @@ from uzh_crawler.summarize.prompt import SUMMARY_HEADINGS, system_prompt, user_p
 from uzh_crawler.text import content_hash, normalize_markdown
 
 logger = logging.getLogger(__name__)
+
+_THINKING = re.compile(r"<think>.*?</think>", re.DOTALL)
+_FENCE = re.compile(r"\A```[a-zA-Z]*\s*|\s*```\Z")
+_TITLE_PREFIX = re.compile(r"^[#*\s]*(?:(?:titre|title|titel)\s*:)?", re.IGNORECASE)
 
 _HEADING = re.compile(
     r"^##\s+(?:" + "|".join(SUMMARY_HEADINGS.values()) + r")\s*",
@@ -46,16 +50,24 @@ class OllamaSummarizer:
         await self.chat.prepare()
 
     async def summarize(self, *, url: str, markdown: str, lang: str) -> PageSummary:
-        data = await self.chat.json_object(
+        answer = await self.chat.text(
             model=self.model,
             system=system_prompt(lang),
-            user=user_prompt(url, markdown),
-            schema=PageSummary.model_json_schema(),
+            user=user_prompt(url, markdown, lang),
         )
-        try:
-            return PageSummary.model_validate(data)
-        except ValidationError as exc:
-            raise ModelOutputError(str(exc)) from exc
+        return parse_answer(answer)
+
+
+def parse_answer(answer: str) -> PageSummary:
+    """The model writes plain Markdown: the title on the first line, then the summary."""
+    text = _THINKING.sub("", answer).strip()
+    text = _FENCE.sub("", text).strip()
+    first, _, rest = text.partition("\n")
+    title = _TITLE_PREFIX.sub("", first).strip(" *#")
+    try:
+        return PageSummary(title=title[:200], resume_markdown=rest.strip())
+    except ValidationError as exc:
+        raise ModelOutputError(f"no title and summary in the answer: {text[:200]!r}") from exc
 
 
 def needs_summary(page: Page, cache: StageCache, config: RunConfig, run_dir: Path) -> bool:
@@ -82,7 +94,7 @@ async def summarize_pages(
     pages: list[Page],
     progress: Progress | None = None,
 ) -> None:
-    semaphore = asyncio.Semaphore(max(config.llm_concurrency, 1))
+    semaphore = asyncio.Semaphore(config.llm_concurrency or SUMMARY_CONCURRENCY)
     manifest_path = config.out_dir / "crawl.json"
 
     async def one(page: Page) -> None:

@@ -1,0 +1,152 @@
+{
+  "name": "merkblatt-pdf",
+  "reference_model": "claude-fable-5-2",
+  "title": "Lettre d'information aux futurs buddies – Institut für Politikwissenschaft",
+  "resume_markdown": "## Nature et éditeur\n- Lettre d'information de l'Institut für Politikwissenschaft (IPZ) de l'Université de Zurich, signée par Sarah Krenz, coordinatrice de la mobilité (mobility@ipz.uzh.ch).\n- Elle s'adresse aux futurs « buddies » : les personnes volontaires qui accompagnent des étudiants venus de l'étranger (étudiants hôtes) à l'UZH et à l'institut.\n- Le texte n'indique pas de cycle d'études.\n\n## Fonctionnement\n- Après inscription au moyen du formulaire, chaque buddy est attribué à ses étudiants hôtes.\n- Il faut indiquer ses connaissances linguistiques pour permettre une bonne attribution.\n\n## Rôle d'un buddy\n- À l'arrivée, si souhaité : accueil à l'aéroport, accompagnement jusqu'au logement, petit tour de ville avec explications sur les transports publics.\n- Aide pour s'orienter dans la vie d'études quotidienne :\n  - inscription au Kreisbüro (bureau d'arrondissement) ;\n  - obtention de la Legi (carte d'étudiant) ;\n  - cantines (Mensa) et cafétéria ;\n  - utilisation des bibliothèques et places de travail ;\n  - rencontre d'autres étudiants de l'UZH ;\n  - inscription à l'ASVZ et offre sportive ;\n  - détails des cours suivis ;\n  - formalités pour les présentations et les travaux scientifiques.\n\n## Message\n- L'institut remercie les buddies de leur engagement : ils sont des interlocuteurs importants et contribuent à la réussite du séjour des étudiants internationaux à l'IPZ.",
+  "facts": [
+    {
+      "label": "Unité : Institut für Politikwissenschaft (IPZ)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bipz\\b",
+          "institut fur politikwissenschaft",
+          "institut de science politique",
+          "institut de sciences politiques",
+          "science politique",
+          "sciences politiques"
+        ]
+      ]
+    },
+    {
+      "label": "Public : futurs buddies",
+      "kind": "audience",
+      "weight": 2,
+      "all_of": [
+        [
+          "budd",
+          "parrain",
+          "marrain",
+          "mentor",
+          "tuteur",
+          "accompagnant"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : lettre / fiche d'information (Merkblatt)",
+      "kind": "nature",
+      "weight": 1,
+      "all_of": [
+        [
+          "lettre",
+          "courrier",
+          "fiche",
+          "notice",
+          "merkblatt",
+          "aide-memoire",
+          "memento",
+          "note d.information",
+          "document d.information",
+          "\\bguide\\b",
+          "feuille d.information"
+        ]
+      ]
+    },
+    {
+      "label": "Bénéficiaires : étudiants venus de l'étranger (étudiants hôtes)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "etudiant",
+          "studierend",
+          "student"
+        ],
+        [
+          "etranger",
+          "internationa",
+          "\\bhotes?\\b",
+          "gaststudierend",
+          "echange",
+          "\\binvites?\\b",
+          "incoming",
+          "entrant"
+        ]
+      ]
+    },
+    {
+      "label": "Inscription par formulaire puis attribution aux étudiants hôtes",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "formulaire",
+          "inscri",
+          "enregistr",
+          "registr"
+        ]
+      ]
+    },
+    {
+      "label": "Indiquer ses connaissances linguistiques pour l'attribution",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "langu",
+          "linguisti",
+          "sprach"
+        ]
+      ]
+    },
+    {
+      "label": "Accueil à l'arrivée : aéroport, logement, tour de ville, transports publics",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "aeroport",
+          "logement",
+          "hebergement",
+          "tour de (la )?ville",
+          "visite de la ville",
+          "transports"
+        ]
+      ]
+    },
+    {
+      "label": "Aide dans la vie d'études quotidienne (Kreisbüro, Legi, cantines, bibliothèques, ASVZ, cours)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "kreisburo",
+          "\\blegi\\b",
+          "cantine",
+          "mensa",
+          "restaurant",
+          "bibliothe",
+          "asvz",
+          "sport",
+          "quotidien",
+          "vie d.etud",
+          "vie etudiante",
+          "vie universitaire"
+        ]
+      ]
+    },
+    {
+      "label": "Expéditrice : coordination de la mobilité (Sarah Krenz)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "mobilit",
+          "krenz"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "name": "organigram-pdf",
+  "reference_model": "claude-fable-5-2",
+  "title": "Organigramm Dekanat Philosophische Fakultät",
+  "resume_markdown": "## Nature et éditeur\n- Organigramme du décanat (Dekanat) de la Faculté de philosophie (Philosophische Fakultät) de l'Université de Zurich, daté du 27.08.2026.\n- Le document ne contient que des fonctions et des noms ; il n'indique ni public visé ni cycle d'études, et les liens hiérarchiques entre les cases ne ressortent pas du texte extrait.\n\n## Direction de la faculté (Fakultätsvorstand)\n- Doyenne (Dekanin) : Katharina Michaelowa.\n- Vice-doyenne (Prodekanin) Recherche : Inga Mai Groote.\n- Vice-doyenne École doctorale (Graduiertenschule) : Veronika Brandstätter.\n- Vice-doyenne Carrière (Laufbahn) : Bettina Gockel.\n- Co-doyens des études (Ko-Studiendekane) : Peter Finke et Sandro Zanetti.\n\n## Direction administrative\n- Geschäftsführung : Philipp Balzer.\n\n## Services du décanat\n- Fakultätsgeschäfte (affaires de la faculté) : Susanne Baumgartner.\n- Graduiertenschule : Milena Guthörl.\n- Studiendekanat (décanat des études) : Christine Ehrsam, Simone Manap.\n- Curricula Services : Christoph Kolb.\n- Degree Services : Sandro Berteletti.\n- Prozesse und Projekte (processus et projets) : Nadine Burkert.\n- Qualitätsmanagement (gestion de la qualité) : Bettina Schöller.\n- Student Services : Stefan Fischer.\n- Rechtsstelle (service juridique) : Marisa Fuentes.\n- Ressourcen, Controlling und Planung (ressources, controlling et planification) : Katayoun Safi.",
+  "facts": [
+    {
+      "label": "Unité : décanat (Dekanat)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "dekanat",
+          "decanat",
+          "doyenne"
+        ]
+      ]
+    },
+    {
+      "label": "Unité : Faculté de philosophie (Philosophische Fakultät)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "philosophische fakultat",
+          "faculte de philosophie",
+          "faculte des lettres",
+          "faculte philosophique",
+          "\\bphf\\b",
+          "faculte des arts"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : organigramme",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "organigram",
+          "structure organisationnelle",
+          "schema d.organisation"
+        ]
+      ]
+    },
+    {
+      "label": "Doyenne : Katharina Michaelowa",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "michaelowa"
+        ]
+      ]
+    },
+    {
+      "label": "Vice-doyennes (recherche, école doctorale, carrière)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "prodekan",
+          "vice-doyen",
+          "vice doyen",
+          "vicedoyen",
+          "prodoyen",
+          "pro-doyen"
+        ]
+      ]
+    },
+    {
+      "label": "Direction de la faculté (Fakultätsvorstand)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "fakultatsvorstand",
+          "direction de la faculte",
+          "comite de (la )?faculte",
+          "conseil de (la )?faculte",
+          "bureau de la faculte",
+          "presidence de la faculte",
+          "comite directeur"
+        ]
+      ]
+    },
+    {
+      "label": "Direction administrative (Geschäftsführung) : Philipp Balzer",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "balzer",
+          "geschaftsfuhrung",
+          "direction (administrative|operationnelle|generale|des affaires)"
+        ]
+      ]
+    },
+    {
+      "label": "Décanat des études / co-doyens des études",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "studiendekan",
+          "decanat des etudes",
+          "doyens? des etudes",
+          "doyens? d.etudes"
+        ]
+      ]
+    },
+    {
+      "label": "Services du décanat énumérés (Student Services, Degree Services, Curricula Services, service juridique, qualité...)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "student services",
+          "degree services",
+          "curricula",
+          "rechtsstelle",
+          "juridique",
+          "qualit",
+          "controlling",
+          "ressources",
+          "services aux etudiants"
+        ]
+      ]
+    },
+    {
+      "label": "École doctorale (Graduiertenschule)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "graduiertenschule",
+          "ecole doctorale",
+          "graduate school",
+          "ecole graduee"
+        ]
+      ]
+    },
+    {
+      "label": "Daté du 27.08.2026",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "2026"
+        ]
+      ]
+    }
+  ]
+}

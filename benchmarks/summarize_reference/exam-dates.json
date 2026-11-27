@@ -1,0 +1,181 @@
+{
+  "name": "exam-dates",
+  "reference_model": "claude-fable-5-2",
+  "title": "Prüfungen Assessment und Bachelorpflichtprogramm OEC und INF",
+  "resume_markdown": "## Nature et public\n- Page d'information donnant le calendrier des examens du semestre d'automne 2026 (HS26) : dates, matières et horaires.\n- Elle s'adresse aux étudiants de bachelor des filières OEC et INF, au niveau Assessment et dans le programme obligatoire commun (Pflichtprogramm).\n- Les personnes de contact appartiennent au décanat (Dekanat, adresses oec.uzh.ch), réparties selon l'initiale du nom de famille.\n\n## Examens de l'Assessment (HS26)\n- Midterm d'Informatics I le 02.11.2026 (INF).\n- Autres examens du 14 au 18 décembre 2026 : Mathematik I, Betriebswirtschaftslehre I, Informatics I (examen final), Financial Accounting, People-oriented Computing, Mikroökonomik I, Mikroökonomik für Informatikstudierende, Informatik und Wirtschaft, Finance I.\n- Le midterm et l'examen d'Informatics I sont des examens en ligne BYOD (Bring Your Own Device) passés dans les locaux de l'UZH : ordinateur portable personnel obligatoire, tablettes exclues.\n\n## Programme obligatoire commun OEC et INF (HS26)\n- Du 14 au 17 décembre 2026 : Einführung in die empirische Wirtschaftsforschung, Betriebswirtschaftslehre III, Software Construction, Mikroökonomik II.\n\n## Informations générales et résultats\n- Les consignes valables pour tous les examens figurent sous « Prüfungen an der Messe Oerlikon » ; les règlements (Rahmen- und Studienordnungen) sont à lire.\n- Les notes apparaissent dans l'outil de réservation des modules (Modulbuchungstool) ; elles ne sont juridiquement valables qu'à l'envoi électronique du relevé de prestations (Leistungsausweis), et les demandes de reconsidération ne sont traitées qu'ensuite.\n- Liens complémentaires : inscription et désinscription, maladie, glossaire.",
+  "facts": [
+    {
+      "label": "Unité : décanat / OEC (contacts au Dekanat, adresses oec)",
+      "kind": "unit",
+      "weight": 1,
+      "all_of": [
+        [
+          "dekanat",
+          "decanat",
+          "doyen",
+          "\\boec\\b",
+          "faculte"
+        ]
+      ]
+    },
+    {
+      "label": "Public : étudiants des filières OEC et INF",
+      "kind": "audience",
+      "weight": 2,
+      "all_of": [
+        [
+          "etudiant",
+          "studierend",
+          "student"
+        ],
+        [
+          "\\boec\\b",
+          "econom",
+          "okonom"
+        ],
+        [
+          "\\binf\\b",
+          "informatique",
+          "informatik"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : calendrier / dates d'examens",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "examen",
+          "prufung",
+          "epreuve"
+        ],
+        [
+          "calendrier",
+          "date",
+          "horaire",
+          "planning",
+          "\\bplan\\b",
+          "termin",
+          "liste"
+        ]
+      ]
+    },
+    {
+      "label": "Niveau : bachelor",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "bachelor",
+          "baccalaureat universitaire",
+          "licence"
+        ]
+      ]
+    },
+    {
+      "label": "Semestre d'automne 2026 (HS26)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "hs ?26",
+          "hs ?2026",
+          "automne 2026",
+          "herbstsemester 2026",
+          "semestre d.automne",
+          "2026"
+        ]
+      ]
+    },
+    {
+      "label": "Examens du niveau Assessment",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "assessment",
+          "annee propedeutique",
+          "propedeut",
+          "premiere annee"
+        ]
+      ]
+    },
+    {
+      "label": "Examens du programme obligatoire commun (Pflichtprogramm)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "pflichtprogramm",
+          "programme obligatoire",
+          "tronc commun",
+          "obligatoire",
+          "pflicht"
+        ]
+      ]
+    },
+    {
+      "label": "Examens en décembre 2026 (14-18.12), midterm le 02.11",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "decembre",
+          "dezember",
+          "1[4-8]\\.12",
+          "novembre",
+          "0?2\\.11"
+        ]
+      ]
+    },
+    {
+      "label": "Informatics I en examen en ligne BYOD (ordinateur portable personnel)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "byod",
+          "bring your own device",
+          "ordinateur portable",
+          "laptop",
+          "propre ordinateur",
+          "propre appareil"
+        ]
+      ]
+    },
+    {
+      "label": "Résultats : notes dans l'outil de réservation, valables à l'envoi du relevé de prestations",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "\\bnotes?\\b",
+          "resultat"
+        ],
+        [
+          "leistungsausweis",
+          "releve",
+          "modulbuchung",
+          "reservation des modules",
+          "bulletin",
+          "attestation de prestations",
+          "transcript"
+        ]
+      ]
+    },
+    {
+      "label": "Renvoi aux informations générales (examens à la Messe Oerlikon, règlements)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "oerlikon",
+          "reglement",
+          "informations generales",
+          "consignes"
+        ]
+      ]
+    }
+  ]
+}

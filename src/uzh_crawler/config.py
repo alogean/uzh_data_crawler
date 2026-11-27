@@ -5,7 +5,12 @@ from pathlib import Path
 
 USER_AGENT = "askUZH-TaxonomyCrawler/0.1 (+local; research)"
 SUMMARY_LANGUAGES = ("fr", "de", "en")
-DEFAULT_MODEL = "qwen3.5:9b"
+# Each model stage has its own default: summarizing was measured to be much faster
+# with a small model and more parallel calls (docs/summarize-performance.md).
+SUMMARY_MODEL = "gemma4:e2b"
+CLASSIFY_MODEL = "qwen3.5:9b"
+SUMMARY_CONCURRENCY = 4
+CLASSIFY_CONCURRENCY = 2
 
 # The keys of the manifest config that each command owns. A command rewrites
 # only its own keys, so a later `summarize` cannot change the recorded scope.
@@ -46,15 +51,15 @@ class RunConfig:
     seed_url: str = ""
     seed_urls: tuple[str, ...] = ()
     taxonomy_path: Path | None = None
-    summary_model: str = DEFAULT_MODEL
-    classify_model: str = DEFAULT_MODEL
+    summary_model: str = SUMMARY_MODEL
+    classify_model: str = CLASSIFY_MODEL
     ollama_url: str = "http://localhost:11434"
     max_pages: int | None = 500
     max_depth: int | None = None
     allow_subdomains: bool = False
     crawl_concurrency: int = 20
     extract_workers: int | None = None
-    llm_concurrency: int = 2
+    llm_concurrency: int | None = None  # None: the default of each stage
     lang: str = "fr"
     rate_limit: float = 3.0
     burst: int = 20

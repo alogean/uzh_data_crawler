@@ -1,0 +1,190 @@
+{
+  "name": "regulation-pdf",
+  "reference_model": "claude-fable-5-2",
+  "title": "Studienordnung (allgemeiner Teil) für die Bachelor- und Masterstudiengänge der Philosophischen Fakultät (StO PhF)",
+  "resume_markdown": "## Nature et éditeur\n- Règlement d'études (Studienordnung), partie générale, de la Faculté de philosophie (Philosophische Fakultät) de l'Université de Zurich : décision de l'assemblée de faculté du 28.09.2018, version 2, état au 1er août 2022.\n- Il s'applique aux étudiants des filières de bachelor et de master de la faculté. Il exécute l'ordonnance-cadre (RVO PhF) et règle les aspects communs à tous les programmes ; les annexes règlent chaque programme.\n\n## Admission\n- Master consécutif : profil d'exigences disciplinaire (au plus 60 ECTS, 120 pour un programme Mono) ; admission sur dossier possible.\n- Masters spécialisés : conditions supplémentaires (candidature, note minimale, entretien, examen).\n- Des conditions (Auflagen) peuvent être imposées ; un module obligatoire définitivement échoué entraîne un refus définitif et un blocage (Sperre).\n\n## Études\n- Bachelor : un programme Major et un programme Minor. Master : Major et Minor, ou programme Mono.\n- Modules : réservation, prérequis, langue, contrôle de prestations (prestation unique ou portfolio).\n- Répétition : examen de rattrapage dans le même semestre ou répétition du module entier.\n- Autres règles : compensation des désavantages liés à un handicap, publication des travaux, contrôle du plagiat, Learning Contract.\n\n## Travaux de fin d'études\n- Travail de bachelor : 15 ECTS en un semestre (6 ECTS en psychologie), noté.\n- Travail de master : 30 ECTS en deux semestres, noté.\n- Accord préalable d'une personne d'encadrement ; en cas d'échec, nouveau travail sur un nouveau sujet.\n\n## Mobilité, reconnaissance et diplôme\n- Prestations externes reconnues sur demande et imputées au diplôme, sauf le travail final ; au moins 60 ECTS du Major acquis à l'UZH au bachelor (45 au master, 60 en Mono).\n- Part notée minimale : 30 % au bachelor, 50 % au master.\n\n## Dispositions transitoires\n- Règles pour les étudiants ayant commencé avant le semestre d'automne 2019 et pour les programmes en extinction.",
+  "facts": [
+    {
+      "label": "Unité : Faculté de philosophie (Philosophische Fakultät)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "philosophische fakultat",
+          "faculte de philosophie",
+          "faculte des lettres",
+          "faculte philosophique",
+          "\\bphf\\b",
+          "faculte des arts"
+        ]
+      ]
+    },
+    {
+      "label": "Public : étudiants des filières de bachelor et de master",
+      "kind": "audience",
+      "weight": 1,
+      "all_of": [
+        [
+          "etudiant",
+          "studierend",
+          "student"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : règlement d'études (Studienordnung)",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "studienordnung",
+          "reglement",
+          "ordonnance d.etudes",
+          "regles d.etudes"
+        ]
+      ]
+    },
+    {
+      "label": "Niveaux : bachelor et master",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "bachelor"
+        ],
+        [
+          "master"
+        ]
+      ]
+    },
+    {
+      "label": "Partie générale, commune à tous les programmes (les annexes règlent chaque programme)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "partie generale",
+          "allgemeiner teil",
+          "generale",
+          "communs? a",
+          "transversa",
+          "tous les programmes",
+          "l.ensemble des programmes"
+        ]
+      ]
+    },
+    {
+      "label": "Règles d'admission (notamment au master)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "admission",
+          "zulassung",
+          "admis"
+        ]
+      ]
+    },
+    {
+      "label": "Modules et contrôles de prestations",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "module"
+        ],
+        [
+          "leistungsnachweis",
+          "controle",
+          "evaluation",
+          "examen",
+          "prestation",
+          "portfolio",
+          "validation"
+        ]
+      ]
+    },
+    {
+      "label": "Répétition d'un module ou d'un contrôle de prestations",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "repet",
+          "wiederhol",
+          "rattrapage",
+          "seconde tentative",
+          "repasser",
+          "redoubl"
+        ]
+      ]
+    },
+    {
+      "label": "Composition : Major et Minor (ou Mono au master)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "\\bmajor",
+          "majeure",
+          "branche principale"
+        ],
+        [
+          "\\bminor",
+          "mineure",
+          "branche secondaire"
+        ]
+      ]
+    },
+    {
+      "label": "Travail de bachelor (15 ECTS) et travail de master (30 ECTS)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "travail de (bachelor|master|fin)",
+          "travaux de (bachelor|master|fin)",
+          "memoire",
+          "bachelorarbeit",
+          "masterarbeit",
+          "these de (bachelor|master)"
+        ],
+        [
+          "\\b15 ?(ects|credits|points)"
+        ],
+        [
+          "\\b30 ?(ects|credits|points)"
+        ]
+      ]
+    },
+    {
+      "label": "Reconnaissance et imputation de prestations externes / mobilité",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "reconnaissance",
+          "reconnu",
+          "anerkennung",
+          "anrechnung",
+          "imput",
+          "prise en compte",
+          "validation des acquis",
+          "equivalence"
+        ]
+      ]
+    },
+    {
+      "label": "Dispositions transitoires (anciens règlements, programmes en extinction)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "transitoire",
+          "ubergang",
+          "transition"
+        ]
+      ]
+    }
+  ]
+}

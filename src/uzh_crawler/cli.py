@@ -7,7 +7,15 @@ import logging
 import sys
 from pathlib import Path
 
-from uzh_crawler.config import DEFAULT_MODEL, SUMMARY_LANGUAGES, ConfigError, RunConfig
+from uzh_crawler.config import (
+    CLASSIFY_CONCURRENCY,
+    CLASSIFY_MODEL,
+    SUMMARY_CONCURRENCY,
+    SUMMARY_LANGUAGES,
+    SUMMARY_MODEL,
+    ConfigError,
+    RunConfig,
+)
 from uzh_crawler.pipeline import execute
 from uzh_crawler.scope import bare_host
 from uzh_crawler.sections import study_section_scope
@@ -226,9 +234,15 @@ def _add_scrape_args(command: argparse.ArgumentParser) -> None:
 
 
 def _add_llm_args(command: argparse.ArgumentParser) -> None:
-    command.add_argument("--model", default=DEFAULT_MODEL)
+    command.add_argument(
+        "--model", help=f"Défaut : {SUMMARY_MODEL} pour les résumés, {CLASSIFY_MODEL} pour les tags"
+    )
     command.add_argument("--ollama-url", default="http://localhost:11434")
-    command.add_argument("--llm-concurrency", type=int, default=2)
+    command.add_argument(
+        "--llm-concurrency",
+        type=int,
+        help=f"Appels simultanés (défaut : {SUMMARY_CONCURRENCY} pour summarize, {CLASSIFY_CONCURRENCY} pour classify)",
+    )
     command.add_argument("--lang", choices=SUMMARY_LANGUAGES, default="fr")
     command.add_argument("--num-ctx", type=int, default=32768)
     command.add_argument("--temperature", type=float, default=0.1)
@@ -250,7 +264,8 @@ def _config_from_args(args: argparse.Namespace) -> RunConfig:
     else:
         _check_minimum("--max-pages", max_pages, 1)
     _check_minimum("--crawl-concurrency", getattr(args, "crawl_concurrency", 1), 1)
-    _check_minimum("--llm-concurrency", getattr(args, "llm_concurrency", 1), 1)
+    if getattr(args, "llm_concurrency", None) is not None:
+        _check_minimum("--llm-concurrency", args.llm_concurrency, 1)
     _check_minimum("--num-ctx", getattr(args, "num_ctx", 1), 1)
     _check_minimum("--temperature", getattr(args, "temperature", 0), 0)
     _check_minimum("--rate-limit", getattr(args, "rate_limit", 0), 0)
@@ -280,20 +295,20 @@ def _config_from_args(args: argparse.Namespace) -> RunConfig:
         for token in (getattr(args, "exclude_path", []) or [])
         if token and token.strip()
     )
-    model = getattr(args, "model", DEFAULT_MODEL)
+    model = getattr(args, "model", None)
     return RunConfig(
         out_dir=out,
         seed_urls=tuple(seeds),
         taxonomy_path=taxonomy,
-        summary_model=model,
-        classify_model=model,
+        summary_model=model or SUMMARY_MODEL,
+        classify_model=model or CLASSIFY_MODEL,
         ollama_url=getattr(args, "ollama_url", "http://localhost:11434"),
         max_pages=max_pages,
         max_depth=max_depth,
         allow_subdomains=bool(getattr(args, "allow_subdomains", False)),
         crawl_concurrency=getattr(args, "crawl_concurrency", 20),
         extract_workers=getattr(args, "workers", None),
-        llm_concurrency=getattr(args, "llm_concurrency", 2),
+        llm_concurrency=getattr(args, "llm_concurrency", None),
         lang=getattr(args, "lang", "fr"),
         rate_limit=getattr(args, "rate_limit", 3.0),
         burst=getattr(args, "burst", 20),

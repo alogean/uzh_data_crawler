@@ -1,0 +1,80 @@
+{
+  "name": "planning-xlsx",
+  "reference_model": "claude-fable-5-2",
+  "title": "Studienplanungstabelle IPZ – Bachelor Politikwissenschaft, Hauptfach 120 ECTS",
+  "resume_markdown": "## Nature et éditeur\n- Tableau de planification des études (Studienplanungstabelle) de l'IPZ, à remplir par l'étudiant, pour le bachelor en science politique (Politikwissenschaft) en branche principale (Major) de 120 crédits ECTS.\n- Il s'adresse aux étudiants de ce programme, notamment à ceux qui préparent un séjour à l'étranger.\n- Le tableau n'a qu'une valeur informative : seules les indications publiées par la Faculté de philosophie (Philosophische Fakultät) font foi.\n\n## Mode d'emploi\n- Inscrire la date, le nom, le numéro de matricule et, en cas de séjour à l'étranger, l'université partenaire.\n- Saisir les ECTS des modules et choisir leur statut dans un menu déroulant : déjà réussi, réservé ce semestre, prévu ou suivi à l'étranger, prévu plus tard.\n- Pour les modules à l'étranger : ECTS repris 1:1, facteur de conversion à demander à la coordination de la mobilité pour les autres systèmes de crédits ; indiquer le titre du cours et les crédits d'origine.\n- La dernière colonne affiche les ECTS encore manquants, à comparer avec l'application « Studienfortschritt- & Abschluss ».\n\n## Structure du programme (120 ECTS)\n- Modules obligatoires, 42 ECTS : introduction à la science politique (systèmes et théories politiques I et II, politique suisse) et méthodes et statistique.\n- Modules à option obligatoire « Vertiefung » (approfondissement), 24 ECTS : cours magistraux de 3 ECTS (recherche sur la démocratie, politique internationale, politique européenne, théorie politique, etc.).\n- Modules à option obligatoire « Anwendung » (application), 24 ECTS : séminaires de 6 ECTS dans les mêmes domaines.\n- Autres modules du programme (modules libres, stages), 9 ECTS au maximum.\n- Fin d'études, 21 ECTS : spécialisation (6) et travail de bachelor (15).\n- Les modules sont répartis entre semestre d'automne et semestre de printemps, avec leur numéro de module.",
+  "facts": [
+    {
+      "label": "Unité : IPZ",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [["\\bipz\\b", "institut fur politikwissenschaft", "institut de sciences? politiques?"]]
+    },
+    {
+      "label": "Public : étudiants du programme",
+      "kind": "audience",
+      "weight": 1,
+      "all_of": [["etudiant", "studierend", "student"]]
+    },
+    {
+      "label": "Nature : tableau de planification des études à remplir",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [["tableau", "tabelle", "table\\b", "grille", "feuille", "formulaire", "outil"], ["planification", "planung", "planifier", "plan d.etudes", "planning"]]
+    },
+    {
+      "label": "Niveau : bachelor",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [["bachelor"]]
+    },
+    {
+      "label": "Discipline : science politique (Politikwissenschaft)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["politikwissenschaft", "sciences? politiques?", "politologie"]]
+    },
+    {
+      "label": "Branche principale (Major) de 120 ECTS",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["\\b120\\b"]]
+    },
+    {
+      "label": "Valeur informative seulement ; la Faculté de philosophie fait foi",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["informati", "indicati", "non contraignant", "pas contraignant", "font? foi", "juridiquement", "rechtsverbindlich", "valeur legale"]]
+    },
+    {
+      "label": "Modules obligatoires : 42 ECTS",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["obligatoire", "pflichtmodul"], ["\\b42\\b"]]
+    },
+    {
+      "label": "Modules à option obligatoire : approfondissement et application, 24 ECTS chacun",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["\\b24\\b"]]
+    },
+    {
+      "label": "Fin d'études : travail de bachelor de 15 ECTS (21 ECTS avec la spécialisation)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["travail de bachelor", "bachelorarbeit", "memoire", "these de bachelor", "travail de fin"]]
+    },
+    {
+      "label": "Prise en compte des modules suivis à l'étranger (université partenaire, conversion des crédits)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [["etranger", "mobilite", "universite partenaire", "partneruniversitat", "echange", "ausland"]]
+    },
+    {
+      "label": "Statut de chaque module à choisir (réussi, réservé, à l'étranger, prévu)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [["statut", "status", "etat d.avancement", "reussi", "reserve", "absolviert"]]
+    }
+  ]
+}

@@ -10,7 +10,7 @@ Opening this repository in Claude Code gives you **Taxon**, the agent of this pr
 | [`.claude/skills/uzh-scrape/SKILL.md`](../.claude/skills/uzh-scrape/SKILL.md) | Downloading and storing documents |
 | [`.claude/skills/uzh-summarize/SKILL.md`](../.claude/skills/uzh-summarize/SKILL.md) | Summarizing with the local model |
 | [`.claude/skills/uzh-classify/SKILL.md`](../.claude/skills/uzh-classify/SKILL.md) | Tagging summaries with the taxonomy |
-| [`.claude/skills/uzh-optimize/`](../.claude/skills/uzh-optimize/SKILL.md) | Making a stage faster: the method, and what was already tried for `crawl` and `scrape` |
+| [`.claude/skills/uzh-optimize/`](../.claude/skills/uzh-optimize/SKILL.md) | Making a stage faster: the method, and what was already tried for `crawl`, `scrape` and `summarize` |
 | [`.claude/agents/taxon.md`](../.claude/agents/taxon.md) | Taxon as a subagent, for a task delegated to the background. It follows `CLAUDE.md` |
 
 ## Who does what
@@ -78,7 +78,7 @@ Classification reads the summary, not the document. The summary stage is therefo
 
 ## The optimization skill
 
-`uzh-optimize` is not a stage. It is what Taxon loads when the request is "make this faster", and it serves as a memory: `crawl` and `scrape` were each tuned in twenty measured attempts, and most attempts failed. Without a record, the next session would try the same dead ends again.
+`uzh-optimize` is not a stage. It is what Taxon loads when the request is "make this faster", and it serves as a memory: `crawl` and `scrape` were each tuned in twenty measured attempts, `summarize` in fifty, and most attempts failed. Without a record, the next session would try the same dead ends again.
 
 A skill is a folder, and Claude reads its files only when it needs them. This skill uses that to separate what is general from what is specific:
 

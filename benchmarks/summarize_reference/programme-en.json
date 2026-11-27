@@ -1,0 +1,176 @@
+{
+  "name": "programme-en",
+  "reference_model": "claude-fable-5-2",
+  "title": "Bachelor of Arts in Finance",
+  "resume_markdown": "## Nature et éditeur\n- Page de présentation du programme de bachelor en finance, publiée par le Department of Finance (DF) de l'Université de Zurich ; les règlements relèvent de la Faculty of Business, Economics and Informatics.\n- Elle s'adresse aux personnes intéressées par ces études et aux étudiants du programme. Cycle : bachelor.\n\n## Structure du programme\n- Durée standard de six semestres, 180 crédits ECTS, diplôme « Bachelor of Arts UZH in Business and Economics ».\n- Finance en Major : 150 ECTS, combiné à un Minor de 30 ECTS ; Finance en Minor : 30 ECTS (30 ou 60 ECTS pour les étudiants d'autres facultés).\n- Composition du Major : Assessment Level (première année, 60 ECTS : gestion, économie, finance, informatique, mathématiques, statistique), programme obligatoire commun (27), modules obligatoires de finance (24), modules à option de finance (12), options libres (9), travail de bachelor (18).\n- Enseignement principalement en allemand ; aucune connaissance préalable en finance, mais de solides bases en mathématiques.\n\n## Contenu et pédagogie\n- Approfondissement : banque et assurance, finance d'entreprise, dérivés, gestion de placements, marchés financiers, méthodes quantitatives, gestion des risques.\n- Formats variés (études de cas, simulations, KlickerUZH, apprentissage par le jeu) et proximité de la place financière zurichoise.\n- Finance Professional Competence Framework en six domaines : Finance Expert, Scholar, Communicator, Manager, Innovator, Digital Skills.\n- Séminaires de bachelor, certains à places limitées avec candidature.\n\n## Travail de bachelor\n- 18 ECTS, à rédiger en six mois ; candidature via le DF Thesis Market (sujet propre ou sujet proposé), au moins un mois avant le début ; inscription et dépôt selon le processus OLAT du décanat.\n\n## Soutien et débouchés\n- Conseil aux études du département (stubera@df.uzh.ch), askUZH, DF Community Careers, UZH Career Services.\n- Débouchés : banques, assurances, conseil, industrie, secteur public, ou poursuite en master.",
+  "facts": [
+    {
+      "label": "Unité : Department of Finance (DF)",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "department of finance",
+          "departement de (la )?finance",
+          "departement des finances",
+          "institut (de|fur) (la )?finan",
+          "\\bdf\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Public : personnes intéressées par les études / étudiants",
+      "kind": "audience",
+      "weight": 1,
+      "all_of": [
+        [
+          "etudiant",
+          "\\bfutur(e)?s?\\b",
+          "candidat",
+          "interesse",
+          "student",
+          "prospect"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : page de présentation d'un programme d'études",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bpage\\b",
+          "presentation",
+          "descripti",
+          "portrait",
+          "presente",
+          "decrit"
+        ],
+        [
+          "programme",
+          "cursus",
+          "filiere",
+          "etudes",
+          "formation"
+        ]
+      ]
+    },
+    {
+      "label": "Niveau : bachelor",
+      "kind": "level",
+      "weight": 2,
+      "all_of": [
+        [
+          "bachelor"
+        ]
+      ]
+    },
+    {
+      "label": "Discipline : finance",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "finance"
+        ]
+      ]
+    },
+    {
+      "label": "Major en finance de 150 ECTS",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\b150\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Minor de 30 ECTS (finance aussi possible en Minor)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "\\bminor",
+          "mineure",
+          "branche secondaire",
+          "nebenfach"
+        ],
+        [
+          "\\b30\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Diplôme : Bachelor of Arts UZH in Business and Economics, six semestres",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "business and economics",
+          "six semestres",
+          "6 semestres",
+          "\\b180\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Enseignement principalement en allemand",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "allemand",
+          "german",
+          "deutsch"
+        ]
+      ]
+    },
+    {
+      "label": "Première année : Assessment Level (60 ECTS)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "assessment",
+          "premiere annee",
+          "annee propedeutique"
+        ]
+      ]
+    },
+    {
+      "label": "Travail de bachelor de 18 ECTS (six mois)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "travail de bachelor",
+          "these de bachelor",
+          "memoire",
+          "thesis",
+          "bachelorarbeit",
+          "travail de fin"
+        ],
+        [
+          "\\b18\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Débouchés professionnels / carrière",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "debouche",
+          "carriere",
+          "career",
+          "perspectives professionnelles",
+          "emploi",
+          "metier",
+          "marche du travail"
+        ]
+      ]
+    }
+  ]
+}

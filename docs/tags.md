@@ -24,8 +24,9 @@ A document goes through the local model twice. The first call writes a summary a
 | | `summarize` | `classify` |
 | --- | --- | --- |
 | Input | The URL and the Markdown of the document | The URL, the title and the summary |
-| Answer, as JSON | `title`, `resume_markdown` | `organisation`, `publics`, `types_document`, `offre_etudes`, `unite_manquante` |
-| Constrained by | A schema with two text fields | A schema where each axis is a closed list of taxonomy ids |
+| Model | `gemma4:e2b`, 4 calls at a time | `qwen3.5:9b`, 2 calls at a time |
+| Answer | Free text: `# title`, then the summary | JSON: `organisation`, `publics`, `types_document`, `offre_etudes`, `unite_manquante` |
+| Constrained by | The prompt only | A schema where each axis is a closed list of taxonomy ids |
 | Redone when | The Markdown, the model or the language changes | The summary, the model or `taxonomy.json` changes |
 
 Because classification sees only the summary, the summary prompt asks for what the tags depend on: the publishing unit, the audience, the kind of document and the study level, whenever the text gives them, and nothing the text does not say. A summary that leaves one of these out weakens the tag on that axis.
@@ -33,18 +34,18 @@ Because classification sees only the summary, the summary prompt asks for what t
 Both calls share the same mechanics:
 
 - The call is `POST /api/chat` on Ollama, with `think` false. Before the first document, the tool checks that Ollama answers on `/api/version`; if not, the command stops with exit code 1.
-- The `format` field is the JSON schema of a Pydantic model, and extra fields are forbidden.
-- The options sent are the temperature, `num_ctx`, `num_predict` at 4096 and `repeat_penalty` at 1.25. The token ceiling and the repeat penalty keep a generation from looping or from cutting the JSON in the middle.
-- The call times out after 180 seconds. An empty, unreadable or off-schema answer is tried a second time; after that the page becomes `summary_error` or `tag_error` with the error message, cut to 500 characters.
-- Up to `--llm-concurrency` calls run in parallel (2 by default). On a loaded machine, set `OLLAMA_NUM_PARALLEL` to the same value.
+- The options sent are the temperature, `num_ctx`, `num_predict` at 4096 and `repeat_penalty`: 1.0 for a summary, 1.25 for tags.
+- `classify` sends in `format` the JSON schema of a Pydantic model, and extra fields are forbidden. `summarize` sends no schema: with one, local models looped or stopped early ([Summarize performance](summarize-performance.md)).
+- The call times out after 180 seconds. An empty or unusable answer (off-schema tags; a summary without title and text, or cut at 4,096 tokens) is tried a second time; after that the page becomes `summary_error` or `tag_error` with the error message, cut to 500 characters.
+- Up to `--llm-concurrency` calls run in parallel (4 by default for summaries, 2 for tags).
 
 Both system prompts are written in French.
 
 ## The summary call
 
-Only the normalized Markdown goes to the model, never HTML. A text longer than 80,000 characters is cut down to that size: the beginning, a list of up to 100 headings found in the document, then the end.
+Only Markdown goes to the model, never HTML. It is cleaned first: images, link targets, table rules, empty cells, bold marks and repeated lines are removed. `raw/` keeps the full text. A text still longer than 32,000 characters is cut down to that size: the beginning, a list of up to 100 headings found in the document, then the end.
 
-The summary is asked for in the language of `--lang`, faithful to the text, concise, and structured with `##` headings and lists.
+The summary is asked for in the language of `--lang`, 250 words at most, faithful to the text, and structured with `##` headings and lists. The language is asked for in the system prompt and again after the document. Models often write more than 250 words.
 
 ## The classification call
 

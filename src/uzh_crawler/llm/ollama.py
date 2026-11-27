@@ -13,7 +13,7 @@ class ModelOutputError(ValueError):
 
 
 class OllamaChat:
-    """Local Ollama chat call with a closed JSON schema and thinking disabled."""
+    """Local Ollama chat calls with thinking disabled: closed JSON schema, or free text."""
 
     def __init__(
         self,
@@ -37,6 +37,20 @@ class OllamaChat:
 
     async def json_object(self, *, model: str, system: str, user: str, schema: dict) -> dict:
         """One chat turn. Returns the JSON object the model wrote."""
+        body = await self._chat(model, system, user, repeat_penalty=1.25, schema=schema)
+        return load_json_object(_content(body))
+
+    async def text(self, *, model: str, system: str, user: str) -> str:
+        """One chat turn in free text. An answer cut at the length limit is refused."""
+        body = await self._chat(model, system, user, repeat_penalty=1.0)
+        content = _content(body)
+        if body.get("done_reason") == "length":
+            raise ModelOutputError("model output was cut at the length limit")
+        return content
+
+    async def _chat(
+        self, model: str, system: str, user: str, *, repeat_penalty: float, schema: dict | None = None
+    ) -> dict:
         payload = {
             "model": model,
             "messages": [
@@ -44,15 +58,16 @@ class OllamaChat:
                 {"role": "user", "content": user},
             ],
             "stream": False,
-            "format": schema,
             "think": False,
             "options": {
                 "temperature": self.temperature,
                 "num_ctx": self.num_ctx,
                 "num_predict": 4096,
-                "repeat_penalty": 1.25,
+                "repeat_penalty": repeat_penalty,
             },
         }
+        if schema is not None:
+            payload["format"] = schema
         response = await self.client.post(
             f"{self.base}/api/chat",
             json=payload,
@@ -60,13 +75,19 @@ class OllamaChat:
         )
         response.raise_for_status()
         body = response.json()
-        if isinstance(body, dict) and body.get("error") and not body.get("message"):
-            raise ModelOutputError(str(body["error"]))
-        message = body.get("message") if isinstance(body, dict) else None
-        content = str(message.get("content") or "") if isinstance(message, dict) else ""
-        if not content.strip():
-            raise ModelOutputError("empty model response")
-        return load_json_object(content)
+        if not isinstance(body, dict):
+            raise ModelOutputError("unexpected model response")
+        return body
+
+
+def _content(body: dict) -> str:
+    if body.get("error") and not body.get("message"):
+        raise ModelOutputError(str(body["error"]))
+    message = body.get("message")
+    content = str(message.get("content") or "") if isinstance(message, dict) else ""
+    if not content.strip():
+        raise ModelOutputError("empty model response")
+    return content
 
 
 def load_json_object(payload: str) -> dict:

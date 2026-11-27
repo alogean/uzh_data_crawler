@@ -1,19 +1,20 @@
 ---
 name: uzh-optimize
-description: Make a stage of the UZH pipeline faster — measure it with its benchmark, try one idea at a time, keep what the numbers support, record the rest. Use when asked to optimise, speed up, benchmark or profile crawl or scrape, or before changing code under src/uzh_crawler/ for speed. Holds the record of what already worked and what did not.
+description: Make a stage of the UZH pipeline faster — measure it with its benchmark, try one idea at a time, keep what the numbers support, record the rest. Use when asked to optimise, speed up, benchmark or profile crawl, scrape or summarize, or before changing code under src/uzh_crawler/ for speed. Holds the record of what already worked and what did not.
 ---
 
 # Optimize: make a stage faster, and remember what was tried
 
-Two stages have been optimised so far, each in twenty measured iterations: `crawl` (4.64 s → 0.24 s) and `scrape` (1.26 s → 0.17 s). This skill holds the method they shared and what each one taught.
+Three stages have been optimised so far: `crawl` (4.64 s → 0.24 s) and `scrape` (1.26 s → 0.17 s), twenty measured iterations each, and `summarize` (381 s → 30 s), fifty. This skill holds the method they shared and what each one taught.
 
 | File | Read it when |
 | --- | --- |
 | This file | Always: the method, and the lessons that held for both stages |
 | [crawl.md](crawl.md) | Before touching the speed of `crawl` |
 | [scrape.md](scrape.md) | Before touching the speed of `scrape` |
+| [summarize.md](summarize.md) | Before touching the speed of `summarize`, its prompt or its model |
 
-The stage files are the memory: what is in the code and why, what was rejected and must not be retried as is, the traps met on the way. Read the one for your stage before proposing an idea. The full story with every measurement, written for a human reader, is in `docs/crawl-performance.md` and `docs/scrape-performance.md`.
+The stage files are the memory: what is in the code and why, what was rejected and must not be retried as is, the traps met on the way. Read the one for your stage before proposing an idea. The full story with every measurement, written for a human reader, is in `docs/crawl-performance.md`, `docs/scrape-performance.md` and `docs/summarize-performance.md`.
 
 ## The loop
 
@@ -22,6 +23,7 @@ The stage files are the memory: what is in the code and why, what was rejected a
    ```bash
    .venv/bin/python benchmarks/crawl_speed.py      # must list exactly the expected URLs
    .venv/bin/python benchmarks/scrape_speed.py     # must give the same words; reports WRONG otherwise
+   .venv/bin/python benchmarks/summarize_speed.py  # needs Ollama; must keep the facts of the reference
    ```
 
    A stage without a benchmark gets one first, written before any change so that the reference comes from the untouched code.

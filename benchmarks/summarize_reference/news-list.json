@@ -1,0 +1,134 @@
+{
+  "name": "news-list",
+  "reference_model": "claude-fable-5-2",
+  "title": "Aktuelle News",
+  "resume_markdown": "## Nature du document\n- Liste d'actualités (« Newsliste ») : quinze annonces datées du 15.01.2026 au 15.09.2026, chacune réduite à une date, un titre et un lien vers l'article complet.\n- Le texte ne nomme ni l'unité qui publie ni le public visé ; les liens renvoient à la rubrique « Neues aus dem Doktorat » des pages d'études du doctorat.\n- Le contenu des articles n'est pas reproduit : seuls les titres sont connus.\n\n## Thèmes des annonces\n- Séjours de recherche et séjours à l'étranger :\n  - KU Leuven ;\n  - Centre for the Social History of Health & Healthcare, Glasgow ;\n  - Rome ;\n  - « International Workshop on Japanese Art History for Graduate Students » ;\n  - séjour d'archives à Copenhague ;\n  - trimestre à l'Institute for Human Sciences de l'Université d'Oxford ;\n  - Australie ;\n  - voyage de recherche au Cap (People's Tribunals et réseaux abolitionnistes).\n- Retraites d'écriture et leurs comptes rendus :\n  - WNW Writing Retreat Report 2026 ;\n  - retraite d'écriture des sciences sociales ;\n  - Democracy Studies Writing Retreat ;\n  - Psychology Writing Retreat ;\n  - retraite d'écriture à Frauenchiemsee.\n- Mentorat par les pairs :\n  - EQUIP-Peer Mentoring Workshop ;\n  - Brainfood Peer Mentoring Group.\n\n## Autres éléments\n- Lien d'abonnement au flux RSS.\n- Lien vers les actualités de 2025.",
+  "facts": [
+    {
+      "label": "Nature : liste d'actualités",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "actualite",
+          "\\bnews\\b",
+          "nouvelles",
+          "annonces",
+          "articles",
+          "breves"
+        ]
+      ]
+    },
+    {
+      "label": "Niveau : doctorat (rubrique « Neues aus dem Doktorat »)",
+      "kind": "level",
+      "weight": 1,
+      "all_of": [
+        [
+          "doctorat",
+          "doktorat",
+          "doctoral",
+          "doctorant",
+          "\\bphd\\b"
+        ]
+      ]
+    },
+    {
+      "label": "Thème : séjours de recherche à l'étranger",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "sejours? (de |d.)?(recherche|archives|scientifique)",
+          "forschungsaufenthalt",
+          "research stay",
+          "sejours? a l.etranger",
+          "voyages? de recherche",
+          "sejours? d.etudes"
+        ]
+      ]
+    },
+    {
+      "label": "Thème : retraites d'écriture (writing retreats)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "retraites? d.ecriture",
+          "writing retreat",
+          "schreibretraite",
+          "retraites? de redaction",
+          "ateliers? d.ecriture"
+        ]
+      ]
+    },
+    {
+      "label": "Thème : mentorat par les pairs (peer mentoring)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "mentor"
+        ]
+      ]
+    },
+    {
+      "label": "Annonces datées de 2026",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "2026"
+        ]
+      ]
+    },
+    {
+      "label": "Au moins une destination nommée (Leuven, Glasgow, Rome, Oxford, Australie, Copenhague, Le Cap...)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "leuven",
+          "louvain",
+          "glasgow",
+          "\\brome?\\b",
+          "oxford",
+          "australi",
+          "copenhag",
+          "kopenhagen",
+          "kapstadt",
+          "le cap",
+          "cape town",
+          "frauenchiemsee",
+          "japon"
+        ]
+      ]
+    },
+    {
+      "label": "Seuls les titres, dates et liens sont donnés (pas le contenu des articles)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "titre",
+          "intitule",
+          "\\bliens?\\b",
+          "sans (contenu|resume|detail)",
+          "apercu"
+        ]
+      ]
+    },
+    {
+      "label": "Flux RSS ou lien vers l'année 2025",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "\\brss\\b",
+          "2025",
+          "archive"
+        ]
+      ]
+    }
+  ]
+}

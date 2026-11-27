@@ -1,0 +1,185 @@
+{
+  "name": "faq-outgoing",
+  "reference_model": "claude-fable-5-2",
+  "title": "FAQ für Outgoing-Studierende",
+  "resume_markdown": "## Nature et public\n- Foire aux questions (FAQ) de la coordination de la mobilité de l'Institut für Politikwissenschaft (IPZ) sur la mobilité sortante et le semestre d'échange à l'étranger.\n- Elle s'adresse aux étudiants de l'IPZ (bachelor et master ; le programme SEMP est aussi ouvert au doctorat) et renvoie pour le reste à la FAQ de Global Student Experience.\n\n## Généralités et planification\n- SEMP : jusqu'à 12 mois d'échange par niveau d'études ; summer schools et stages internationaux possibles en plus. Priorité aux premières candidatures.\n- Types d'accords : accords universitaires globaux (GU), accords de faculté, SEMP (Europe), mobilité de modules (CH-Unimobil, Constance), mobilité du programme Minor.\n- Un échange suppose que des crédits ECTS restent imputables ; les cours de langue ne sont pas imputés.\n- Périodes conseillées : deuxième année de bachelor, 3e et 4e semestres de master ; la première année et les modules obligatoires se font à l'IPZ.\n- Soutien financier : bourse SEMP pour l'Europe ; autres aides auprès de Global Student Experience.\n\n## Candidature\n- Uniquement en ligne dans l'outil Mobility Online (MobOn), ouvert du 1er novembre au 15 janvier ; second tour du 1er juin au 15 juillet pour les places restantes du semestre de printemps.\n- Indiquer jusqu'à trois priorités augmente les chances ; un justificatif de langue est exigé.\n- Étapes : examen du dossier, offre de place, acceptation, nomination auprès de l'université partenaire (mars à fin juin), inscription sur place, Learning Agreement.\n- L'acceptation d'une place est contraignante ; annulation seulement pour motifs sérieux.\n\n## Pendant et après le séjour\n- Le Learning Agreement signé est à déposer dans les 14 jours suivant le début du semestre ; il ne vaut pas confirmation d'imputation.\n- La reconnaissance des prestations passe par une convention d'imputation (Anrechnungsvereinbarung) établie après le séjour sur la base du relevé de notes officiel ; la décision finale revient au décanat de la Faculté de philosophie.\n- À remettre au retour : relevé de notes, Certificate of Attendance, rapport d'expérience.",
+  "facts": [
+    {
+      "label": "Unité : Institut für Politikwissenschaft (IPZ), coordination de la mobilité",
+      "kind": "unit",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bipz\\b",
+          "institut fur politikwissenschaft",
+          "institut de science politique",
+          "institut de sciences politiques",
+          "science politique",
+          "sciences politiques"
+        ]
+      ]
+    },
+    {
+      "label": "Public : étudiants sortants (outgoing) en échange",
+      "kind": "audience",
+      "weight": 2,
+      "all_of": [
+        [
+          "etudiant",
+          "studierend",
+          "student"
+        ],
+        [
+          "outgoing",
+          "sortant",
+          "echange",
+          "mobilite",
+          "etranger",
+          "austausch"
+        ]
+      ]
+    },
+    {
+      "label": "Nature : FAQ",
+      "kind": "nature",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bfaq\\b",
+          "foire aux questions",
+          "questions frequentes",
+          "questions.{0,30}reponses",
+          "questions les plus frequentes",
+          "questions frequemment"
+        ]
+      ]
+    },
+    {
+      "label": "Niveaux : bachelor et master",
+      "kind": "level",
+      "weight": 1,
+      "all_of": [
+        [
+          "bachelor"
+        ],
+        [
+          "master"
+        ]
+      ]
+    },
+    {
+      "label": "Programme SEMP (jusqu'à 12 mois par niveau)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "\\bsemp\\b",
+          "swiss european mobility"
+        ]
+      ]
+    },
+    {
+      "label": "Candidature via Mobility Online (MobOn)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "mobility online",
+          "mobility-online",
+          "mobon"
+        ]
+      ]
+    },
+    {
+      "label": "Délai de candidature : 15 janvier (ouverture le 1er novembre)",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "15 janvier",
+          "15. januar",
+          "15\\.01",
+          "15\\.1\\."
+        ]
+      ]
+    },
+    {
+      "label": "Second tour pour les places restantes (1er juin - 15 juillet)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "juin",
+          "juillet",
+          "juni",
+          "juli",
+          "places restantes",
+          "restplatz",
+          "second tour",
+          "deuxieme tour",
+          "seconde phase"
+        ]
+      ]
+    },
+    {
+      "label": "Trois priorités d'universités d'accueil",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "priorite",
+          "prioritat",
+          "voeux",
+          "trois choix",
+          "3 choix"
+        ]
+      ]
+    },
+    {
+      "label": "L'acceptation de la place est contraignante",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "contraignant",
+          "acceptation.{0,40}obligatoire",
+          "caractere obligatoire",
+          "definitive",
+          "bindend",
+          "\\bferme\\b",
+          "irrevocable",
+          "\\bliant"
+        ]
+      ]
+    },
+    {
+      "label": "Learning Agreement (ne vaut pas confirmation d'imputation)",
+      "kind": "content",
+      "weight": 1,
+      "all_of": [
+        [
+          "learning agreement",
+          "contrat d.etudes",
+          "contrat d.apprentissage"
+        ]
+      ]
+    },
+    {
+      "label": "Reconnaissance des prestations par une convention d'imputation après le séjour, sur la base du relevé de notes",
+      "kind": "content",
+      "weight": 2,
+      "all_of": [
+        [
+          "anrechnungsvereinbarung",
+          "convention d.(imputation|reconnaissance|validation|equivalence)",
+          "accord d.(imputation|reconnaissance|validation|equivalence)",
+          "reconnaissance des (prestations|credits|acquis|resultats|etudes)",
+          "validation des (prestations|credits|acquis)",
+          "imputation des (prestations|credits)",
+          "prestations.{0,40}(reconnu|impute|valide)",
+          "credits.{0,40}(reconnu|impute|valide)"
+        ]
+      ]
+    }
+  ]
+}

@@ -46,7 +46,7 @@ Each page has these fields:
 | `js_fallback` | scrape | |
 | `summary_model`, `lang` | summarize | |
 | `classify_model`, `taxonomy_path`, `taxonomy_sha256` | classify | The taxonomy file and the SHA-256 of its bytes |
-| `num_ctx`, `temperature`, `llm_concurrency` | summarize, classify | Model call |
+| `num_ctx`, `temperature`, `llm_concurrency` | summarize, classify | Model call. `llm_concurrency` is `null` when the default of the stage was used |
 
 The counters in `stats` are recomputed on every save:
 
@@ -82,7 +82,7 @@ A page moves down this table as the stages run.
 title: "Studies"
 source: "https://www.es.uzh.ch/en/studies.html"
 content_hash: "sha256:…"
-model: "qwen3.5:9b"
+model: "gemma4:e2b"
 lang: en
 ---
 
@@ -101,7 +101,7 @@ title: "Studies"
 source: "https://www.es.uzh.ch/en/studies.html"
 content_hash: "sha256:…"
 summary_hash: "sha256:…"
-summary_model: "qwen3.5:9b"
+summary_model: "gemma4:e2b"
 model: "qwen3.5:9b"
 taxonomy_sha256: "…"
 tags:

@@ -17,9 +17,11 @@ Summarizing reads the Markdown of a scraped document and writes a title and a st
 
 ## Before starting
 
-Ollama must answer on `http://localhost:11434` with the model pulled; check with `curl -s localhost:11434/api/tags`. The default model is `qwen3.5:9b`. If Ollama is down the command exits with code 1 before any call.
+Ollama must answer on `http://localhost:11434` with the model pulled; check with `curl -s localhost:11434/api/tags`. The default model is `gemma4:e2b` (`ollama pull gemma4:e2b`), with 4 calls at a time. If Ollama is down the command exits with code 1 before any call; a model that is not pulled turns every page into `summary_error`.
 
-Count the pages to do first (`fetched` in `crawl.json`). A summary takes a few seconds to a minute; over a hundred pages, run the command in the background and follow the `[summarize n/total]` lines.
+`gemma4:e2b` is fast and faithful, but it can leave out the publishing unit or translate German terms badly. For fuller summaries in better French, at about five times the time, pass `--model qwen3.5:9b`.
+
+Count the pages to do first (`fetched` in `crawl.json`). A summary takes about 2 to 10 seconds with the default model; over a hundred pages, run the command in the background and follow the `[summarize n/total]` lines.
 
 ## What it writes
 
@@ -31,7 +33,7 @@ The summary is the only thing the classification stage sees. It is prompted to n
 
 A summary is reused while the Markdown, the model (`--model`) and the language (`--lang`) are all unchanged. Changing any of them redoes the summary, and the tags made from it are dropped until the next `classify`. Naming a URL on the command line redoes it regardless.
 
-A document longer than 80,000 characters is cut to its beginning, a list of its headings, and its end.
+The model reads a cleaned copy of the Markdown (no images, link targets or repeated lines). Beyond 32,000 characters it gets the beginning, a list of the headings, and the end. A change of the prompt alone does not redo existing summaries: name the URLs to redo them.
 
 ## Done when
 

@@ -10,6 +10,7 @@
 | [Scrape performance](scrape-performance.md) | How the speed of `scrape` is measured, how documents are converted in parallel, what was tried |
 | [Scope](scope.md) | Hosts, path prefixes, sitemaps, exclusions, what is downloaded and extracted |
 | [Resume and cache](resume-and-cache.md) | Resuming a run, HTTP cache, when a model call is skipped |
+| [Summarize performance](summarize-performance.md) | The benchmark of `summarize`, its quality guard, the 50 ideas tried |
 | [Outputs](outputs.md) | `crawl.json`, `urls.txt`, `files/`, `raw/`, `summaries/`, `digests/`, statuses, `validate` |
 | [Tags](tags.md) | Taxonomy contract, the two model calls, tag validation |
 | [Original specification](SPEC-crawl-summary-tags-pipeline.md) | The v1 brief the tool was first built from. The pages above describe what the code does today |
@@ -99,12 +100,15 @@ CLAUDE.md                      Taxon, the agent: loaded when the project is open
 AGENTS.md                      points Codex to CLAUDE.md
 .claude/
   skills/uzh-*/SKILL.md        its skills: one per stage, and uzh-optimize
-  skills/uzh-optimize/         how to make a stage faster; crawl.md and scrape.md record what was tried
+  skills/uzh-optimize/         how to make a stage faster; crawl.md, scrape.md, summarize.md record what was tried
   agents/taxon.md              Taxon as a subagent, for delegated tasks
 benchmarks/
   crawl_speed.py               measures how fast crawl lists URLs
   scrape_speed.py              measures how fast scrape converts 55 documents
   scrape_urls.txt              the 55 URLs of that test
+  summarize_speed.py           measures how fast summarize is, and whether quality holds
+  summarize_corpus/            the 13 documents of that test
+  summarize_reference/         their reference summaries and checklists, written by a large model
   expected_scrape/             the Markdown each of them must give
   experiments/go-crawl/        the benchmark crawl in Go, kept as a comparison
 src/uzh_crawler/
